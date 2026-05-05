@@ -82,6 +82,17 @@ function processSSI(html, config) {
 }
 
 // Serve authentic files with SSI processing
+app.get(['/', '/index.htm'], authMiddleware, (req, res) => {
+    const filePath = path.join(WEB_DIR, 'index.htm');
+    if (fs.existsSync(filePath)) {
+        let html = fs.readFileSync(filePath, 'utf8');
+        html = processSSI(html, getConfig());
+        res.send(html);
+    } else {
+        res.status(404).send('index.htm not found');
+    }
+});
+
 app.get(/\.htm$/, authMiddleware, (req, res) => {
     const filename = path.basename(req.path);
     const filePath = path.join(WEB_DIR, filename);

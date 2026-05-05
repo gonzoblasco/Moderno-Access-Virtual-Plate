@@ -1,0 +1,73 @@
+body{
+	background-color:#FFFFFF;
+	margin:0;
+}
+
+hr{
+	color:#99CCFF
+}
+
+.titlefont{
+	color:#0066cc;
+	font-size:medium;
+	font-family:Arial;
+	font-weight:bold;
+}
+
+.cmdtitle{
+	font-size:small;
+	font-family:Arial;
+	color:#3399CC;
+	font-weight:bold;
+}
+.cmdherf{
+	font-size:small;
+	font-family:Arial;
+	color:#000000;
+}.font-1 {
+	font-family: Arial;
+	font-size: 30px;
+	color: #0066CC;
+}
+.font-2 {
+	font-family: Arial;
+	font-size: 20px;
+	color: #000000;
+}
+.font-3 {
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+}
+.font-4 {
+	font-family: Arial;
+	font-size: 12px;
+	color: #000000;
+}
+.font-m {
+	font-family: Arial;
+	font-size: 14px;
+	color: #0066CC;
+	font-weight: bold;
+}
+.font-m1 {
+	font-family: Arial;
+	font-size: 14px;
+	color: #FFFFFF;
+	background-image: url(but_g.jpg);
+	background-repeat:repeat-x;
+}
+#calendar { border: 1px solid #9DB3C5; background: #A4E3D7; margin-bottom: 0.8em;}
+    #calendar td { padding: 2px; font-weight: bold;}
+    #calendar_week td { height: 2em; line-height: 2em; border-bottom: 1px solid #CAD9EA;background: #A8B8F9;}
+    #hourminute td {padding: 4px 2px; border-top: 1px solid #CAD9EA;}
+        .calendar_expire, .calendar_expire a:link, .calendar_expire a:visited {    color: #666; font-weight: normal; }
+        .calendar_default, .calendar_default a:link, .calendar_default a:visited { color: #069;}
+        .calendar_checked, .calendar_checked a:link, .calendar_checked a:visited { color: #090; font-weight: bold;}
+        td.calendar_checked, span.calendar_checked{ background: #CAD9EA;}
+        .calendar_today, .calendar_today a:link, .calendar_today a:visited { color: #000; font-weight: bold; }
+    #calendar_header td{ width: 30px; height: 20px; border-bottom: 1px solid #CAD9EA; font-weight: normal; background:#FFF9BD;}
+    #calendar_year { display: none;    line-height: 130%; background: #F5FAFE; position: absolute; z-index: 10; }
+        #calendar_year .col { float: left; background: #F5FAFE; margin-left: 1px; border: 1px solid #CAD9EA; padding: 4px; }
+    #calendar_month { display: none; background: #F5FAFE; line-height: 130%; border: 1px solid #DDD; padding: 4px; position: absolute; z-index: 11; }
