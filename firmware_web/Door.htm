@@ -1,0 +1,181 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<script> var pro_name = new Array( <!-#status.cgi$proname--> ) ; </script>
+<BODY><font face="Arial">
+<table width="800">
+	<tr><td><br></td></tr>
+	<tr><td class="title" id="tit"></td></tr>
+		<FORM name=door_set action=man.cgi method=get>
+		<input type="hidden" name="redirect" value="Door.htm">
+		<input type="hidden" name="failure" value="fail.htm">
+		<input type="hidden" name="type" value="install_set">
+	<tr><td align="center">
+		<TABLE width="90%" align="center" id="Door_status">
+		<tr><td colspan=10 align=center><HR align=center></td></tr>
+		<tr>
+			<td width="5%"></td>
+			<td></td>
+			<td align=center width="9%"></td>
+			<td align=center width="9%"></td>
+			<td align=center width="9%"></td>
+			<td align=center width="10%"></td>
+			<td align=center width="10%"></td>
+			<td align=center width="10%"></td>
+			<td align=center width="10%"></td>
+			<td align=center width="10%"></td>
+		</tr>
+		<tr><td colspan=10 align=center></td></tr>
+		<!-#man.cgi$door_table-->
+		<tr><td colspan=10 align=center><HR align=center></td></tr>
+		<tr><td colspan="10">
+			<table align="center">
+				<td align=center><INPUT type=submit name=Search></td>
+				<td align=center><INPUT type=submit name=Save></td>
+				<td align=center id="tr2"></td>
+				<td align=center id="tr3"></td>
+				<td align=center id="tr4"></td>
+			</table>
+		</td></tr>
+		</TABLE>
+	</td></tr></FORM>
+</table>
+</font></BODY>
+<script>
+var e_text = new Array("Door","Door Setting","LIFT","Lift Setup","Save","Search","Set "," Card","Update ","BF20/50 Status","BF50/BF333","BF50"," Status","Hall Call");
+						/* 0	1		 2		3   		4	  5		 6		 7	   8			9			10		 11		 12		 13*/
+var chs_text = new Array("门","出入口","电梯","电梯设定","储存","搜寻","设定","卡号","更新","BF20/50 狀態","BF50/BF333","BF50"," 狀態","叫车");
+var cht_text = new Array("Puerta","Configuración de Puerta","Ascensor","Configuración de Ascensor","Guardar","Buscar","Set"," Tarjeta","Actualizar","Estado BF20/50","BF50/BF333","BF50","Estado","Llamada de Piso");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var num = <!-#man.cgi$BF50_Staus-->;
+	var door_tnum = <!-#man.cgi$Door_num_Staus-->;
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	//var lift_enable = 0;
+	var control_model = <!-#status.cgi$control_mode_number-->;
+	var mod_name = <!-#status.cgi$modelname-->;
+	var lift_ms=<!-#status.cgi$lift_ms-->;
+	var table = document.getElementById("Door_status");
+	var str,str1,tnum,dnum;
+	var lan = <!-#status.cgi$language-->;
+
+	if(lift_enable){
+		tnum=3;
+		dnum=13;
+	}
+	else{
+		tnum=1;
+		dnum=0;
+	}
+	document.title=lan_text[lan][tnum];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][tnum] + "</b></font>";
+
+	if (num == 1){
+		if(door_tnum == 0)
+			num=8;
+		else
+			num=4;
+	}
+	else{
+		if(mod_name==3)
+			num=4;
+		else
+			num=2;
+		table.rows[table.rows.length-1].style.display="none";
+		if((control_model != 0)&&(mod_name <2 )){
+			for(i=1;i<table.rows.length-2;i++)
+				if(i!=2)
+					table.rows[i].cells[3].style.display="none";
+		}
+	}
+	if(lift_enable==0){
+		document.getElementById("tr2").innerHTML = "<INPUT type=button name=Set_Card onClick=linkbf50_card()>";
+		document.getElementById("tr3").innerHTML = "<INPUT type=button name=WEBPASS onClick=linkwp()>";
+		document.getElementById("tr4").innerHTML = "<INPUT type=button name=Update_Card onClick=Update_BF50()>";
+	}
+	/*if(lift_enable){
+		for(i=2;i<5;i++)
+			table.rows[table.rows.length-1].cells[i].style.display="none";
+		str="Slave";
+		str1 = "Slave";
+		if(lift_ms){
+			num=1;
+			table.rows[table.rows.length-1].style.display="none";
+			for(j=3;j<10;j++)
+				for(i=1;i<table.rows.length-2;i++)
+					if(i!=2)
+						table.rows[i].cells[j].style.display="none";
+		}
+	}
+	else{*/
+		//str="BF50(B)/";
+	if(lift_enable==0){
+		str= pro_name[2] + "/" + pro_name[1]; /*BF50(B)/Webpass*/
+		str1 = pro_name[2]; /*BF50*/
+	}
+	else{
+		str= pro_name[2] + "/" + pro_name[3] + lan_text[lan][12];  /*BF50/BF333 狀態*/
+		str1 = pro_name[2] + "/" + pro_name[3];  /*BF50/BF333*/
+	}
+	//}
+	document.getElementsByName("Search")[0].value = lan_text[lan][5] + " " + str1;
+	document.getElementsByName("Save")[0].value = lan_text[lan][4] + " " + str1;
+	if(lift_enable==0){
+	document.getElementsByName("Set_Card")[0].value=lan_text[lan][6] + pro_name[2] + lan_text[lan][7];  /*設定BF50卡號*/
+	document.getElementsByName("Update_Card")[0].value=lan_text[lan][8] + pro_name[2] + lan_text[lan][7];  /*更新BF50卡號*/
+	table.rows[3].cells[1].innerHTML = "<font  face=Arial color=#000000 size=2><b>" + str + "</b></font>" ; /* BF50(B)/Webpass(W)*/
+	}
+	else
+	table.rows[3].cells[1].innerHTML = "<font  face=Arial color=#000000 size=2><b>" + str + "</b></font>"
+	if(lift_enable==0){
+	document.getElementsByName("WEBPASS")[0].value = lan_text[lan][6] + pro_name[1]; /*設定 webpass*/
+	}
+	if(lift_enable)
+	{
+			str="<font color='#000000' size=2><b>";
+			str+="<A href='man.cgi?redirect=DSet.htm&failure=fail.htm&type=want_door&id=" + 0 + "' target='Status'>" + lan_text[lan][2] + "</A></b></font>"
+			table.rows[1].cells[2].innerHTML=str;
+		for(i=2;i<=num;i++)
+		{
+			str="<font color='#000000' size=2><b>";
+			str+="<A href='man.cgi?redirect=DSet.htm&failure=fail.htm&type=want_door&id=" + (i-1) + "' target='Status'>" + lan_text[lan][dnum] + " " + (i-1) + "</A></b></font>"
+			table.rows[1].cells[i+1].innerHTML=str;
+		}
+	}
+	else
+	{
+		for(i=1;i<=num;i++)
+		{
+			str="<font color='#000000' size=2><b>";
+			str+="<A href='man.cgi?redirect=DSet.htm&failure=fail.htm&type=want_door&id=" + (i-1) + "' target='Status'>" + lan_text[lan][dnum] + " " + i + "</A></b></font>"
+			table.rows[1].cells[i+1].innerHTML=str;
+		}
+	}
+	function linkwp(){
+		document.location="setwp.htm";
+	}
+	function linkbf50_card(){
+		document.location="bf50card.htm";
+	}
+	function Update_BF50(){
+		var str_ip,str_num;
+	
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=Door.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=update_bf50";
+		location.href=str_ip;
+	}
+</script>
+</HTML>

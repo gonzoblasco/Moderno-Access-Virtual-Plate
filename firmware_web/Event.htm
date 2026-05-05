@@ -1,0 +1,244 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<BODY><font face="Arial">
+<script>
+var e_text = new Array("Event Handle Setting","Event Handle","Unregistered User","Deactivated User","Not Allowed Door","Multi-Badge Violation","Time Zone Violation","Expired User","Anti Pass Back Violation","Door open too long","N/A","Tamper Switch Breakdown","N/A","Door Intruded","Duress Alarm On","Fire Alarm On","Open Circuit","Short Circuit","Badge Denied","Event Type","Alarm Trigger Level","Alarm","IP Camera","E-mail Alerts","Location","SMTP Mail Server","Mail from","SMTP Server Requires Authentication","Mail To","Mail Cc","No","Yes","Event","Latched Time(Second)","Level","username","password","Disable","Enable","Set","(sec,Max 65535 : 0 means unlimited)","(max59)","(max47)","(max45)","(max29)","Hard Alarm","Soft Alarm1","Soft Alarm2");
+var chs_text = new Array("事件处理设定","事件处理","用户未注册","用户被关闭","此门未授权","多重验证失败","此时区未授权","用户逾期","反潜回被拒","逾时关门","N/A","防拆触发","N/A","门被闯入","反胁迫警报","火警警报","开路","短路","拒绝验证","事件类型","警报触发等级","警报","IP Camera","E-mail警报","设备名称","SMTP Mail Server","Mail from","SMTP Server验证","Mail正本","Mail副本","不需要","需要","事件","持续时间(秒)","等级","帐号","密码","关闭","启用","设定","(秒,最大65535 : 0代表警报不关)","(最大59个字)","(最大47个字)","(最大45个字)","(最大29个字)","Hard Alarm","Soft Alarm1","Soft Alarm2");
+var cht_text = new Array("Seteo de Manejo de Eventos","Manejo de Eventos","Usuario no Registrado","Usuario Desactivado","Puerta no Permitida","Violación de Multi-tarjeta","Violación de Zona de Tiempo","Usuario Expirado","Violación de Anti Pass Back","Puerta Abierta demasiado Tiempo","No Disponible","Alarma Antidesarme","No Disponible","Puerta Violada","Alarma de Coacción","Alarma de Incendio","Circuito Abierto","Circuito Cerrado","Credencial Denegada","Tipo de Evento","Nivel de disparo de Alarma","Alarma","Camara IP","Alertas de E-mail","Lugar","Servidor de Correo SMTP","Correo de","El servidor SMTP Requiere Autenticacion","Correo a","Correo CC","Nro.","Si","Evento","Temp. Autoretencion (Segundos)","Nivel","Nombre de usuario","Contraseña","Desactivado","Activado","Set","(Seg,Max 65535 : 0 significa ilimitado)","(max59)","(max47)","(max45)","(max29)","Alarma de Hard","Alarma de Soft1","Alarma de Soft2");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lan = <!-#status.cgi$language-->;
+	var event_list = new Array(14);
+	var hold_time_list = new Array(<!-#man.cgi$event_hold-->);
+	var a_switch = new Array(<!-#man.cgi$alarm_list-->);
+	var ipc_switch = new Array(<!-#man.cgi$ipc_list-->);
+	var event_switch1 = new Array(<!-#man.cgi$event_list_g1-->);
+	var event_switch2 = new Array(<!-#man.cgi$event_list_g2-->);
+	var event_switch3 = new Array(<!-#man.cgi$event_list_g3-->);
+	var num;
+	num=14;
+	for(i=0;i<num;i++)
+		event_list[i] = lan_text[lan][2+i];
+
+function set_event(){
+	var str_ip,str_num;
+	
+	str_ip=location.href;
+	str_num=str_ip.lastIndexOf("/");
+	str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+	str_ip+="redirect=Event.htm";
+	str_ip+="&failure=fail.htm";
+	str_ip+="&type=event_set";
+
+	str_ip += "&domain_name=";
+	str_ip += document.getElementById("domin_name").value;
+	str_ip += "&mail_server=";
+	str_ip += document.getElementById("mail_s").value;
+	str_ip += "&mail_to1=";
+	str_ip += document.getElementById("mail_1").value;
+	str_ip += "&mail_to2=";
+	str_ip += document.getElementById("mail_2").value;
+	str_ip += "&smtp_switch=";
+	str_ip += document.form1.smtp_switch.value;
+	str_ip += "&smtp_from=";
+	str_ip += document.getElementById("smtp_from").value;
+	str_ip += "&smtp_name=";
+	str_ip += document.getElementById("smtp_name").value;
+	str_ip += "&smtp_pw=";
+	str_ip += document.getElementById("smtp_pw").value;
+	location.href=str_ip;
+}
+</script>
+	<table width="1000">
+		<tr><td colspan="2"><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td colspan="2"><hr align="center"></td></tr>
+		<tr><td width="60%" align="center" style=display:none>
+			<form name="form1">
+			<TABLE width="95%" border=1 cellpadding="2" align="center" id="table_1">
+				<tr><td colspan=5></td></tr>
+				<tr>
+					<td></td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>&nbsp;&nbsp;
+						<select name=smtp_switch>
+							<option value="0"></option>
+							<option value="1"></option>
+						</select>
+					</td>
+					<td colspan="3">
+						<label></label><br><input type="text" maxlength="45" size="20" id="smtp_name"><label></label><br>
+						<label></label><br><input type="text" maxlength="29" size="20" id="smtp_pw"><label></label>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="4"></td>
+				</tr>
+				<tr><td colspan=5 align=center><input type="button" name=save onClick="set_event()" ></td></tr>
+			</TABLE></form>
+		</td>
+		<td align="center" valign="top">
+			<form name="form2">
+			<TABLE width="40%" border=1 cellspacing="2" cellpadding="2" Id="dayList">
+				<tr>
+					<td nowrap></td>
+					<td nowrap></td>
+					<td nowrap></td>
+					<td nowrap></td>
+					<td nowrap></td>
+					<td nowrap style=display:none></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td align=center></td>
+					<td align=center></td>
+					<td align=center></td>
+					<td align=center></td>
+					<td align=center style=display:none></td>
+				</tr>
+				<tr>
+					<td colspan="6"></td>
+				</tr>
+				<script>
+					for(var i=0;i<num;i++){
+						if((i==8)||(i==9)||(i==10))
+						{
+							document.write("<tr style=display:none>");
+							document.write("<td nowrap></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center style=display:none></td>");
+							document.write("</tr>");
+						}
+						else
+						{
+							document.write("<tr>");
+							document.write("<td nowrap></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center></td>");
+							document.write("<td align=center style=display:none></td>");
+							document.write("</tr>");
+						}
+					}
+				</script>
+			</TABLE>
+			</form>
+		</td>
+	</tr>
+</table>
+</font></BODY>
+<script>
+	var table1 = document.getElementById("table_1");
+	var table_d = document.getElementById("dayList");
+	var str;
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][1] + "</b></font>";
+	
+	for(i=0,j=0;i<7;i++,j++){
+		if(i==0)
+			table1.rows[i].cells[0].innerHTML = "<font color=blue size=3><b>" + lan_text[lan][23+j] + "</b></font>"
+		else{
+			table1.rows[i].cells[0].innerHTML = "<font size=2><b>" + lan_text[lan][23+j] + " :</b></font>"
+		}
+	}
+	
+	document.form1.smtp_switch.options[0].text = lan_text[lan][30];
+	document.form1.smtp_switch.options[1].text = lan_text[lan][31];
+	
+	table_d.rows[1].cells[0].innerHTML = "<font size=2>" + lan_text[lan][33] + "</font>";
+	table_d.rows[2].cells[0].innerHTML = "<font size=2><b>" + lan_text[lan][32] + "</b></font>";
+	for(i=0;i<2;i++){
+		document.getElementsByTagName("label")[i*2].innerHTML = "<font size=2><b>&nbsp;&nbsp;" + lan_text[lan][35+i] + " :&nbsp;</b></font>";
+		document.getElementsByTagName("label")[1+i*2].innerHTML = "<font size=2>" + lan_text[lan][43+i] + "</font>";
+	}
+	table1.rows[1].cells[1].innerHTML = "<input type='text' maxlength='59' size='20' id='domin_name'><font size=2>" + lan_text[lan][41] + "</font>";
+	table1.rows[2].cells[1].innerHTML = "<input type='text' maxlength='47' size='20' id='mail_s'><font size=2>" + lan_text[lan][42] + "</font>";
+	table1.rows[3].cells[1].innerHTML = "<input type='text' maxlength='47' size='20' id='smtp_from'><font size=2>" + lan_text[lan][42] + "</font>";
+	table1.rows[5].cells[1].innerHTML = "<input type='text' maxlength='47' size='20' id='mail_1'><font size=2>" + lan_text[lan][42] + "</font>";
+	table1.rows[6].cells[1].innerHTML = "<input type='text' maxlength='47' size='20' id='mail_2'><font size=2>" + lan_text[lan][42] + "</font>";
+	document.form1.save.value = lan_text[lan][39];
+	for(i=0;i<3;i++)
+	{
+		str="<font color='#000000' size=2><b>";
+		str+="<A href='man.cgi?redirect=Egroup.htm&failure=fail.htm&type=set_relay&value=" + i + "' target='Status'>" + lan_text[lan][45+i] + "</A></b></font>"
+		table_d.rows[0].cells[i+1].innerHTML = str;
+	}
+	str="<font color='#000000' size=2><b>";
+	str+="<A href='man.cgi?redirect=Egroup.htm&failure=fail.htm&type=set_relay&value=3' target='Status'>" + lan_text[lan][22] + "</A></b></font>"
+	table_d.rows[0].cells[4].innerHTML = str;
+	str="<font color='#000000' size=2><b>";
+	str+="<A href='man.cgi?redirect=Egroup.htm&failure=fail.htm&type=set_relay&value=4' target='Status'>" + lan_text[lan][23] + "</A></b></font>"
+	table_d.rows[0].cells[5].innerHTML = str;
+
+	document.getElementById("domin_name").value="<!-#man.cgi$mail_domainname-->";
+	document.getElementById("mail_s").value="<!-#man.cgi$mail_server-->";
+	document.getElementById("mail_1").value="<!-#man.cgi$mail_to-->";
+	document.getElementById("mail_2").value="<!-#man.cgi$mail_return-->";
+	document.getElementById("smtp_from").value="<!-#man.cgi$smtp_mail_from-->";
+	document.getElementById("smtp_name").value="<!-#man.cgi$smtp_name-->";
+	document.getElementById("smtp_pw").value="<!-#man.cgi$smtp_pw-->";
+	document.form1.smtp_switch.value="<!-#man.cgi$get_smtp_switch-->";
+
+function show_event(){
+	for(var i=0;i<num;i++){
+		table_d.rows[i+3].cells[0].innerHTML = "<font size=2>" + event_list[i] + "</font>";
+		if(event_switch1[i]==1)
+			table_d.rows[i+3].cells[1].innerHTML = "<IMG SRC='v.gif'>";
+		else
+			table_d.rows[i+3].cells[1].innerHTML = "<IMG SRC='no.gif'>";
+		if(event_switch2[i]==1)
+			table_d.rows[i+3].cells[2].innerHTML = "<IMG SRC='v.gif'>";
+		else
+			table_d.rows[i+3].cells[2].innerHTML = "<IMG SRC='no.gif'>";
+		if(event_switch3[i]==1)
+			table_d.rows[i+3].cells[3].innerHTML = "<IMG SRC='v.gif'>";
+		else
+			table_d.rows[i+3].cells[3].innerHTML = "<IMG SRC='no.gif'>";
+		if(ipc_switch[i]==1)
+			table_d.rows[i+3].cells[4].innerHTML = "<IMG SRC='v.gif'>";
+		else
+			table_d.rows[i+3].cells[4].innerHTML = "<IMG SRC='no.gif'>";
+		if(a_switch[i]==1)
+			table_d.rows[i+3].cells[5].innerHTML = "<IMG SRC='v.gif'>";
+		else
+			table_d.rows[i+3].cells[5].innerHTML = "<IMG SRC='no.gif'>";
+	}
+	for(var i=0;i<5;i++){
+	table_d.rows[1].cells[i+1].innerHTML = hold_time_list[i];
+	}
+}
+
+	show_event();
+
+</script>
+</HTML>

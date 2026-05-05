@@ -1,0 +1,37 @@
+<html>
+<head>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body onLoad="show()"><font face="Arial">
+<table id="table_1" align="center">
+	<tr><td align="center"></td></tr>
+	<tr><td align="center"><!-#status.cgi$Log_6--></td></tr>
+	<tr><td align="center"><img src="<!-#status.cgi$Log_6-->6log.jpg"></td></tr>
+</table>
+</font></body>
+<script>
+var e_text = new Array("Door","IN","OUT");
+var chs_text = new Array("门","进","出");
+var cht_text = new Array("門","進","出");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+var in_out = <!-#status.cgi$camara_inout_6-->;
+	if(in_out==2)
+		document.getElementById("table_1").rows[0].cells[0].innerHTML = "<font size='4'><b>" + lan_text[lan][0] + " 6 " + lan_text[lan][2] + "</b></font>";
+	else if(in_out==1)
+		document.getElementById("table_1").rows[0].cells[0].innerHTML = "<font size='4'><b>" + lan_text[lan][0] + " 6 " + lan_text[lan][1] + "</b></font>";
+	else
+		document.getElementById("table_1").rows[0].cells[0].innerHTML = "<font size='4'><b>" + lan_text[lan][0] + " 6</b></font>";
+
+	function show(){
+		parent.tager8.location.href="ipc7.htm";
+	}
+</script>
+</html>

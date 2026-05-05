@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+    <link rel="stylesheet" href="Logout.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="X-UA-Compatible" content="IE=8"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+
+<BODY onload = clear_auth()>
+<CENTER>
+</br></br></br>
+
+<div>
+<span id="Sys_logout"></span> </br></br>
+<input type="button" id="b_value" onClick="back()" > 
+</div>
+
+</CENTER>
+
+</BODY>
+<script LANGUAGE="javascript" >
+
+	
+	var lan_text = new Array() ;
+	var e_txt = new Array( "return to Login", "System Logout" ) ;
+	var chs_txt = new Array( "返回登入页面","系统登出，感谢您的使用" );
+	var cht_txt = new Array( "Regresar a Login", "Salir" ) ;
+	lan_text[0] = e_txt ;
+	lan_text[1] = chs_txt;
+	lan_text[2] = cht_txt;
+	
+	var lan = <!-#status.cgi$language-->;
+	
+	 document.getElementById("b_value").value = lan_text[lan][0] ;	
+	// document.mid.set.value = lan_text[lan][0] ;	
+	document.getElementById( "Sys_logout" ).innerHTML = "<b><font size=5>" + lan_text[lan][1] + "</font></b>";	
+	
+    function createXMLObject()  
+    {  
+        try  
+        {  
+           if(window.XMLHttpRequest)  
+           {  
+              xmlhttp = new XMLHttpRequest();  
+           }     
+           // code for IE5、IE6  
+           else if(window.ActiveXObject)  
+           {  
+               xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");  
+           }    
+		}  
+		catch(e)  
+		{	  
+			xmlhttp=false;  
+		}  
+		return xmlhttp;  
+	}  
+  
+	function clear_auth()  
+	{  
+	/*
+	註銷原理是對服務器發送錯誤驗證信息，對服務器進行讀寫操作，使瀏覽器判斷當前用戶是非法用戶，要重新登錄。
+	*/
+		try  
+		{  
+
+			if(navigator.userAgent.indexOf("MSIE")>0 )         //IE浏览器实现注销功能  
+			{  
+				document.execCommand("ClearAuthenticationCache");  
+				
+				
+			}  
+			else if( isFirefox=navigator.userAgent.indexOf("Firefox")>0 ) //Firefox实现注销功能  
+			{  
+				var xmlhttp = createXMLObject();  
+				var logouttest = "IE11 是你!!?"
+				var logout = String("c!h@i#y$u%-" + Math.random()*65536 + "loguotiSIE11!?" ); 
+				xmlhttp.open("GET",".force_logout_offer_login_mozilla",true, logout,logouttest );  
+				xmlhttp.send("");  
+				xmlhttp.abort();  
+				
+			}	  
+			else       //Google Chrome等浏览器实现注销功能  
+			{  
+			    // 每次傳輸的頁面所附帶的帳號密碼不同
+				var xmlHttp = false;  
+				
+				var logout = String("c!h@i#y$u%-" + Math.random()*65536 + "loguot" ); 
+				var logout1 = "132"
+				
+				if(window.XMLHttpRequest)  
+				{  
+					xmlHttp = new XMLHttpRequest();  
+				}  
+				xmlHttp.open( "GET", './status.htm', false, logout, logout1 );    
+				xmlHttp.send(null);  
+				xmlHttp.abort( );			
+			}  
+		}  
+		catch(e)  
+		{  
+			alert("there was an error");  
+			return false;  
+		} 
+		
+    
+}
+
+function back() {
+	parent.window.location = "index.htm";
+} 
+
+</script>
+</HTML>

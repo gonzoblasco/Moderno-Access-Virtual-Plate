@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+	<base target="Status">
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<BODY><font face="Arial">
+	<table width="100%">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td><br></td></tr>
+		<tr><td>
+			<TABLE width="95%" align="center" cellSpacing=2 id="table_1">
+				<TR>
+					<TD width="8%" align="center"></TD>
+					<TD width="8%" align="center"></TD>
+					<TD width="30%" align="center"></TD>
+					<TD width="8%" align="center"></TD>
+					<TD width="8%" align="center"></TD>
+					<TD width="4%" align="center"></TD>
+					<TD width="4%" align="center"></TD>
+					<TD width="20%" align="center"></TD>
+				</TR>
+				<TR><TD colSpan=10><HR align=center></TD></TR>
+				<!-#if.cgi$Userlogdata-->
+				<TR><TD colSpan=10><HR align=center></TD></TR>
+			</TABLE>
+		</td></tr>
+	</table>
+</font></BODY>
+<script>
+var e_text = new Array("No.","User ID","User Name","Date","Time","IN/OUT","Door","Note.","User Log");
+var chs_text = new Array("No.","用户编号","姓名","日期","时间","进/出","门","备注","用户查询纪录");
+var cht_text = new Array("Nro.","ID de Usuario","Nombre de Usuario","Fecha","Hora","ENTRADA/SALIDA","Puerta","Nota.","Registro de Usuario");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+var user_num = <!-#if.cgi$maxusernum-->;
+document.title=lan_text[lan][8];
+for(i=0;i<8;i++){
+	document.getElementById("table_1").rows[0].cells[i].innerHTML = "<B><font color='#0000FF' size='2'>" + lan_text[lan][0+i] + "</font></B>";
+}
+if(user_num>=100000)
+		document.getElementById("table_1").rows[0].cells[2].style.display="none";
+</script>
+</HTML>

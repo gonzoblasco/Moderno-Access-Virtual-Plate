@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<BODY><font face="Arial">
+	<table width="800">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td><br></td></tr>
+		<tr><td width="800">
+			<TABLE width="95%" align="center" cellSpacing=2 id="table_1">
+				<tr><td colspan=4 align="right">
+					<input type="button" name="etxt" onClick="send(0)">&nbsp;&nbsp;
+					<input type="button" name="exls" onClick="send(1)">
+				</td></tr>
+				<tr><td><br></td></tr>
+				<TR>
+					<TD width="5%" align="center"></TD>
+					<TD width="8%" align="center"></TD>
+					<TD width="8%" align="center"></TD>
+					<TD width="60%" align="center"></TD>
+				</TR>
+				<TR><TD colSpan=4><HR align=center></TD></TR>
+				<!-#if.cgi$syslog-->
+				<TR><TD colSpan=4><HR align=center></TD></TR>
+			</TABLE>
+		</td></tr>
+	</table>
+</font></BODY>
+<script>
+var e_text = new Array("System Log","No.","Date","Time","Description","Txt","Xls","Export");
+var chs_text = new Array("系统纪录","No.","日期","时间","内容","Txt","Xls","汇出");
+var cht_text = new Array("Diario de Sistema","Nro.","Fecha","Hora","Descripcion","Txt","Xls","Exportar");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+document.all.etxt.value=lan_text[lan][7]+" "+lan_text[lan][5];
+document.all.exls.value=lan_text[lan][7]+" "+lan_text[lan][6];
+for(i=0;i<4;i++)
+	document.getElementById("table_1").rows[2].cells[i].innerHTML = "<B><font color='#0000FF' size='2'>" + lan_text[lan][1+i] + "</font></B>";
+function send(num){
+	var str_ip,str_num;
+	str_ip=location.href;
+	str_num=str_ip.lastIndexOf("/");
+	str_ip=str_ip.substring(0,str_num+1)+"if.cgi?";
+	str_ip+="redirect=SysLog.htm";
+	str_ip+="&failure=fail.htm";
+	str_ip+="&type=exp_sys&";
+	str_ip+="exp_type="+num;
+	location.href=str_ip;
+}
+</script>
+</HTML>

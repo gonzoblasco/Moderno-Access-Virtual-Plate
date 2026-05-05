@@ -1,0 +1,114 @@
+<html>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<script> var pro_name = new Array( <!-#status.cgi$proname--> ) ; </script>
+<body><font face="Arial">
+	<table width="800">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td><hr align="center"></td></tr>
+		<tr><td align="center">
+			<TABLE width="95%" border=0 align="center" id="table_1">
+				<FORM name=wp_set action=man.cgi method=get>
+				<input type="hidden" name="redirect" value="setwp.htm">
+				<input type="hidden" name="failure" value="fail.htm">
+				<input type="hidden" name="type" value="setwp">
+				<tr>
+					<td align="right" width="15%"></td>
+					<td width="20%"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr>
+					<td align="right"></td>
+					<td>&nbsp;<input type="text" maxlength="15" size="18" name="wp"></td>
+					<td>&nbsp;<input type="text" maxlength="5" size="6" name="wp_port"></td>
+				</tr>
+				<tr><td colspan="3"><hr align="center"></td></tr>
+				<tr><td colspan="2" align="right">
+					<input type="submit" name="save">
+					<input type="button" name="cancel" onClick="send()">
+				</td></tr>
+				</FORM>
+			</TABLE>
+		</td></tr>
+	</table>
+</font></body>
+<script>
+var e_text = new Array("Setting","Cancel","Set","IP","PORT");
+var chs_text = new Array("设定","取消","设定","IP","通讯埠");
+var cht_text = new Array("Ajustes","Cancelar","Set","IP","PUERTO");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var ip = new Array(<!-#man.cgi$wp_ip-->);
+var wport = new Array(<!-#man.cgi$wp_port-->);
+var door_tnum = <!-#man.cgi$Door_num_Staus-->;
+var textlist = document.getElementsByName("wp");
+var portlist = document.getElementsByName("wp_port");
+var lan = <!-#status.cgi$language-->;
+document.title=pro_name[1] + " " + lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + pro_name[1] + " " + lan_text[lan][0] + "</b></font>";
+for(i=1;i<9;i++)
+	document.getElementById("table_1").rows[i].cells[0].innerHTML = "<font class='font-3'>" + pro_name[1] + " " + i + " : </font>";
+for(i=1;i<3;i++)
+	document.getElementById("table_1").rows[0].cells[i].innerHTML = "<font class='font-3'>" + lan_text[lan][2+i] + "</font>";
+document.all.save.value = lan_text[lan][2];
+document.all.cancel.value = lan_text[lan][1];
+
+if(door_tnum != 0){
+	for(i=5;i<9;i++)
+		document.getElementById("table_1").rows[i].style.display="none";
+}
+for(i=0;i<8;i++){
+	textlist[i].value=ip[i];
+	portlist[i].value=wport[i];
+}
+function send()
+{
+	document.location="Door.htm"
+}
+</script>
+</html>

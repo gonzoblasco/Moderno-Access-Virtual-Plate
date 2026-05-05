@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<script>
+var e_text = new Array("Warning! The current Data will be lost.","Are you sure?","Group List","Group ID","Set");
+var chs_text = new Array("警告! 资料将会删除.","是否继续?","群组设定","群组编号","设定");
+var cht_text = new Array("Atención! Los Datos Actuales se Perderán.","Esta Seguro?","Lista de Grupo","ID de Grupo","Set");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lan = <!-#status.cgi$language-->;
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	function cvalue(f)
+	{
+		if (confirm(lan_text[lan][0] + "\n" + lan_text[lan][1]))
+		{
+			f.submit();
+		}
+	}
+	
+</script>
+<BODY><font face="Arial">
+	<table width="800">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td align="center">
+			<TABLE width="100%" align="center">
+				<!-#man.cgi$group-->
+				
+				<tr>
+					<td width="50%" align="right" id="table_1"></td>
+					<td>
+						<select	name=ID>
+						<script>
+							for(i=2;i<10;i++)
+								document.write('<OPTION VALUE='+i+'>00'+i+'</OPTION>');
+							for(i=10;i<100;i++)
+								document.write('<OPTION VALUE='+i+'>0'+i+'</OPTION>');
+							for(i=100;i<255;i++)
+								document.write('<OPTION VALUE='+i+'>'+i+'</OPTION>');
+						</script>
+						</select>
+						&nbsp;<INPUT type="submit" name="add_tz" onClick="send()">
+					</td>
+				</tr>
+				
+			</TABLE>
+		</td></tr>
+	</table>
+</font></BODY>
+<script>
+	document.title=lan_text[lan][2];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][2] + "</b></font>";
+	document.getElementById("table_1").innerHTML = "<font size='2'><b>" + lan_text[lan][3] + "&nbsp;:</b></font>";
+	document.all.add_tz.value = lan_text[lan][4];
+
+	window.document.all.ID.value="<!-#man.cgi$GListID-->";
+	function send(){
+		var str_ip,str_num;
+	
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		if(lift_enable==1)
+			str_ip+="redirect=lift.htm";
+		else
+			str_ip+="redirect=setgroup.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=want_group";
+		str_ip+="&id=";
+		str_ip+=document.all.ID.value;
+		location.href=str_ip;
+	}
+</script>
+</HTML>

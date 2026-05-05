@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+	<TITLE>Home Mode Top Page</TITLE>
+    <link rel="stylesheet" href="new.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Hmmain">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<style>
+.s1 {color=#FFF;
+	 font-family: Arial;
+	 font-size: x-small;
+	}
+</style>
+<script>
+	var door_num,str,return_value;
+	function add_user(){
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"if.cgi?";
+		str_ip+="redirect=HmEmpRcd.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=want_emp&id=0";
+		location.href=str_ip;
+	}
+	function user_list(){
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"if.cgi?";
+		str_ip+="redirect=hmbase.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=go_user_page&page=0&sort=1";
+		location.href=str_ip;
+	}
+	function access_log(){
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"if.cgi?";
+		str_ip+="redirect=hmacclog.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=go_log_page&page=0";
+		location.href=str_ip;
+	}
+	function door_status(){
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=hmscrt.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=door_status";
+		location.href=str_ip;
+	}
+	function advance_mode(){
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=Index.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=advance_mode";
+		location.href=str_ip;
+	}
+	
+</script>
+<BODY TOPMARGIN="0" LEFTMARGIN="0" MARGINWIDTH="0" MARGINHEIGHT="0"><font face="Arial">
+	<center>
+	<table width="800" border="0" cellspacing="10" cellpadding="0">
+		<tr> 
+			<td>
+				<br>
+			</td>
+		</tr>  			
+		<tr>
+			<td>
+							<table width="95%" border="0" cellspacing="10" cellpadding="10" align=center>		
+								<tr> 
+									<td colspan="2" align="center">
+										<font class="titlefont"><b>&nbsp;&nbsp;&nbsp;Home Mode Top Page</b></font>
+									</td>
+									<td width=1%>&nbsp;</td>
+									<td width=2% class="title">&nbsp;</td>
+								</tr>
+								<tr>
+			            <td colspan="0" align="center">
+			              <input type="button" value="Add User" style="font-size:20pt; width:170px;height:130px;" onClick="add_user()">
+			            </td>
+			            <td colspan="0" align="center">
+			            	<input type="button" value="User List" style="font-size:20pt; width:170px;height:130px;" onClick="user_list()">
+			            </td>
+			          </tr>	
+			          <tr>
+			          	<td colspan="0" align="center">
+			          	 <input type="button" value="Access Log" style="font-size:20pt; width:170px;height:130px;" onClick="access_log()">
+			          	</td>
+			            <td colspan="0" align="center">
+			             <input type="button" value="Door Status" style="font-size:20pt; width:170px;height:130px;" onClick="door_status()">
+			           	</td>
+			          </tr>
+		          </table>
+       </td>
+     </tr>
+	</table>
+	</center>
+</table>
+	<BR>
+	<P></P>
+</font></BODY>
+<input type="button" value="Advance Mode"onClick="advance_mode()">
+</HTML>

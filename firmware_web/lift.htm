@@ -1,0 +1,173 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="Sstandle.css" type="text/css">
+<base target="Status">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body><font face="Arial">
+	<table width="800" align="center" id="lift_table">
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td><hr align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+	</table>
+</font></body>
+<script>
+var e_text = new Array("Floor Setting","Start Floor","Start","to End","Input floor error!","Set","Allow","Not");
+var chs_text = new Array("楼层设定","起始楼层","起","至","输入楼层错误!","设定","允許","不允許");
+var cht_text = new Array("Configuración de Piso","Piso de Inicio","Inicio","Final","Ent. Error de Piso!","Set","Permitir","No");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lift_enable = <!-#man.cgi$lift_enable-->;
+	var lift_value = new Array(<!-#man.cgi$lift_list-->);
+	var str,max_lift,html_str,html_str1;
+	var T_table = document.getElementById("lift_table");
+	var lift_list=document.getElementsByName("floor_list");
+	var lan = <!-#status.cgi$language-->;
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'>&nbsp;&nbsp;" + lan_text[lan][0] + "(<!-#man.cgi$door_name-->)</font>";
+
+	if(lift_enable == 0){
+		html_str = lan_text[lan][1] + " :&nbsp;&nbsp;";
+		html_str += "<select name=floor>";
+		for(i=127;i>-128;i--){
+			if(i<0){
+				html_str +="<option value=" + i + ">B" + (0-i) + "</option>";
+			}
+			else if(i>0){
+				html_str += "<option value=" + i + ">" + i + "</option>";
+			}
+		}
+		html_str += "</select>";
+		T_table.rows[2].cells[0].innerHTML = html_str;
+		document.all.floor.value=1;
+		T_table.rows[3].cells[0].innerHTML = "<input type=button name=set value=" + lan_text[lan][5] + " onclick=set_start()>";
+	}
+	else{
+		if(lift_enable<0)
+			max_lift = 128+lift_enable;
+		else
+			max_lift = 127+lift_enable;
+		html_str1 = "";
+		for(i=lift_enable,x=0;i<=max_lift;i++,x++){
+			if(i<0)
+				html_str1 += "<option value=" + x + ">B" + (0-i) + "</option>";
+			else if(i>0)
+				html_str1 += "<option value=" + x + ">" + i + "</option>";
+			else
+				x--;
+		}
+
+		html_str = lan_text[lan][2] + " : <select name=st_lift>" + html_str1 + "</select> " + lan_text[lan][3] + " : <select name=en_lift>" + html_str1 + "</select> ";
+		html_str += "<input type=button name=allow value=" + lan_text[lan][6] + " onclick=allow()>  <input type=button name=not value=" + lan_text[lan][7] + " onclick=not_allow()>";
+		T_table.rows[2].cells[0].innerHTML = html_str;
+		html_str = "<table align=center id=floor_set>";
+		for(i=lift_enable,x=1;i<=max_lift;i++,x++){
+			if(i == 0){
+				x--;
+				continue;
+			}
+			if(x%5 == 1)
+				html_str += "<tr>";
+			html_str += "<td><input type=checkbox name='floor_list'>"
+			if(i<0)
+				html_str += "B" + (0-i);
+			else
+				html_str += i;
+			html_str += "</td>";
+			if(x%5 == 0)
+				html_str += "</tr>"
+		}
+		html_str += "</tr></table>"
+		T_table.rows[3].cells[0].innerHTML = html_str;
+		T_table.rows[4].cells[0].innerHTML = "<input type=button name=set value=" + lan_text[lan][5] + " onclick=set_floor()>";
+		
+		for(i=0;i<16;i++){
+			str=lift_value[i];
+			for(j=0;j<8;j++){
+				if(str & (0x01 << j))
+					lift_list[i*8+j].checked=true;
+			}
+		}
+	}
+		
+	function set_start()
+	{
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=lift.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=set_start_lift&";
+		str_ip+="start=";
+		if(document.all.floor.value<0)
+			str_ip+=(256+(document.all.floor.value-0));
+		else
+			str_ip+=document.all.floor.value;
+		location.href=str_ip;
+	}
+	
+	function set_floor(){
+		var str_ip,str_num,lift_value;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=setgroup.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=set_lift";
+		for(i=0;i<16;i++){
+			lift_value = 0;
+			if(lift_list[i*8].checked)
+				lift_value += 1;
+			if(lift_list[i*8+1].checked)
+				lift_value += 2;
+			if(lift_list[i*8+2].checked)
+				lift_value += 4;
+			if(lift_list[i*8+3].checked)
+				lift_value += 8;
+			if(lift_list[i*8+4].checked)
+				lift_value += 16;
+			if(lift_list[i*8+5].checked)
+				lift_value += 32;
+			if(lift_list[i*8+6].checked)
+				lift_value += 64;
+			if(lift_list[i*8+7].checked)
+				lift_value += 128;
+			str_ip += "&lift" + i + "=" + lift_value;
+		}
+		location.href=str_ip;
+	}
+	
+	function allow(){
+		var start_f = document.all.st_lift.value-0;
+		var end_f = document.all.en_lift.value-0;
+		if(end_f < start_f){
+			alert(lan_text[lan][4]);
+			return;
+		}
+		for(i=start_f;i<=end_f;i++){
+			lift_list[i].checked = true;
+		}
+	}
+	
+	function not_allow(){
+		var start_f = document.all.st_lift.value-0;
+		var end_f = document.all.en_lift.value-0;
+		if(end_f < start_f){
+			alert(lan_text[lan][4]);
+			return;
+		}
+		for(i=start_f;i<=end_f;i++){
+			lift_list[i].checked = false;
+		}
+	}
+</script>
+</html>

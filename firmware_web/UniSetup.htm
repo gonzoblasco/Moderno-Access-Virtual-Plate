@@ -1,0 +1,211 @@
+<html>
+<HEAD>
+	<TITLE>Uni Setup</TITLE>
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="Sstandle.css" type="text/css">
+</HEAD>
+<body leftMargin=0 topMargin=0 MARGINWIDTH="0" MARGINHEIGHT="0"><font face="Arial">
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+	<tr> 
+		<td><br></td>
+	</tr>  
+	<tr>
+		<td><table width="95%" border="0" cellspacing="5" cellpadding="0" align="center">
+    		<tr> 
+		    	<td width=65% class="title"><b><font class="titlefont">&nbsp;&nbsp;Uni Setup</font></b></td>
+        		<td width=1%><b><font size="2">&nbsp;</font></b></td>
+			    <td width=2% class="title">&nbsp;</td>
+			    <td><b><font size="2">&nbsp;</font></b></td>
+			</tr>
+        </table></td>
+	</tr>
+    <tr>
+    	<FORM action=bfset.cgi method=get name="BFSet">
+    	<input type="hidden" name="redirect" value="setting.htm">
+        <input type="hidden" name="failure" value="fail.htm">
+        <input type="hidden" name="type" value="bfset">
+    	<TABLE width="95%" align="center"  cellspacing="5" id="table_1">
+          	<tr><td colspan=2><HR align=center></td></tr>  
+            <tr>
+            	<TD width=10%><FONT class="font-3">Entrada Wiegand :</FONT></TD>
+                <td align="left">
+                	<FONT class="font-3">Formato&nbsp;&nbsp;
+                    	<SELECT name=we_in>
+							<OPTION value="0">26 Bits</OPTION>
+							<OPTION value="1">34 Bits</OPTION>
+							<OPTION value="3">PCT</OPTION>
+						</SELECT>
+						(Por defecto: 34 Bits)</FONT>
+                </td>
+            </tr>
+			<tr>
+            	<TD width=20%><FONT class="font-3">Conexión con el Software :</FONT></TD>
+                <td align="left">
+                	<FONT class="font-3">Modo TCP&nbsp;&nbsp;
+                    	<SELECT name=ap_type>
+							<OPTION value="0">Tiempo real (Cliente)</OPTION>
+							<OPTION value="1">Pasivo(Servidor)</OPTION>
+						</SELECT>
+						(Por defecto: Modo Tiempo real)</FONT>
+                </td>
+            </tr>
+			<tr>
+				<td><FONT class="font-3">Clave de Acceso de Logueo :</FONT></td>
+				<td align="left">
+					<input type="radio" value=0 <!-#status.cgi$log_pw_on--> name=log_pw>SI
+					<input type="radio" value=3 <!-#status.cgi$log_pw_off--> name=log_pw>NO
+				</td>
+			</tr>
+			<tr style=display:none >
+				<td><FONT class="font-3">Facility Code(2 bytes in Decimal) :</FONT></td>
+				<td align="left">
+					<b><font face="Arial" size="2">1</font></b><b><font color="#000000" size="2" face="Arial">:</FONT></b>&nbsp;
+              		<INPUT name="fid1" value="<!-#status.cgi$fcode_A1-->" size=4 maxLength=5>&nbsp;
+	              	<b><font face="Arial" size="2">2</font></b><b><font color="#000000" size="2" face="Arial">:</FONT></b>&nbsp;
+	              	<INPUT name="fid3" value="<!-#status.cgi$fcode_A3-->" size=4 maxLength=5>
+	              	<b><font face="Arial" size="2">3</font></b><b><font color="#000000" size="2" face="Arial">:</FONT></b>&nbsp;
+	              	<INPUT name="fid5" value="<!-#status.cgi$fcode_A5-->" size=4 maxLength=5>
+	              	<b><font face="Arial" size="2">4</font></b><b><font color="#000000" size="2" face="Arial">:</FONT></b>&nbsp;
+	              	<INPUT name="fid7" value="<!-#status.cgi$fcode_A7-->" size=4 maxLength=5>
+	              	<b><font face="Arial" size="2">5</font></b><font color="#000000" size="2" face="Arial"><b>:</b></FONT>&nbsp;&nbsp;
+	              	<INPUT name="sid1" value="<!-#status.cgi$fcode_B1-->" size=4 maxLength=5>
+				</td>
+			</tr>
+			<tr style=display:none >
+				<td></td>
+				<td align="left">
+					<b><font face="Arial" size="2">6</font></b><font color="#000000" size="2" face="Arial"><b>:</FONT>&nbsp;
+              		<INPUT name="sid3" value="<!-#status.cgi$fcode_B3-->" size=4 maxLength=5>&nbsp;
+	              	<b><font face="Arial" size="2">7</font></b><font color="#000000" size="2" face="Arial"><b>:</FONT>&nbsp;
+	              	<INPUT name="sid5" value="<!-#status.cgi$fcode_B5-->" size=4 maxLength=5>
+	              	<b><font face="Arial" size="2">8</font></b><font color="#000000" size="2" face="Arial"><b>:</FONT>&nbsp;
+	              	<INPUT name="sid7" value="<!-#status.cgi$fcode_B7-->" size=4 maxLength=5>
+	              	<b><font face="Arial" size="2">9</font></b><font color="#000000" size="2" face="Arial"><b>:</FONT>&nbsp;
+	              	<INPUT name="tid1" value="<!-#status.cgi$fcode_C1-->" size=4 maxLength=5>
+	              	<b><font face="Arial" size="2">10</font></b><font color="#000000" size="2" face="Arial"><b>:</FONT>&nbsp;
+	              	<INPUT name="tid3" value="<!-#status.cgi$fcode_C3-->" size=4 maxLength=5>
+				</td>
+			</tr>
+			<tr>
+				<td><FONT class="font-3">DEC/HEX :</FONT></td>
+				<td>
+					<input type="radio" value=0 <!-#status.cgi$DEC_ON--> name=DEC_HEX>DEC
+					<input type="radio" value=1 <!-#status.cgi$HEX_ON--> name=DEC_HEX>HEX
+				</td>
+			</tr>
+			<tr>
+				<td><FONT class="font-3">Formato de Tarjeta:</FONT></td>
+				<td align="left"><FONT size=2><b>
+					<input type="radio" value=0 <!-#status.cgi$raw_id_format--> name=card_id_format>Original
+					<input type="radio" value=1 <!-#status.cgi$facility_id_format--> name=card_id_format>Facility Code+ID
+				</b></FONT></td>
+			</tr>
+            <tr>
+				<td><FONT class="font-3">LOGO_CONTROLLER :</FONT></td>
+				<td>
+					<input type="radio" value=1 <!-#status.cgi$LOGO_Default--> name=LOGO_CONTROLLER>Default
+					<input type="radio" value=0 <!-#status.cgi$LOGO_OFF--> name=LOGO_CONTROLLER>OFF
+				</td>
+			</tr>
+            <tr>
+				<td><FONT class="font-3">Lift_Type_CONTROLLER :</FONT></td>
+				<td>
+					<input type="radio" value=0 <!-#status.cgi$Lift_Type1--> name=Lift_Type_CONTROLLER>Type1
+					<input type="radio" value=1 <!-#status.cgi$Lift_Type2--> name=Lift_Type_CONTROLLER>Type2
+				</td>
+			</tr>
+			<tr >
+				<td><FONT class="font-3">Productname</FONT></td>
+				<td align="left"><FONT size=2><b>
+					<input type="text" name=Product_name maxlength="20" value="<!-#status.cgi$productname-->" > max 20 chars( 6 chars in Chinese)</br>
+				</td>
+			</tr>	
+			<tr id="Acc1">
+				<td><FONT class="font-3">Accessory name(WEBpass)</FONT></td>
+				<td align="left"><FONT size=2><b>
+					<input type="text" name=Accessories maxlength="20" value="<!-#status.cgi$Accessories1-->" > max 20 chars( 6 chars in Chinese)</br>
+				</td>
+			</tr>	
+			<tr id="Acc2">
+				<td><FONT class="font-3">Accessory name( BF50 )</FONT></td>
+				<td align="left"><FONT size=2><b>
+					<input type="text" name=Accessories2 maxlength="20" value="<!-#status.cgi$Accessories2-->" > max 20 chars( 6 chars in Chinese)</br>
+				</td>
+			</tr>	
+			<tr id="Acc3">
+				<td><FONT class="font-3">Accessory name( BF333 )</FONT></td>
+				<td align="left"><FONT size=2><b>
+					<input type="text" name=Accessories3  maxlength="20" value="<!-#status.cgi$Accessories3-->" > max 20 chars( 6 chars in Chinese)</br>
+				</td>
+			</tr>	
+            <tr style="display:none">
+				<td><FONT class="font-3">Relay Control by Software :</FONT></td>
+				<td>
+					<input type="radio" value=0 id=relay_soft_off name=relay_CONTROLLER >off
+					<input type="radio" value=1 id=relay_soft_on name=relay_CONTROLLER >on
+				</td>
+			</tr>							
+            <tr>
+            	<td></td>
+            	<td align="left"><INPUT type="submit" name=Save value="SAVE"></td>
+            </tr>
+			<tr><td colspan=2><HR align=center></td></tr>
+			</FORM>
+			<FORM action=bfset.cgi method=get name="BFDoor">
+    		<input type="hidden" name="redirect" value="setting.htm">
+    	    <input type="hidden" name="failure" value="fail.htm">
+	        <input type="hidden" name="type" value="door_num_set">
+			<tr>
+				<td><FONT class="font-3">Door Number :</FONT></td>
+				<td align="left">
+					<input type="radio" value=0 <!-#status.cgi$door_num8--> name=door_num>8 door
+					<input type="radio" value=3 <!-#status.cgi$door_num4--> name=door_num>4 door
+				</td>
+			</tr>		
+			<tr>
+            	<td></td>
+            	<td align="left"><INPUT type="submit" name=Save value="SAVE"></td>
+            </tr>			<tr><td colspan=2><HR align=center></td></tr>
+			</FORM>
+        </TABLE>
+        </FORM>
+    </tr>
+</table>
+</font></body>
+<script>
+	var table1 = document.getElementById("table_1");
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var door_set=<!-#man.cgi$door_switch-->;
+	//var control_by_software = <!-#bfset.cgi$control_by_softwar-->;
+	if(lift_enable){
+		table1.rows[6].style.display="none";
+		table1.rows[7].style.display="none";
+	}
+	else
+	{
+		table1.rows[9].style.display="none";
+	}
+	if(door_set==0)
+	{
+		for(i=17;i< 20;i++)
+			table1.rows[i].style.display="none";
+	}
+	/*
+	if ( control_by_software == 0 )
+	{
+		 document.getElementById("relay_soft_off").checked = true ;
+		  document.getElementById("relay_soft_on").checked = false ;
+	}
+	else
+	{
+		 document.getElementById("relay_soft_off").checked = false ;
+		  document.getElementById("relay_soft_on").checked = true ;
+	}	
+	*/
+	window.document.BFSet.we_in.value="<!-#status.cgi$we_in_v-->";
+	window.document.BFSet.ap_type.value="<!-#status.cgi$sw_mode-->";
+        document.getElementById("Acc1").style.display="none"; /*D1D2D4 沒有接其他東西*/
+        document.getElementById("Acc2").style.display="none"; /*D1D2D4 沒有用到BF50*/
+	document.getElementById("Acc3").style.display="none"; /*D1D2D4 沒有用到BF333*/
+</script>
+</html>

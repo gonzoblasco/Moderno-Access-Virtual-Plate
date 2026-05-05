@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="Sstandle.css" type="text/css">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body>
+<center>
+<script>
+var e_text = new Array("Action Fail! Error Message");
+var chs_text = new Array("传送失败!错误讯息");
+var cht_text = new Array("La accion Fallo! Mensaje de error");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+var action_status=lan_text[lan][0] + " = " + "<!-#status.cgi$fail_info-->";
+window.status=action_status;
+//history.back();
+window.location = document.referrer;
+alert(action_status);
+</script>
+</center>
+</body>
+</html>

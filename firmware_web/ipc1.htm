@@ -1,0 +1,57 @@
+<html>
+<head>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body onLoad="window_onload()"><font face="Arial">
+<table id="table_1" align="center">
+	<tr><td align="center"></td></tr>
+	<tr><td align="center"><!-#status.cgi$Log_1--></td></tr>
+	<tr><td align="center"><img src="<!-#status.cgi$Log_1-->1log.jpg"></td></tr>
+</table>
+</font></body>
+<script>
+var e_text = new Array("Door","IN","OUT");
+var chs_text = new Array("门","进","出");
+var cht_text = new Array("Puerta","Entrada","Salida");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+var lift_enable = <!-#man.cgi$lift_status-->;
+var lift_ms=<!-#status.cgi$lift_ms-->;
+var in_out = <!-#status.cgi$camara_inout_1-->;
+var str;
+	if((lift_enable)&&(lift_ms))
+		str=lan_text[lan][1];
+	else
+	{
+		if(in_out==2)
+			str=lan_text[lan][0]+" 1 "+lan_text[lan][2];
+		else if(in_out==1)
+			str=lan_text[lan][0]+" 1 "+lan_text[lan][1];
+		else
+			str=lan_text[lan][0]+" 1";
+	}
+	document.getElementById("table_1").rows[0].cells[0].innerHTML = "<font size='4'><b>" + str + "</b></font>";
+	function window_onload() 
+	{
+		window.setInterval("show()",1000);
+	   	window.setInterval("Refresh()",1000);
+	}
+	function Refresh()
+	{
+		location="ipc1.htm";
+	}
+	function show(){
+		var num = <!-#man.cgi$BF50_Staus-->;
+		var control_model = <!-#status.cgi$control_mode_number-->;
+		if((num==1)||(control_model==0))
+			parent.tager3.location.href="ipc2.htm";
+	}
+</script>
+</html>

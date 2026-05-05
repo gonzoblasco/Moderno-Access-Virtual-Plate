@@ -1,0 +1,60 @@
+<head>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<script>
+var e_text = new Array("IP Camera");
+var chs_text = new Array("IP Camera");
+var cht_text = new Array("Camara IP");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var num = <!-#man.cgi$BF50_Staus-->;
+	var lan = <!-#status.cgi$language-->;
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var lift_ms=<!-#status.cgi$lift_ms-->;
+	var mod_name = <!-#status.cgi$modelname-->;
+
+	document.title=lan_text[lan][0];
+	
+	if(num == 1){
+		if((lift_enable)&&(lift_ms)){
+			document.write("<frameset rows='100%' cols='33%,33%,33%'>")
+			num = 2;
+		}
+		else{	
+			document.write("<frameset rows='33%,33%,33%' cols='33%,33%,33%'>")
+			num = 8;
+		}
+	}
+	else
+	{
+		if(mod_name==3)
+		{
+			document.write("<frameset rows='33%,33%,33%' cols='33%,33%,33%'>")
+		num = 4;
+		}
+		else if(mod_name==2)
+		{
+			document.write("<frameset rows='100%' cols='33%,33%,33%'>")
+		num = 2;
+		}
+		else
+		{
+			document.write("<frameset rows='100%' cols='50%,50%'>")
+		num = 1;
+		}
+	}
+
+	document.write("<frame name=tager1 src='ipset.htm'>");
+	for(i=0;i<num;i++){
+		document.write("<frame name='tager" + (i+2) + "'>");
+	}
+	document.write("</frameset><noframes></noframes>");
+</script>
+<body>
+</body>
+</html>

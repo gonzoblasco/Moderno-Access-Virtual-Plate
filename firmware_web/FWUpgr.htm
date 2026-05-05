@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+<style>
+	<!--
+		#bar, #barbackground{
+			position:absolute;
+			left:0;
+			top:0;
+			background-color:blue;
+			}
+		#barbackground{
+		background-color:tan;
+	}
+	-->
+</style>
+<script language="JavaScript1.2" type="text/JavaScript">
+<!--
+var e_text = new Array("Upgrade Firmware","Warning: Upgrade must NOT be interrupted","Please select a file to upgrade or replacement","Uploading...Waiting for a moment...","Please select the file first!","UPGRADE","Image file limit: 16KB, picture high limit: 110, picture width limit: 600");
+var chs_text = new Array("韧体更新","注意: 升级时不可中断","请选择升级的韧体档案或图片更换档案","升级中...请稍候...","请选择档案!","升级","图片档案限制：16KB，图片高限制：110，图片宽限制：600");
+var cht_text = new Array("Actualización de Firmware","Atención: La Actualización NO debe ser Interrumpida","Por favor seleccione un archivo para actualizar o reemplazar","Subiendo... Aguarde un momento...","Por favor seleccione un archivo primero!","ACTUALIZAR","Limite del Archivo de Imagen: 16KB, Limite de alto de Imagen: 110, Limite de Ancho de Imagen: 600");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var duration=50
+	var clipright=0
+	var widthIE=0
+	var widthNS=0
+	var bName = navigator.appName// check bowser kind
+	var lan = <!-#status.cgi$language-->;
+
+		function postaction()
+		{
+	 		clipright=0
+	 		widthIE=0
+	 		widthNS=0
+	 		initializebar();
+		}
+	
+		function initializebar()
+		{
+	 		if (document.getElementById)
+	 		{
+	 			  document.getElementById('baranchor').style.visibility="visible"
+	  			if(bName=="Microsoft Internet Explorer"){
+	  		     widthIE=document.getElementById('bar').style.pixelWidth}
+	  		else(
+	  			   widthIE=parseInt(document.getElementById('bar').style.width,10)
+	  			)
+	  			startIE=setInterval("increaseIE()",50)
+	 		}
+		}
+	
+
+		function increaseIE()
+		{
+	 		document.getElementById('bar').style.clip="rect(0 "+clipright+" auto 0)"
+	 		window.status=lan_text[lan][3];
+	
+	 		if (clipright<widthIE)
+	 		{
+	  			clipright=clipright+(widthIE/(duration*10))
+	 		}
+	 		else
+	 		{
+	  			window.status=''
+	  			clearInterval(startIE)
+	  			postaction()
+	 		}
+		}
+
+		function MAN_UpGrade(form)
+		{
+			if (form.filename.value == "")
+				alert(lan_text[lan][4]);
+			else
+			{
+				initializebar();
+				form.submit();
+			}
+		}
+//-->
+</script>
+</HEAD>
+<BODY><font face="Arial">
+<FORM name="FORM_MAN_UPLOAD" method="post" action="man.cgi" enctype="multipart/form-data">
+<input type="hidden" name="redirect" value="upldsucc.htm">
+<input type="hidden" name="failure" value="fail.htm">
+<input type="hidden" name="type" value="file_upload">
+	<table width="1200" id="table_1">
+		<tr><td colspan="3"><br></td></tr>
+		<tr><td colspan="3" class="title" id="tit"></td></tr>
+		<tr><td colspan="3"><HR align=center></TD></TR>
+		<TR><TD align="center" colspan="3"></TD></TR>
+		<tr valign="middle">
+			<td width="40%" align="right"></td>
+			<td><input type="file" name="filename" size="12"></td>
+			<td><input type="button" name="upgrade" OnClick="MAN_UpGrade(FORM_MAN_UPLOAD)"></td>
+		</tr>
+		<TR><TD align="center" colspan="3"><BR><BR>
+<script language="JavaScript1.2">
+	if (document.getElementById)
+	{
+		document.write("<div id='baranchor' style='position:relative;width:400px;height:20px'>")
+		document.write("<div id='barbackground' style='width:400px;height:20px;z-index:10'></div>")
+		document.write("<div id='bar' style='width:400px;height:20px;z-index:10'></div>")
+		document.write("</div>")
+	}
+</script>
+			<layer name="baranchorNS" width=400 height=10></layer>
+			<layer name="barbackgroundNS" bgcolor=black width=400 height=10 z-index=10 left=0 top=0></layer>
+			<layer name="barNS" bgcolor=blue width=400 height=10 z-index=11 left=0 top=0></layer><BR>
+		</TD></TR>
+		<tr><TD colspan="3"align=center><HR align=center></TD></TR>
+	</table>
+</form>
+</font></BODY>
+<script>
+	var table = document.getElementById("table_1");
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+	table.rows[3].cells[0].innerHTML = "<B><font color='#FF0000' size='2'>" + lan_text[lan][1] + "</font></B>";
+	table.rows[4].cells[0].innerHTML = "<b><font size='2'>" + lan_text[lan][2] + "&nbsp;:&nbsp;</font></b>"
+    table.rows[6].cells[0].innerHTML = "<B><font color='#FF0000' size='2'>" + lan_text[lan][6] + "</font></B>";
+	document.all.upgrade.value = lan_text[lan][5];
+</script>
+</HTML>

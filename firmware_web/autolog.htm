@@ -1,0 +1,142 @@
+<html>
+<head>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body><font face="Arial">
+<table width="800">
+	<tr><td><br></td></tr>
+	<tr><td class="title" id="tit"></td></tr>
+	<tr><td><hr align=center noshade></td></tr>
+	<tr><td width="800">
+		<table width="95%" align="center" id="log_tab" cellSpacing=2>
+			<TR>
+				<TD width="5%" align="center"></TD>
+				<TD width="8%" align="center"></TD>
+				<TD width="30%" align="center"></TD>
+				<TD width="8%" align="center"></TD>
+				<TD width="8%" align="center"></TD>
+				<TD width="4%" align="center"></TD>
+				<TD width="4%" align="center"></TD>
+				<TD width="30%" align="center"></TD>
+			</TR>
+			<TR><TD colSpan=8><HR align=center></TD></TR>
+			<TR><TD colSpan=8><HR align=center></TD></TR>
+		</table>
+	</td></tr>			
+</table>
+</font></body>
+<script>
+var e_text = new Array("No.","User ID","User Name","Date","Time","IN/OUT","Door","Note.","Event Type","Auto Refresh Log");
+var chs_text = new Array("No.","用户编号","姓名","日期","时间","进/出","门","备注","事件类型","自动刷新纪录");
+var cht_text = new Array("Nro.","ID de usuario","Nombre de Usuario","Fecha","Hora","Entrada/Salida","Puerta","Nota.","Tipo de Evento","Auto Actualizar Registro");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var user_num = <!-#if.cgi$maxusernum-->;
+	var log_1 = new Array("1",<!-#status.cgi$end_log-->);
+	var log_num = "<!-#man.cgi$log_tail-->";
+	var lan = <!-#status.cgi$language-->;
+	var table = document.getElementById("log_tab");
+	var xmlHttp = null;
+	var c_t,str;
+	
+	document.title=lan_text[lan][8];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][9] + "&nbsp;&nbsp;&nbsp;<label id='now_t'></label></b></font>";
+	for(i=0;i<8;i++)
+		table.rows[0].cells[i].innerHTML = "<B><font color='#0000FF' size=1>" + lan_text[lan][i+0] + "</font></B>";
+	if(user_num>=100000)
+		table.rows[0].cells[2].style.display="none";
+	
+	function create_test(){
+		if(window.ActiveXObject){
+			var arrXmlHttpTypes = ['Microsoft.XMLHTTP','MSXML2.XMLHTTP.6.0','MSXML2.XMLHTTP.5.0','MSXML2.XMLHTTP.4.0','MSXML2.XMLHTTP.3.0','MSXML2.XMLHTTP'];
+			for(var i=0;i<arrXmlHttpTypes.length;i++){
+				try
+				{
+					xmlHttp=new ActiveXObject(arrXmlHttpTypes[i]);
+					break;
+				}
+				catch(ex)
+				{
+				}
+			}
+		}
+		else{
+			xmlHttp = new XMLHttpRequest();
+		}
+		send_cmd();
+	}
+	
+	function send_cmd(){
+		if(xmlHttp!=null)
+		{
+			str = "status.cgi?a=new_log&b="+log_num+"&c="+Number(new Date);
+			xmlHttp.open("GET",str,true);
+			xmlHttp.onreadystatechange = httpStateChange;
+			xmlHttp.send(null);
+		}		
+	}
+	
+	function httpStateChange(){
+		if(xmlHttp.readyState == 4)
+		{
+			if(xmlHttp.status == 200 || xmlHttp.status == 0)
+			{
+				var text = xmlHttp.responseText;
+				var strArr = text.split(",");
+				if(strArr.length > 2){
+					log_1[0] = parseInt(log_1[0])+1;
+					log_num = strArr[7];
+					for(x=1;x<8;x++){
+						log_1[x] = strArr[x-1];
+					}
+					start();
+				}
+				window.setTimeout("send_cmd()",1000);
+			}
+		}
+	}
+
+	function new_tr(){
+		table.insertRow(2);
+		for(x=0;x<8;x++)
+			table.rows[2].insertCell(x);
+		if(table.rows.length>=104){
+			table.deleteRow(table.rows.length-2);
+		}
+	}
+
+	function start(){
+		if(log_1.length>2){
+			new_tr();
+			if(log_1[1]=="----")
+				c_t = "FF0000";
+			else
+				c_t = "000000";
+			for(x=0;x<8;x++){
+				table.rows[2].cells[x].innerHTML = "<center><font size=2 color=\"#" + c_t + "\">" + log_1[x] + "</font></center>";
+			}
+		}
+		else{
+			log_1[0]=0;
+		}
+	}
+	
+	function Refresh(){
+		var nowTime = new Date();
+		document.getElementById("now_t").innerHTML = nowTime.toDateString()+"  "+nowTime.toTimeString();
+	}
+
+	start();
+	create_test();
+	Refresh();
+	window.setInterval("Refresh()",1000);
+</script>
+</html>

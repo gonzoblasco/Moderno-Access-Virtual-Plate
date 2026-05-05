@@ -1,0 +1,174 @@
+<html>
+<head>
+    <link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body><font face="Arial">
+<script>
+var e_text = new Array("Time Zone Information","Time","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","Holiday","Day","Save","Cancel");
+var chs_text = new Array("时区资讯","时段","星期一","星期二","星期三","星期四","星期五","星期六","星期日","假日","星期","储存","取消");
+var cht_text = new Array("Información de Zona Horaria","Hora","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo","Feriado","Dia","Guardar","Cancelar");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var time_list = new Array("0","000 -- 00:00 ~ 00:00","1","001 -- 00:00 ~ 23:59"<!-#man.cgi$group_time_zones-->);
+	var set_time_zone = new Array(<!-#man.cgi$timezone_times-->);
+	var chance = new Array(255);
+	var lan = <!-#status.cgi$language-->;
+	
+	for(var i=0;i<time_list.length;i=i+2){
+		chance[time_list[i]]=time_list[i+1];
+	}
+
+	function send()
+	{
+		document.location="TZones.htm"
+		return false;
+	}
+	
+	function changeday(str)
+	{
+		for(var i=0;i<16;i++){
+			document.form1.times0[i].value=set_time_zone[str*16 + i];
+		}
+	}
+	
+	function SetTime(str)
+	{
+		for(var i=0;i<16;i++){
+			set_time_zone[str*16 + i]=document.form1.times0[i].value;
+		}
+		ShowTime();
+	}
+	
+	function ReturnTime(){
+		document.location="TZones.htm"
+		return false;
+	}
+	
+	function SendCgi(){
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=TZones.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=add_time_zone";
+
+		str_ip=str_ip + "&timezone=";
+		for(var i=0;i<128;i++){
+			if(set_time_zone[i].length==1)
+				str_ip+="00"+set_time_zone[i];
+			else if(set_time_zone[i].length==2)
+				str_ip+="0"+set_time_zone[i];
+			else
+				str_ip+=set_time_zone[i];
+		}
+		location.href=str_ip;
+	}
+	
+	function ShowTime(){
+		var table = document.getElementById("dayList");
+		for(var i=0;i<16;i++){
+			for(var j=0;j<8;j++){
+				table.rows[i+1].cells[j+1].innerHTML=chance[set_time_zone[j*16+i]];
+			}
+		}
+	}
+</script>
+<table width="800">
+  <tr><td><br></td></tr> 
+  <tr><td class="title" id="tit"></td></tr>
+  <tr>
+  	<td align="center">
+    	<TABLE width="95%" align="center">
+				<tr><td><HR align=center></td></tr>  
+                <tr>
+                	<td><form name="form1">
+                    	<table width="100%" border="1" align="center" cellpadding="8">
+                        	<tr>
+                            	<td align="right" width="50%" colspan="4" id="day_t"></td>
+								<td  align="left" colspan="4">&nbsp;
+                    				<select name="Day" onChange="changeday(document.form1.Day.value)" onFocus="SetTime(document.form1.Day.value)" >
+                        				<option value="0" selected></option>
+                        				<option value="1"></option>
+                        				<option value="2"></option>
+                        				<option value="3"></option>
+                        				<option value="4"></option>
+                        				<option value="5"></option>
+                        				<option value="6"></option>
+                        				<option value="7"></option>
+                    				</select>
+                				</td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <script>
+								for(var i=1;i<=16;i++){
+									if(i%4==1)
+										document.write("<tr>");
+									document.write("<td align='right' nowrap>" + lan_text[lan][1] + " " + i + ":&nbsp;</td>");
+									document.write("<td align='left' nowrap>");
+									document.write("<select NAME='times0'>");
+									for(var j=0;j<time_list.length;j=j+2){
+										document.write("<option value=" + time_list[j] + ">" + time_list[j+1] + "</option>")
+									}
+									document.write("</select>");
+									document.write("</td>");
+									if(i%4==0)
+										document.write("</tr>");
+								}
+							</script>
+                        </table></form>
+                    </td>
+                </tr>
+                <tr>
+                	<td align="center">
+                    	<input type="button" name="save" onClick="SendCgi()" onFocus="SetTime(document.form1.Day.value)">
+                        <input type="button" name="cancel" onClick="ReturnTime()">
+                    <td>
+                </tr>
+        </TABLE>
+    </td>
+  </tr>
+  <tr>
+  	<td>
+    	<table border="1">
+        	<tbody border="1" cellspacing="2" cellpadding="2" Id="dayList">
+            	<script>
+					document.write("<tr><td></td>");
+					for(i=0;i<8;i++)
+						document.write("<td align='center'>" + lan_text[lan][i+2] + "</td>");
+					document.write("</tr>");
+					for(var i=1;i<=16;i++){
+						document.write("<tr>");
+						document.write("<td nowrap>" + lan_text[lan][1] + " " + i + ":&nbsp;</td>");
+						for(var j=1;j<9;j++){
+							document.write("<td nowrap></td>");
+						}
+						document.write("</tr>")
+					}
+				</script>
+            </tbody>
+        </table>
+    </td>
+  </tr>
+</table>
+<script>
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + " -- <!-#man.cgi$timezone_id--></b></font>";
+document.getElementById("day_t").innerHTML = lan_text[lan][10] + " :";
+document.all.save.value = lan_text[lan][11];
+document.all.cancel.value = lan_text[lan][12];
+for(i=0;i<8;i++)
+	document.form1.Day.options[i].text = lan_text[lan][i+2];
+changeday(document.form1.Day.value);
+ShowTime();
+</script>
+</font></body>
+</html>

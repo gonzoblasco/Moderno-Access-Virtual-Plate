@@ -1,0 +1,189 @@
+<html>
+<head>
+	<link REL=stylesheet HREF="style.css" TYPE="text/css">
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<script>
+var e_text = new Array("Hard Alarm","Soft Alarm1","Soft Alarm2","IP Camera","E-mail Alerts","Latched Time","(sec,Max 65535 : 0 means unlimited)","Set","Unregistered User","Deactivated User","Not Allowed Door","Multi-Badge Violation","Time Zone Violation","Expired User","Anti Pass Back Violation","Door open too long","N/A","Tamper Switch Breakdown","N/A","Door Intruded","Duress Alarm On","Fire Alarm On");
+var chs_text = new Array("Hard Alarm","Soft Alarm1","Soft Alarm2","IP Camera","E-mail Alerts","持续时间","(秒,最大65535 : 0代表警报不关)","设定","用户未注册","用户被关闭","此门未授权","多重验证失败","此时区未授权","用户逾期","反潜回被拒","逾时关门","N/A","防拆触发","N/A","门被闯入","反胁迫警报","火警警报");
+var cht_text = new Array("Alarma de Hard","Alarma de Soft","Alarma de Soft2","Camara IP","Alertas de E-Mail","Temp. Autoretencion","(Seg,max 65535 : 0 significa Ilimitado)","Set","Usuario No Registrado","Desactivar Usuario","Puerta No Permitida","Violación de Grupo Multi-tarjeta","Violación de Zona de Tiempo","Usuario Expirado","Violación de Anti Pass Back","Puerta Abierta Demasiado Tiempo","No disponible","Alarma Antidesarme","No disponible","Puerta Violada","Alarma de Coacción","Alarma de Incendio");
+var lan_text = new Array();
+var alarm_array = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+var hold_time_list = new Array(<!-#man.cgi$event_hold-->);
+var a_switch = new Array(<!-#man.cgi$alarm_list-->);
+var ipc_switch = new Array(<!-#man.cgi$ipc_list-->);
+var event_switch1 = new Array(<!-#man.cgi$event_list_g1-->);
+var event_switch2 = new Array(<!-#man.cgi$event_list_g2-->);
+var event_switch3 = new Array(<!-#man.cgi$event_list_g3-->);
+var group = <!-#man.cgi$get_event_group-->;
+
+if(group==0)
+	alarm_array=event_switch1;
+else if(group==1)
+	alarm_array=event_switch2;
+else if(group==2)
+	alarm_array=event_switch3;
+else if(group==3)
+	alarm_array=ipc_switch;
+else if(group==4)
+	alarm_array=a_switch;
+	
+function Check(form)
+	{
+		form.submit();
+	}
+</script>
+<body><font face="Arial"> 
+	<table width="800">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td>
+			<table width="95%" align="center" id="table_1" cellspacing="0">
+				<tr><TD colspan='16'><HR align=center></TD></TR>
+					<form name="FORM_SET_RELAY" action="man.cgi">
+					<input type="hidden" name="redirect" value="Event.htm">
+					<input type="hidden" name="failure" value="fail.htm">
+					<input type="hidden" name="type" value="event_group_set">
+				<tr>
+					<td colspan="8" style=display:none>
+						<input type=text maxlength=47 size=20 name=group1>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="8">
+						<table id="table_6">
+							<tr>
+							<td></td>
+							<td>
+								<input type=text maxlength=47 size=20 name=time1>
+							</td>
+							<td></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><input type=checkbox name=unreg_user value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=deactivated_user value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=not_allowed_door value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=multi_violation value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=time_zone_violation value=1></td>
+					<td nowrap></td>
+				</tr>
+				<tr>
+					<td><input type=checkbox name=expired_user value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=anti_pass_back_violation value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=door_open_too_long value=1></td>
+					<td nowrap></td>
+					<td style=display:none><input type=checkbox name=na2 value=1></td>
+					<td nowrap style=display:none></td>
+					<td style=display:none><input type=checkbox name=tamper_switch_breakdown value=1></td>
+					<td nowrap style=display:none></td>
+					<td style=display:none><input type=checkbox name=na3 value=1></td>
+					<td nowrap style=display:none></td>
+					<td><input type=checkbox name=door_intruded value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=duress_alarm_on value=1></td>
+					<td nowrap></td>
+					
+				</tr>
+				<tr>
+					<td><input type=checkbox name=fire_alarm_on value=1></td>
+						<td nowrap></td>
+				</tr>
+				<tr><td colspan="16">
+					<input type="button" name="save" onClick="Check(FORM_SET_RELAY)" >
+				</td></tr>
+					</form>
+			</table>
+		</td></tr>
+	</table>
+</font></body>
+<script>
+var table = document.getElementById("table_1");
+var table6 = document.getElementById("table_6");
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][group] + "</b></font>";
+document.FORM_SET_RELAY.group1.value = group;
+table6.rows[0].cells[0].innerHTML = "<b><font size=2>" + lan_text[lan][5] + "</font></b>";
+document.FORM_SET_RELAY.time1.value = hold_time_list[group];
+table6.rows[0].cells[2].innerHTML = "<font size=2>" + lan_text[lan][6] + "</font>";
+if((group==3)||(group==4))
+	table.rows[2].cells[0].style.display="none";
+for(i=0;i<5;i++)
+{
+	table.rows[3].cells[1+i*2].innerHTML = "<b><font size=2>" + lan_text[lan][8+i] + "</font></b>";
+}
+for(i=0;i<8;i++)
+{
+	table.rows[4].cells[1+i*2].innerHTML = "<b><font size=2>" + lan_text[lan][13+i] + "</font></b>";
+}
+table.rows[5].cells[1].innerHTML = "<b><font size=2>" + lan_text[lan][21] + "</font></b>";
+
+for(i=0;i<14;i++)
+{
+	if(alarm_array[i]==1)
+	{
+		switch(i)
+		{
+			case 0:
+				document.FORM_SET_RELAY.unreg_user.checked=true;
+			break;
+			case 1:
+				document.FORM_SET_RELAY.deactivated_user.checked=true;
+			break;
+			case 2:
+				document.FORM_SET_RELAY.not_allowed_door.checked=true;
+			break;
+			case 3:
+				document.FORM_SET_RELAY.multi_violation.checked=true;
+			break;
+			case 4:
+				document.FORM_SET_RELAY.time_zone_violation.checked=true;
+			break;
+			case 5:
+				document.FORM_SET_RELAY.expired_user.checked=true;
+			break;
+			case 6:
+				document.FORM_SET_RELAY.anti_pass_back_violation.checked=true;
+			break;
+			case 7:
+				document.FORM_SET_RELAY.door_open_too_long.checked=true;
+			break;
+			case 9:
+				document.FORM_SET_RELAY.tamper_switch_breakdown.checked=true;
+			break;
+			case 11:
+				document.FORM_SET_RELAY.door_intruded.checked=true;
+			break;
+			case 12:
+				document.FORM_SET_RELAY.duress_alarm_on.checked=true;
+			break;
+			case 13:
+				document.FORM_SET_RELAY.fire_alarm_on.checked=true;
+			break;
+			default:
+			break;
+		}
+	}
+}
+
+document.all.save.value = lan_text[lan][7];
+</script>
+</html>

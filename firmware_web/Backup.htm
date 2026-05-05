@@ -1,0 +1,77 @@
+<html>
+<head>
+    <link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<script>
+var e_text = new Array("Backup","Tips","This command will export the User Registry data for backup purpose.","User Data Count","BACKUP");
+var chs_text = new Array("备份","提示","这个动作将会对所有使用者资料作备份","User Data Count","备份");
+var cht_text = new Array("Backup","Atención","Este comando exportara los datos del registro de usuarios para propósitos de backup.","Lista de Usuarios","BACKUP");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+function backup_file(){
+	if(navigator.appName=="Microsoft Internet Explorer"){
+		if (document.all.sel_type[0].checked){
+			window.location.href="database.cfg";
+		}
+		else if(document.all.sel_type[1].checked){
+			window.location.href= "userdata.cfg";
+		}
+		else{	
+			window.location.href="userlist.txt";
+			} 
+	}	
+	else{ 
+		if (document.all.sel_type[0].checked){
+			window.location.href="database.cfg";
+		}
+		else if(document.all.sel_type[1].checked){
+			window.location.href="userdata.cfg";
+		}
+		else{
+			window.location.href="userlist.txt";
+		}
+	}
+}
+</script>
+<body><font face="Arial">
+<table width="800" cellspacing="5">
+	<tr><td><br></td></tr> 
+	<tr><td class="title" id="tit"></td></tr>
+	<tr><td><HR align=center></td></tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr><td>
+	<table width="100%" id="table_1">
+		<tr><td align="center"></td></tr>
+		<tr><td align="center" nowrap></tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td align="center">
+			<font class="font-3">
+			<label><input type="radio" value="1" CHECKED name="sel_type">Database(database.cfg)</label>
+			<label><input type="radio" value="2" name="sel_type">User Data(userdata.cfg)</label>
+			<label><input type="radio" value="3" name="sel_type">User List(userlist.txt)</label>
+			</font>
+		</td></tr>
+	</table>
+	</td></tr>
+	<tr><td align="center"><input type="button" name="backup" onClick="backup_file()"></td></tr>
+</table>
+</font></body>
+<script>
+	var max_user=<!-#status.cgi$Max_User-->;
+	var lan = <!-#status.cgi$language-->;
+	
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+	document.all.backup.value = lan_text[lan][4];
+	document.getElementById("table_1").rows[0].cells[0].innerHTML = "<font class='font-3'>" + lan_text[lan][1] + " :</font>"
+	document.getElementById("table_1").rows[1].cells[0].innerHTML = "<font size='2' color='#FF0000'><b>" + lan_text[lan][2] + "</b></font>"
+</script>
+</html>

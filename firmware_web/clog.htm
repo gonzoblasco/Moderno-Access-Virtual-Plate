@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<style type="text/css">
+<!--
+body {
+	background-color:#66FFFF;
+	background-repeat: repeat-x;
+	background-image: url(bgroup.jpg);
+}
+-->
+</style>
+<BODY>
+<font face="Arial">
+<TABLE width="100%">
+	<TR>
+		<TD align="left" rowspan="2" width="20%" nowrap>&nbsp;&nbsp;<IMG SRC="semac.gif"></TD>
+		<TD width="10%" align="right" valign="top" nowrap id="weblog"></TD>
+	</TR>
+</TABLE>
+</font>
+</BODY>
+<script>
+    var log_set = <!-#status.cgi$weblog_set-->;
+	var log_set_show = <!-#status.cgi$logo_set-->;
+		
+	if(log_set == 1)
+	{
+		if(log_set_show == 1)
+			document.getElementById("weblog").innerHTML="<img src='<!-#status.cgi$logo_show-->'>";
+		else
+			document.getElementById("weblog").innerHTML="<img  src='logo.png'>";
+	}
+</script>
+</HTML>

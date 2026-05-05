@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<BODY><font face="Arial">
+<script>
+var e_text = new Array("Time Set","Warning! The current Data will be lost.","Are you sure?");
+var chs_text = new Array("时段设定","警告! 资料将会删除.","是否继续?");
+var cht_text = new Array("Configuración de Horarios","Atención ! Los datos actuales se perderán.","Esta seguro?");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lan = <!-#status.cgi$language-->;
+	function cvalue(f)
+	{
+		if (confirm(lan_text[lan][1] + "\n" + lan_text[lan][2]))
+		{
+			f.submit();
+		}
+	}
+	function send()
+	{
+		document.location="addgroup.htm"
+	}
+</script>
+	<table width="800">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td align="center">
+			<TABLE width="70%">
+				<!-#man.cgi$times-->
+			</TABLE>
+		</td></tr>
+	</table>
+</font></BODY>
+<script>
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+</script>
+</HTML>

@@ -1,0 +1,46 @@
+<html>
+<head>
+<link rel="stylesheet" href="Sstandle.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body class=B5 LANGUAGE="javascript" onLoad="return window_onload()"><font face="Arial">
+<script>
+var e_text = new Array("Factory Default Success","Reset to Factory Default Successfully!","System will reboot in 10 seconds with default IP address","Please visit it by 192.168.0.66");
+var chs_text = new Array("还原出厂预设值成功","还原出厂预设值成功!","系统将在 10 秒之后重新启动并更新到预设的 IP 位址","请用 192.168.0.66 来重新开启网页");
+var cht_text = new Array("Reseteo de Fabrica Exitoso","Reseteo de Fabrica Exitoso!","El Sistema se reiniciara en 10 segundos con su Ip por defecto","Por favor, conectese nuevamente en 192.168.0.66");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+var reset_ip = <!-#status.cgi$no_reset_ip-->;
+document.title=lan_text[lan][0];
+document.write("<br><br><br>");
+if ( reset_ip )
+{
+for(i=0;i<2;i++)
+	document.write("<p align='center'><b><font size=4>" + lan_text[lan][1+i] + "</font></b></p>");
+}
+else
+{
+for(i=0;i<3;i++)
+	document.write("<p align='center'><b><font size=4>" + lan_text[lan][1+i] + "</font></b></p>");
+}		
+</script>
+</font></body></html>
+<script ID="clientEventHandlersJS" LANGUAGE="javascript">
+<!--
+	function window_onload()
+	{			
+	   	window.setInterval("Refresh()",6000);
+	}													
+	function Refresh()
+	{  
+		location="status.htm";
+	}
+-->
+</script>

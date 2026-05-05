@@ -1,0 +1,106 @@
+<html>
+<head>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<script> var pro_name = new Array( <!-#status.cgi$proname--> ) ; </script>
+<BODY onLoad="show()"><font face="Arial">
+<table width="800" cellpadding="5">
+	<tr><td class="title" id="tit"></td></tr>
+	<tr><td><hr align=center noshade></td></tr>
+	<tr><td>
+	<table width="100%" border="1" cellpadding="5" bordercolor="#E1EDF9" id="ter_status">
+		<tr><TD width=35% class="font-3" nowrap></TD><TD class="font-4"></TD></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#man.cgi$serial_no-->(<!-#status.cgi$outdate-->)<!-#status.cgi$md5_signal-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40" id="module_type">&nbsp;<!-#status.cgi$fmver-->(HW<!-#status.cgi$hwver-->)( <!-#status.cgi$module_type--> )&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$uptime-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#if.cgi$TID-->(<!-#man.cgi$wan_mac_addr-->)&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#if.cgi$wan_ip-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#if.cgi$wan_netmask-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#if.cgi$wan_gateway-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$pdns-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$ap_tcps_port-->/<!-#status.cgi$ap_tcpc1-->(<!-#status.cgi$soft_status-->)&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$http_block-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#if.cgi$Reg-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#if.cgi$ava_user-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#if.cgi$LogCount-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$control_mode-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$antipb-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$antifd-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$next_semac-->&nbsp;</span></td></tr>
+		<tr><td class="font-3" nowrap></td><td class="font-4"><span class="style40">&nbsp;<!-#status.cgi$lift_ms_name-->&nbsp;</span></td></tr>
+	</table>
+	</td></tr>
+	<tr><td><hr align=center noshade></td></tr>
+</table>
+</font></body>
+<script>
+var e_text = new Array("System Status","TERMINAL STATUS","Product Name","Serial No.","Firmware Version","System Time","Terminal ID(MAC Address)","IP Address","Subnet mask","Default Gateway","Primary DNS","Listen Port/Software IP(status)","Web Management Port","Registered User","Available User Capacity","Access/System Log Count","Reader Type","Anti-Pass-Back(Tolerance Timer)","Anti-Duress","Next","status","Lift Master/Slave");
+var chs_text = new Array("终端机资讯","终端机资讯","设备名称","序号","韧体版本","系统时间","终端机编号(MAC位址)","IP 位址","子网路遮罩","预设闸道","主要 DNS","软体通讯埠/软体IP(狀態)","Web 通讯埠","已注册用户","目前可注册用户数","进出纪录笔数/系统纪录笔数","读头类型","反潜回状态(恢复时间)","反胁迫","下一台","状态","电梯 主机/副机");
+var cht_text = new Array("Estado del Sistema","ESTADO DEL TERMINAL","Nombre de Producto","Número de serie.","versión del Firmware","Hora del Sistema","ID de Terminal ID(MAC Address)","Dirección IP","Mascara de Subred","Puerta de Enlace Predeterminada","DNS Primario","Puerto de escucha/Ip de Soft(status)","Puerto de Administración Web","Usuario Registrado","Capacidad de Usuario Disp.","Conteo Diario de Acceso/Sistema","Tipo de Lector","Anti-Pass-Back(Temporizador de Tolerancia)","Anti-Coacción","Siguiente","Estado","Ascensor Maestro/Esclavo");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+	var car_parking_verify=0;
+	var table = document.getElementById("ter_status");
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var mod_name = <!-#status.cgi$modelname-->;
+	var max_user = <!-#status.cgi$Max_User-->;
+	var lan = <!-#status.cgi$language-->;
+	var module_type = 0 ;
+	var mini52_type = "<!-#status.cgi$mini52_type-->";
+	var mini52_fwver = "<!-#status.cgi$mini52_fwver-->";
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='font-1'>" + lan_text[lan][1] + "</font>";
+	for(i=0;i<17;i++){
+		table.rows[i].cells[0].innerHTML = "&nbsp;" + lan_text[lan][i+2] + " :&nbsp;";
+	}
+//	table.rows[18].cells[0].innerHTML = "&nbsp;" + lan_text[lan][21] + " :&nbsp;";
+	table.rows[18].style.display="none";
+	if(mod_name == 0)
+	{
+		table.rows[0].cells[1].innerHTML = "&nbsp;SEMAC-Selftest";
+	}
+	else
+	{
+		table.rows[0].cells[1].innerHTML = "&nbsp;" + pro_name[0] + "(" + max_user + ")";
+	}	
+	
+	/*2015-05-08把D1.D2.D4拿掉，改成顯示在版本號後面。by sprout*/
+	if(mod_name == 1){
+		/*table.rows[0].cells[1].innerHTML = "&nbsp;" + pro_name[0] + "-D1" + "(" + max_user + ")";*/
+		module_type = 1 ;
+	}
+	else if(mod_name == 2 && car_parking_verify == 0){
+		/*table.rows[0].cells[1].innerHTML = "&nbsp;" + pro_name[0] + "-D2"+ "(" + max_user + ")";*/
+		module_type = 2 ;
+	}
+	else if(mod_name == 2 && car_parking_verify == 1){
+		/*table.rows[0].cells[1].innerHTML = "&nbsp;" + pro_name[0] + "-D2 Car Parking" + "(" + max_user + ")";*/
+		module_type = 0 ;
+	}	
+	else
+	{
+		/*table.rows[0].cells[1].innerHTML = "&nbsp;" + pro_name[0] + "-D4" + "(" + max_user + ")";*/
+		module_type = 4 ;
+	}
+	if(mini52_type)
+		document.getElementById("module_type").innerHTML = "&nbsp;<!-#status.cgi$fmver-->(HW<!-#status.cgi$hwver-->)( " + module_type + " )&nbsp;(" + mini52_fwver + ")" ;
+	else	
+	document.getElementById("module_type").innerHTML = "&nbsp;<!-#status.cgi$fmver-->(HW<!-#status.cgi$hwver-->)( " + module_type + " )&nbsp;" ;
+		
+	table.rows[17].cells[0].innerHTML = "&nbsp;" + lan_text[lan][19] + " " + pro_name[0] + "(" + lan_text[lan][20] + ") : "
+	
+	function show(){
+		var str = document.cookie;
+		var cookieIndex=str.indexOf("fresh=START");
+		if(cookieIndex!=-1)
+			parent.Command.location.href="CmdBar.htm";
+	}
+</script>
+</html>

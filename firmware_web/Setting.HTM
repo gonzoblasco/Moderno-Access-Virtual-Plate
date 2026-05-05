@@ -1,0 +1,37 @@
+<HTML>
+<head>
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+</head>
+<BODY onLoad="return window_onload()" LANGUAGE="javascript"><font face="Arial">
+	<table id="table_1" align="center">
+		<tr><td align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+	</table>
+</font></BODY>
+</HTML>
+<script ID="clientEventHandlersJS" LANGUAGE="javascript">
+var e_text = new Array("Configuration settings are successful.","Please wait for 10 seconds.");
+var chs_text = new Array("资料设定成功","请稍后10秒");
+var cht_text = new Array("Ajuste de Configuración Exitosa.","Por favor espere 10 segundos.");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lan = <!-#status.cgi$language-->;
+	for(i=0;i<2;i++)
+		document.getElementById("table_1").rows[i].cells[0].innerHTML = "<b><font size='4'>" + lan_text[lan][0+i] + "</font></b>"
+	function window_onload() 
+	{			
+	   	window.setInterval("Refresh()",6000);
+	}													
+	function Refresh()
+	{  
+		location="status.htm";
+	}
+</script>

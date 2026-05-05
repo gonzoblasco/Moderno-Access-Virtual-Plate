@@ -1,0 +1,191 @@
+<HTML><HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+<SCRIPT>
+var e_text = new Array("User List","Search User","By User ID","By Card No.","By User Name","Reg Type: F(Fingerprint) , P(Password) , C(Card)","No.","User ID","User Name","User Type","Active","F","P","C","Bypass Level","Activate, Deactivate or Delete SELECTED Employee","Warning! The current Data will be lost.","Are you sure?","GO","Activate","Deactivate","Delete","Dispatch","Disptach All");
+var chs_text = new Array("用户目录","查询","依用户编号","依用户卡号","依用户姓名","注册模式: F(指纹) , P(密码) , C(卡片)","No.","用户编号","姓名","用户类型","启用","F","P","C","通行时区等级","启用,取消或删除已选择的用户","警告! 资料将会删除.","是否继续?","开始","启用","关闭","删除","Dispatch","Disptach All");
+var cht_text = new Array("用戶目錄","查詢","依用戶編號","依用戶卡號","依用戶姓名","註冊模式: F(指紋) , P(密碼) , C(卡片)","No.","用戶編號","姓名","用戶類型","啟用","F","P","C","通行時區等級","啟用,取消或刪除已選擇的用戶","警告! 資料將會刪除.","是否繼續?","開始","啟用","關閉","刪除","Dispatch","Disptach All");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lan = <!-#status.cgi$language-->;
+	var hex_dec = <!-#status.cgi$HEX_DEC-->;
+	function comm(f,com)
+	{
+		f.type.value=com;
+		if(com == "delete"){
+			if (confirm(lan_text[lan][16] + "\n" + lan_text[lan][17]))
+			{
+				f.submit();
+			}
+		}
+		else
+			f.submit();
+	}
+	
+	function send(f)
+	{
+		var num = document.search1.UserID.value;
+		var tab = document.search1;
+		var str="";
+		var i;
+		var id_list = new Array(0,0,0,0,0,0,0,0);
+		if(f.UserID.value=="")
+		{
+			return false;
+		}
+		if(hex_dec){
+			str=num;
+			for(i=0;i<8;i++){
+				if(str.length == 1){
+					id_list[7-i] = str.substring(str.length-1,str.length);
+					str="";
+					break;
+				}
+				else if(str.length>1){
+					id_list[7-i] = str.substring(str.length-2,str.length);
+					str=str.substr(0,str.length-2);
+				}
+				else
+					break;
+			}
+		}
+		else{
+			if(num){
+				str=parseInt(num).toString(16);
+				for(i=0;i<8;i++){
+					if(str.length == 1){
+						id_list[7-i] = str.substring(str.length-1,str.length);
+						str="";
+						break;
+					}
+					else if(str.length>1){
+						id_list[7-i] = str.substring(str.length-2,str.length);
+						str=str.substr(0,str.length-2);
+					}
+					else
+						break;
+				}
+			}
+		}
+		
+		for(i=0;i<8;i++){
+			tab.card[i].value = parseInt(id_list[i],16);
+		}
+		f.submit();
+	}
+	function hmpage(){
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=hmpage.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=hmbase";
+		location.href=str_ip;
+	}
+</SCRIPT>
+</HEAD>
+<BODY><font face="Arial">
+<TABLE width=800>
+	<TR><TD><BR></TD></TR>
+	<TR><TD class="title" id="tit"></TD></TR>
+	<TR><td>
+		<FORM  name="search1" action=if.cgi method=get>
+		<input type="hidden" name="redirect" value="Hmbase.htm">
+		<input type="hidden" name="failure" value="fail.htm">
+		<input type="hidden" name="type" value="search_emp">
+		<TABLE width="80%" align="center" id="se_user">
+			<tr style=display:none>
+				<td nowrap></td>
+				<td width="50" align="right" valign="middle"><INPUT size=8 name=UserID>&nbsp;&nbsp;</td>
+				<td nowrap></td>
+				<td nowrap></td>
+				<td nowrap></td>
+				<td></td>
+				<td width="100">&nbsp;<INPUT type="button" name="Go" onClick="send(this.form)"></TD>
+			</TR>
+		</TABLE>
+		</form>
+	</td></TR>
+	<TR><TD align="right" id="note"></TD></TR>
+	<TR><TD align="center">
+		<FORM action=if.cgi method=get>
+		<INPUT type=hidden value=HmUser.htm name=redirect>
+		<INPUT type=hidden value=fail.htm name=failure>
+		<INPUT type=hidden name=type>
+		<TABLE width="95%" id="table_1" cellspacing="0">
+			<TR>
+				<TD width="5%" align="center"></TD>
+				<TD width="10%" align="center"></TD>
+				<TD width="30%" align="center"></TD>
+				<TD width="15%" align="center"></TD>
+				<TD width="10%" align="center"></TD>
+			</TR>
+			<TR><TD colSpan=5><HR align=center></TD></TR>
+			<!-#if.cgi$hmuserid-->
+			<TR><TD colSpan=5><HR align=center></TD></TR>
+		</TABLE>
+		<TABLE width="96%"><TR>
+			<td NOWRAP WIDTH="20%">
+				<input type="hidden" name="end" value="0">
+				<input type="button" NAME=activate OnClick="comm(this.form,'activate')">&nbsp;
+				<input TYPE="button" NAME=deactivate OnClick="comm(this.form,'deactivate')">&nbsp;
+				<input TYPE="button" NAME=del OnClick="comm(this.form,'delete')">&nbsp;
+				<input type="button" value="Home Mode Top Page" onClick="hmpage()">
+				<script>
+					var lift_ms=0;
+					var lift_enable = 0;
+					if((!(lift_ms))&&(lift_enable)){
+						document.write("<input TYPE='button' NAME=regselect value='"+lan_text[lan][22]+"' OnClick=\"comm(this.form,'regselect')\">&nbsp;");
+						document.write("<input TYPE='button' NAME=regall value='"+lan_text[lan][23]+"' OnClick=\"comm(this.form,'regall')\">");
+					}
+				</script>
+			</td>
+			<TD id="note_1"></TD>
+		</TR></TABLE>
+		</FORM>
+	</TD></TR>
+</TABLE>
+</font></BODY>
+<script>
+var user_num = <!-#if.cgi$maxusernum-->;
+var table1 = document.getElementById("table_1");
+var str,str_switch;
+
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+document.all.Go.value = " " + lan_text[lan][18] + " ";
+document.getElementById("se_user").rows[0].cells[0].innerHTML = "<FONT class='font-3'>" + lan_text[lan][1] + " :&nbsp;&nbsp;</FONT>";
+//document.getElementById("note").innerHTML = "<b><FONT color=#ff0000 size=2>*" + lan_text[lan][5] + "&nbsp;&nbsp;</FONT></b>";
+document.getElementById("note_1").innerHTML = "<B><FONT color=#ff0000 size=2>" + lan_text[lan][15] + "</FONT></B>";
+for(i=0;i<5;i++)
+	table1.rows[0].cells[i].innerHTML = "<FONT color=#0000ff size=2><B>" + lan_text[lan][6+i] + "</B></FONT>";
+document.all.activate.value = lan_text[lan][19];
+document.all.deactivate.value = lan_text[lan][20];
+document.all.del.value = lan_text[lan][21];
+
+document.getElementById("se_user").rows[0].cells[2].innerHTML = "<INPUT type=radio CHECKED value=empid name=search2><font class='font-4'>" + lan_text[lan][2] + "</font>";
+if(hex_dec)
+	str_switch = "(HEX)";
+else
+	str_switch = "(DEC)";
+document.getElementById("se_user").rows[0].cells[3].innerHTML = "<INPUT type=radio value=id name=search2><font class='font-4'>" + lan_text[lan][3] + str_switch + "</font>";
+
+if(user_num<100000)
+	document.getElementById("se_user").rows[0].cells[4].innerHTML = "<INPUT type=radio value=name name=search2><font class='font-4'>" + lan_text[lan][4] + "</font>";
+else
+	table1.rows[0].cells[2].style.display="none";
+
+str="";
+for(i=0;i<8;i++){
+	str += "<input type=hidden name=card>";
+}
+document.getElementById("se_user").rows[0].cells[5].innerHTML = str;
+</script>
+</HTML>

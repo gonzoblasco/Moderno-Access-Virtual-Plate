@@ -1,0 +1,81 @@
+<html>
+<head>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body><font face="Arial">
+<script>
+var e_text = new Array("User ID","Multi Badge Group","Set");
+var chs_text = new Array("用户编号","多重验证组合","设定");
+var cht_text = new Array("ID de Usuario","Grupo Multi-tarjeta","Set");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var user_l = document.getElementsByName("user_list");
+function save_user(){
+	var str_ip,str_num;
+
+	str_ip=location.href;
+	str_num=str_ip.lastIndexOf("/");
+	str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+	str_ip+="redirect=ugroup.htm";
+	str_ip+="&failure=fail.htm";
+	str_ip+="&type=user_list";
+
+	for(var i=0;i<30;i++){
+		if(user_l[i].value.length==0)
+			str_ip += "&ug" + i + "=-";
+		else
+			str_ip += "&ug" + i + "=" + user_l[i].value;
+	}
+	location.href=str_ip;
+}
+</script>
+	<table width="800">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td><HR align=center></td></tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td>
+			<table width="95%" border=1 align="center" id="table_1">
+				<tr>
+					<td align="center"></td>
+					<td align="center"></td>
+					<td align="center"></td>
+					<td align="center"></td>
+				</tr>
+				<script>
+					for(var i=1;i<11;i++){
+						document.write("<tr><td align=center><font size=2><b>" + i + ".</b></font></td>");
+						document.write("<td align=center><input type=text name=user_list maxlength=10 size=10></td>");
+						document.write("<td align=center><input type=text name=user_list maxlength=10 size=10></td>");
+						document.write("<td align=center><input type=text name=user_list maxlength=10 size=10></td>");
+						document.write("</tr>");
+					}
+				</script>
+				<tr><td colspan="4" align="center"><input type="button" name="save" onClick="save_user()"></td></tr>
+			</table>
+		</td></tr>
+</table>
+<script>
+var table = document.getElementById("table_1");
+var userlist = new Array(<!-#man.cgi$user_group-->);
+var lan = <!-#status.cgi$language-->;
+document.title=lan_text[lan][1];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][1] + "</b></font>";
+table.rows[0].cells[0].innerHTML = "<font size='2'><b>" + lan_text[lan][1] + "</b></font>";
+for(i=1;i<4;i++)
+	table.rows[0].cells[i].innerHTML = "<font size='2'><b>" + lan_text[lan][0] + " " + i + "</b></font>";
+document.all.save.value = lan_text[lan][2];
+
+for(var i=0;i<30;i++)
+	user_l[i].value = userlist[i];
+</script>
+</font></body>
+</html>

@@ -1,0 +1,384 @@
+<HTML>
+<HEAD>
+    <link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<script> var pro_name = new Array( <!-#status.cgi$proname--> ) ; </script>
+<BODY><font face="Arial">
+	<table width=800>
+		<tr><td><br></td></tr>  
+		<tr><td class="title" id="tit"></td></tr>
+		<tr>
+			<td>
+				<FORM action=status.cgi method=get name="config">
+		    	<input type="hidden" name="redirect" value="setting.htm">
+		        <input type="hidden" name="failure" value="fail.htm">
+		        <input type="hidden" name="type" value="config">
+				<CENTER>
+				<TABLE width="810" id="ter_config">
+					<TR><TD width="754" colSpan=2><HR align=center></TD></TR>
+					<TR>
+						<TD width="161"></TD>
+						<TD width="589"></TD>
+					</TR>
+					<tr>
+						<TD></TD>
+						<TD>
+							<table id="dhcp">
+								<td><input type="radio" value="0" <!-#status.cgi$dhcp_off--> name=dhcp_sw id="dhcp_off" onClick=read_change()></td>
+								<td></td>
+								<td><input type="radio" value="1" <!-#status.cgi$dhcp_on--> name=dhcp_sw id="dhcp_on" onClick=read_change()></td>
+								<td></td>
+							</table>
+						</TD>
+					</tr>
+					<tr id="dhcp_title">
+						<td>dhcp_title</td>
+						<td><INPUT maxLength=15 size=15 name=dhcp_name value="<!-#dhcpc.cgi$hostname-->"></td>
+					</tr>					
+					<TR id="ip_title">
+						<TD></TD>
+						<td rowspan=4>
+							<table id="table_ip">
+								<tr>
+									<td></td>
+									<td>
+										<input type="text" name="TF_ip" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_ip1-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_ip1" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_ip2-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_ip2" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_ip3-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_ip3" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_ip4-->">
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										<input type="text" name="TF_ip" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_netmask1-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_ip1" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_netmask2-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_ip2" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_netmask3-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_ip3" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_netmask4-->">
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+							<input type="text" name="TF_gateway" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_gateway1-->"><b><font size="3">.</font></b>&nbsp;
+							<input type="text" name="TF_gateway1" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_gateway2-->"><b><font size="3">.</font></b>&nbsp;
+							<input type="text" name="TF_gateway2" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_gateway3-->"><b><font size="3">.</font></b>&nbsp;
+							<input type="text" name="TF_gateway3" size="3" maxlength="3" value="<!-#status.cgi$wan_fix_gateway4-->">
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										<input type="text" name="TF_pdns" size="3" maxlength="3" value="<!-#status.cgi$pdns1-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_pdns1" size="3" maxlength="3" value="<!-#status.cgi$pdns2-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_pdns2" size="3" maxlength="3" value="<!-#status.cgi$pdns3-->"><b><font size="3">.</font></b>&nbsp;
+										<input type="text" name="TF_pdns3" size="3" maxlength="3" value="<!-#status.cgi$pdns4-->">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</TR>
+					<TR><TD></TD></TR>
+					<TR><TD></TD></TR>
+					<TR><TD></TD></TR>
+					<TR>
+						<TD></TD>
+						<TD>
+							<table id="table_so"><tr>
+									<td></td>
+									<td><input name="TF_port"  size=5 maxLength=5 value="<!-#status.cgi$ap_tcps_port-->"></td>
+									<td></td>
+									<td><input name="TF_peer_ip"  size=25 maxLength=64 value="<!-#status.cgi$ap_tcpc1-->"></td>
+							</tr></table>
+						</TD>
+					</TR>
+					<tr style=display:none>
+						<td></td>
+						<td>
+							<table id="t_ty"><tr>
+								<td><input type="radio" value="0" <!-#status.cgi$two_door--> name="sync_all_data"></td>
+								<td></td>
+								<td><input type="radio" value="1" <!-#status.cgi$one_door--> name="sync_all_data"></td>
+								<td></td>
+							</tr></table>
+						</td>
+					</tr>
+                       <TR>
+						<TD></TD>
+						<TD><select name=language></select></TD>
+					</TR>
+					<TR>
+						<td></td>
+						<td>
+							<table id="e_d_1"><tr>
+								<td><input type="radio" value="1" <!-#status.cgi$en_anti_pass_back--> name="Weigan_out"></td>
+								<td></td>
+								<td><input type="radio" value="2" <!-#status.cgi$en_anti_follow--> name="Weigan_out"></td>
+								<td></td>
+								<td><input type="radio" value="0" <!-#status.cgi$dis_anti_pass_back--> name="Weigan_out"></td>
+								<td></td>
+							</tr></table>
+						</td>
+					</tr>
+						<TR>
+						<TD></TD>
+						<TD>
+							<table id="t_t"><tr>
+								<td></td>
+								<td><input name=clock_interval value="<!-#status.cgi$anti_pb_period-->" size=5 maxLength=5></td>
+								<td></td>
+							</tr></table>
+						</TD>
+					</TR>       
+					<TR>
+						<TD></TD>
+						<TD>
+							<table id="e_d_2"><tr>
+								<td><input type="radio" value="1" <!-#status.cgi$en_anti_forced--> name="Anti_Forced"></td>
+								<td></td>
+								<td><input type="radio" value="0" <!-#status.cgi$dis_anti_forced--> name="Anti_Forced"></td>
+								<td></td>
+							</tr></table>
+						</TD>
+					</TR>
+					<TR>
+						<TD></TD>
+						<TD>
+							<table id="t_p"><tr>
+								<td></td>
+								<td><INPUT name="password" type=password value="<!-#status.cgi$anti_fd_pwd-->" size=10 maxLength=3>&nbsp;</td>
+								<td></td>
+							</tr></table>
+						</TD>
+					</TR>
+					<TR>
+						<TD nowrap></TD>
+						<TD></TD>
+					</TR>
+					<TR>
+						<TD nowrap></TD>
+						<TD>
+							<table id="tabl_ne">
+								<tr>
+									<td></td>
+									<td>
+							<input type="text" name="TF_sip" size="3" maxlength="3" value="<!-#status.cgi$semac_ip1-->"><b><font size="3">.</font></b>&nbsp;
+							<input type="text" name="TF_sip1" size="3" maxlength="3" value="<!-#status.cgi$semac_ip2-->"><b><font size="3">.</font></b>&nbsp;
+							<input type="text" name="TF_sip2" size="3" maxlength="3" value="<!-#status.cgi$semac_ip3-->"><b><font size="3">.</font></b>&nbsp;
+							<input type="text" name="TF_sip3" size="3" maxlength="3" value="<!-#status.cgi$semac_ip4-->">
+									</td>
+								</tr>
+							</table>
+						</TD>
+					</TR>
+					<TR style="display:none">
+						<TD></TD>
+						<TD></TD>
+					</TR>
+					<TR style="display:none">
+						<TD></TD>
+						<TD></TD>
+					</TR>
+					<TR>
+						<TD></TD>
+						<TD>
+							<input type="radio" value="1" <!-#status.cgi$en_fast_reg_card--> name="fast_reg_c"><label></label>
+							<input type="radio" value="0" <!-#status.cgi$dis_fast_reg_card--> name="fast_reg_c"><label></label>
+						</TD>
+					</TR>
+					<tr>
+						<td></td>
+						<td>
+							<input type="radio" value=0 <!-#status.cgi$lift_m--> name="lifts"><label></label>
+							<input type="radio" value=1 <!-#status.cgi$lift_s--> name="lifts"><label></label>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<table id="relay_mode_control"><tr>
+								<td><input type="radio" value="2" <!-#status.cgi$in_relay_control--> name="relay_control_data"></td>
+								<td></td>
+								<td><input type="radio" value="1" <!-#status.cgi$out_relay_control--> name="relay_control_data"></td>
+								<td></td>
+								<td><input type="radio" value="0" <!-#status.cgi$both_relay_control--> name="relay_control_data"></td>
+								<td></td>								
+							</tr></table>
+						</td>
+					</tr>	
+					<TR> 
+						<TD></TD>       
+						<TD><table id="table_11"><TR>
+							<td></td>
+							</TR></table>
+					</TR>							
+					<TR id="blacklist"> 
+						<TD></TD>       
+						<TD><table id="table_24" ><tr>
+							<TD><input type="radio" value=0 <!-#status.cgi$blacklist_sw_off--> name=BLACKLIST ></TD>
+							<td></td>								
+			               	<TD><input type="radio" value=1 <!-#status.cgi$blacklist_sw_on--> name=BLACKLIST></TD>
+							<td></td>	
+						</tr></table>		                  	
+						</TD>       
+					</TR>										
+					<TR><TD colSpan=2 width="754" align="center"><HR align=center></TD></TR>
+					<tr><td colspan="2" align="center"></td></tr>
+					<tr><td colspan="2" align="center"><INPUT type="submit" name='Save'></TD></TR>
+				</TABLE>
+				</center>
+				</FORM>
+			</td>
+		</tr>
+	</table>
+<script>
+var e_text = new Array("Terminal Configuration","Terminal Setting","Software","Control Mode","Web Language","Anti Pass Back","Anti Duressed","WEB Managemant Port","Badge Validator","Fast Reg Card Mode","Lift Master/Slave","IP Address","Subnet Mask","Gateway","DNS Server","IN-Enable/Out-Disable","Both Enable/Disable","Disable","Exempt","TCP Port(Software Used)","Software IP","2 Doors(1 way)","1 Door(2 way)","Tolerance Timer","(Minute, Maximum 65535, 0 means No Tolerance)","Password","(Max 3 digits,default is 9)","Disable Timer","(minutes, 0 = unlimited,maximum is 65535)","Master","Slave","Terminal ID","Http Port","Terminal may need to restart after configuration saved.","Next","(for APB)","SAVE","Disable","Enable","Relay Mode Control(for Remote Control)","In","Out","Both","Anti Follow","BYPASS MODE","Black List","Deactivate","Degrade REG Pass","Degrade FC Pass","Degrade All Pass","STATIC IP","DHCP Client","Eng","Chs","Spain");
+var chs_text = new Array("终端机设定","终端机设定","软体专用","控制类型","网页语系","反潜回","反胁迫","WEB设定","访客卡快速启用","快速注册卡片模式","电梯 主机/副机","IP 位址","子网路遮罩","预设闸道","DNS伺服器","进-开启/出-关闭","开启/关闭","关闭","一般模式","通讯埠","软体IP","双门(单向)","单门(双向)","恢复时间","(分, 最大为 65535, 0 表示无恢复时间)","反胁迫密码","(最多3位数,预设值为9)","关闭权限时间","(分, 0代表不关闭,最大值为65535)","主机","副机","终端机编号","通讯埠","终端机设定完成会重启机器","下一台","(反潜回专用)","储存","关闭","启用","进出继电器控制(远端控制专用)","进","出","两者","反尾随","特殊通行模式", "黑名单","无设定","注册","公司代码","全部","STATIC IP","DHCP Client","英文","简中","西班牙");
+//							 0				1			2			3			4		5   	6		7				8              9	 		     	10			11			12			13			14				15			 16		   17		18		  19		20		  21			22         23						24						 25				 	26					27							28				 29     30		  31		 32				33					 34			 35			36	   37	  38		  		39 				   40	41	  42	  43		44				45		46		47		48		  49		50				51		52		 53		54			
+var cht_text = new Array("Configuración de Terminal","Ajustes de Terminal","Software","Modo de Control","Idioma","Anti Pass Back","Anti Coacción","Puerto de Administración Web","Validador de tarjeta","Fast Reg Card Mode","Ascensor Maestro/Esclavo","Dirección IP","Mascara de Subred","Puerta de Enlace","Servidor DNS","Entrada-Activ,/Salida-Desact.","Ambas Activ./Desact.","Desact.","Eximir","Puerto TCP(Usado por Software)","IP de Software","2 Puertas(1 Sentido)","1 Puerta(2 Sentidos)","Tolerancia del Timer","(Minutos, Máximo 65535, 0 Significa sin tolerancia)","Password","(Max 3 dígitos, por defecto es 9)","Desactivar Timer","(Minutos, 0 = ilimitado, el máximo es es 65535)","Maestro","Esclavo","ID de Terminal","Puerto Http","El terminal se reiniciara luego de que la configuración sea guardada.","Siguiente","(para APB)","GUARDAR","Deshabilitado","Habilitado","Modo de Control del Relay (para control remoto)","Entrada","Salida","Ambos","Anti Seguimiento","MODO BYPASS","Lista Negra","Desactivar","Degradar REG Pass","Degradar FC Pass","Degradar todos Pass","STATIC IP","DHCP Client","Inglés","Chs","España");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+	var car_parking_verify=0;
+	var table = document.getElementById("ter_config");
+	var table_ip = document.getElementById("table_ip");
+	var lable = document.getElementsByTagName("label");
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var language_set = new Array(<!-#status.cgi$language_set-->);
+	var add_list = new Array(<!-#status.cgi$add_list-->);
+	var del_list = new Array(<!-#status.cgi$del_list-->);
+	var str,num;
+	var lan = <!-#status.cgi$language-->;
+	var b_tit = new Array(1,6,7,8,9,11,13,15,17,18);
+	var mod_name = <!-#status.cgi$modelname-->;
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+	document.all.Save.value = lan_text[lan][36];
+
+	table.rows[1].cells[0].innerHTML = "<font color='#0000FF' size=2><B>" + lan_text[lan][1] + " :</B></font>";		
+	table.rows[3].cells[0].innerHTML = "<font color='#0000FF' size=2><B>" + "Hostname (Optional)" + " :</B></font>";	
+	
+	for(i=1;i<10;i++)
+		table.rows[b_tit[i]+2].cells[0].innerHTML = "<font color='#0000FF' size=2><B>" + lan_text[lan][i+1] + " :</B></font>";
+	for(i=0;i<4;i++)
+	{
+		table_ip.rows[i].cells[0].innerHTML = "<FONT size=2><b>*" + lan_text[lan][i+11] + " :</b></FONT>";
+	}
+	for(i=0;i<2;i++){
+		document.getElementById("table_so").rows[0].cells[i*2].innerHTML = "<font size=2><b>*" + lan_text[lan][19+i] + " : </b></FONT>";
+		document.getElementById("t_ty").rows[0].cells[i*2+1].innerHTML = "<font size=2 ><b>" + lan_text[lan][21+i] + "</b></font>";
+		document.getElementById("e_d_1").rows[0].cells[i*2+1].innerHTML = "<font size=2><b>" + lan_text[lan][38-i] + "</b></font>";
+		document.getElementById("e_d_2").rows[0].cells[i*2+1].innerHTML = "<font size=2><b>" + lan_text[lan][38-i] + "</b></font>";
+		document.getElementById("t_t").rows[0].cells[i*2].innerHTML = "<b><font size=2>" + lan_text[lan][23+i] + "</font></b>";
+		document.getElementById("t_p").rows[0].cells[i*2].innerHTML = "<b><font size=2>" + lan_text[lan][25+i] + "</font></b>";
+		lable[i].innerHTML = "<b><font size=2>" + lan_text[lan][38-i] + "</font></b>";
+		lable[i+2].innerHTML = "<b><font size=2>" + lan_text[lan][29+i] + "</font></b>";
+	}
+	document.getElementById("e_d_1").rows[0].cells[1].innerHTML = "<font size=2><b>" + lan_text[lan][38] + "</b></font>";
+	document.getElementById("e_d_1").rows[0].cells[3].innerHTML = "<font size=2><b>" + lan_text[lan][43] + "</b></font>";
+	document.getElementById("e_d_1").rows[0].cells[5].innerHTML = "<font size=2><b>" + lan_text[lan][38-1] + "</b></font>";
+	table.rows[19+2].cells[0].innerHTML = "<font color='#0000FF' size=2><B>" + lan_text[lan][39] + " :</B></font>";
+	document.getElementById("relay_mode_control").rows[0].cells[1].innerHTML = "<font size=2><b>" + lan_text[lan][40] + "</b></FONT>";
+	document.getElementById("relay_mode_control").rows[0].cells[3].innerHTML = "<font size=2><b>" + lan_text[lan][41] + "</b></FONT>";
+	document.getElementById("relay_mode_control").rows[0].cells[5].innerHTML = "<font size=2><b>" + lan_text[lan][42] + "</b></FONT>";
+	document.getElementById("tabl_ne").rows[0].cells[0].innerHTML = "<FONT size=2><b>" + lan_text[lan][11] + " :</b></FONT>";
+	table.rows[1].cells[1].innerHTML = "<FONT size=2><b>" + lan_text[lan][31] + " : </b></FONT><INPUT maxLength=5 size=7 name=id value=\"<!-#if.cgi$TID-->\">";
+	table.rows[13+2].cells[1].innerHTML = "<font size=2><b>" + lan_text[lan][32] + ":</b></font><input type='text' name='http_block_value' size=5 maxlength=5 value=\"<!-#status.cgi$http_block-->\">";
+	table.rows[22+2].cells[0].innerHTML = "<b><font color='#FF0000' size=2>" + lan_text[lan][33] + "</font></b>"
+	table.rows[14+2].cells[0].innerHTML = "<font size='2' color='#0000FF'><b>" + lan_text[lan][34] + " " + pro_name[0] + lan_text[lan][35] + ":</b></font>"
+
+	table.rows[20+2].cells[0].innerHTML = "<b><font color='#0000FF' size=2>" + lan_text[lan][44] + "</font></b>"  /*bypass*/
+	table.rows[21+2].cells[0].innerHTML = "<b><font color='#0000FF' size=2>" + lan_text[lan][45] + "</font></b>"  /*black_list*/
+//	document.getElementById("bypass_mode").rows[0].cells[1].innerHTML = "<font size=2><b>" + lan_text[lan][37] + "</b></FONT>";
+//	document.getElementById("bypass_mode").rows[0].cells[3].innerHTML = "<font size=2><b>" + lan_text[lan][38] + "</b></FONT>";	
+	document.getElementById("table_24").rows[0].cells[1].innerHTML = "<font size=2><b>" + lan_text[lan][37] + "</b></FONT>";
+	document.getElementById("table_24").rows[0].cells[3].innerHTML = "<font size=2><b>" + lan_text[lan][38] + "</b></FONT>";
+	document.getElementById("table_11").rows[0].cells[0].innerHTML = "<SELECT name=BYPASS_MODE onclick=blacklist_mode()>"+
+														            	"<OPTION value=0>" + lan_text[lan][46] + "</OPTION>"+
+														              "<OPTION value=1>" + lan_text[lan][47] + "</OPTION>"+
+														              "<OPTION value=2>" + lan_text[lan][48] + "</OPTION>"+
+														              "<OPTION value=3>" + lan_text[lan][49] + "</OPTION>"+
+														        			"</SELECT>";												        			
+
+	document.getElementById("dhcp").rows[0].cells[1].innerHTML = "<font size=2><b>" + lan_text[lan][50] + "</b></FONT>";
+	document.getElementById("dhcp").rows[0].cells[3].innerHTML = "<font size=2><b>" + lan_text[lan][51] + "</b></FONT>";
+														        			
+	if(language_set[0]==0){
+		if((language_set[1]==0)||(language_set[2]==0)){
+			table.rows[8].style.display="none";
+		}
+	}
+	else if((language_set[1]==0)&&(language_set[2]==0)){
+		table.rows[8].style.display="none";
+	}
+	
+	str=0;
+	if(language_set[0]!=0){
+		document.all.language.options[str] = new Option(lan_text[lan][52],"0");
+		str++;
+	}
+	if(language_set[1]!=0){
+		document.all.language.options[str] = new Option(lan_text[lan][53],"1");
+		str++;
+	}
+	if(language_set[2]!=0){
+		document.all.language.options[str] = new Option(lan_text[lan][54],"2");
+	}
+	if(lift_enable || car_parking_verify)
+	{
+		table.rows[b_tit[2]+2].cells[0].style.display="none";
+		document.getElementById("t_ty").style.display="none";
+	}
+	if(car_parking_verify==0)
+	{
+		table.rows[19+2].cells[0].style.display="none";
+		document.getElementById("relay_mode_control").style.display="none";
+	}
+	/*if(lift_enable){
+		table.rows[7].style.display="none";
+		table.rows[15].style.display="none";
+		table.rows[16].style.display="none";
+	}
+	else{*/
+		table.rows[18+2].style.display="none";
+	//}
+	document.config.language.value="<!-#status.cgi$web_language-->";
+	document.all.BYPASS_MODE.value="<!-#status.cgi$BYPASS_MODE-->";				
+	if(mod_name==3)
+	{
+		document.getElementById("e_d_1").rows[0].cells[2].style.display="none";
+		document.getElementById("e_d_1").rows[0].cells[3].style.display="none";
+	}
+	function blacklist_mode() {
+		if ( document.all.BYPASS_MODE.value != 3 ) {
+			document.getElementById("blacklist").style.display="none" ;
+		} // end if
+		else {
+			document.getElementById("blacklist").style.display="" ;
+		} // end else
+	} 		
+	function read_change()
+	{
+		if ( document.getElementById("dhcp_off").checked == true )
+		{
+			document.getElementById("ip_title").style.display=""
+			document.getElementById("dhcp_title").style.display="none"
+		}
+		else
+		{
+			document.getElementById("ip_title").style.display="none"
+			document.getElementById("dhcp_title").style.display=""
+		}	
+	}
+	read_change();
+	blacklist_mode();
+	
+</script>		
+</font></BODY>
+</HTML>

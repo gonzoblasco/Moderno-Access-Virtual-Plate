@@ -1,0 +1,38 @@
+<HTML>
+<head>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body onLoad="return window_onload()"><font face="Arial">
+	<table id="table_1" align="center">
+		<tr><td align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+	</table>
+</font></body>
+</HTML>
+<script ID="clientEventHandlersJS" LANGUAGE="javascript">
+var e_text = new Array("Action success !","User Data Refreshing...");
+var chs_text = new Array("更新成功!","使用者资料更新中...");
+var cht_text = new Array("Acción Exitosa !","Actualizando Datos de Usuario...");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lan = <!-#status.cgi$language-->;
+	for(i=0;i<2;i++)
+		document.getElementById("table_1").rows[i].cells[0].innerHTML = "<font size='4'><b>" + lan_text[lan][0+i] + "</b></font>";
+	function window_onload() 
+	{	
+		Refresh();		
+	   	window.setInterval("Refresh()",20000);
+	}													
+	function Refresh()
+	{  
+		location="if.cgi?redirect=database.htm&failure=fail.htm&type=go_user_page&page=0&sort=1";
+	}
+</script>

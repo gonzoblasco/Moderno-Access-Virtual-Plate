@@ -1,0 +1,61 @@
+<html>
+<head>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+	<style>
+	<!--
+		#bar, #barbackground{
+			position:absolute;
+			left:0;
+			top:0;
+			background-color:blue;
+		}
+		#barbackground{
+			background-color:tan;
+		}
+	-->
+	</style>
+<script language="JavaScript" type="text/JavaScript">
+var e_text = new Array("Reboot","Reboot","The system will reboot.. Are you sure?","REBOOT");
+var chs_text = new Array("设备管理","系统重新启动","确定要重新启动系统?","重新启动");
+var cht_text = new Array("Reiniciar","Reiniciar","El Sistema se Reiniciara... Esta Seguro?","REINICIAR");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+	function MAN_Reboot(form)
+	{
+		if (confirm(lan_text[lan][2]))
+			form.submit();
+	}
+</script>
+</head>
+<body><font face="Arial">
+<table width="800">
+	<tr><td><br></td></tr>
+	<tr><td class="title" id="tit"></td></tr>
+		<form name="FORM_MAN_REBOOT" action="man.cgi">
+		<input type="hidden" name="redirect" value="setting.htm">
+		<input type="hidden" name="failure" value="fail.htm">
+		<input type="hidden" name="type" value="reboot">
+	<tr><td><HR align=center></TD></TR>
+	<tr><td align="center">
+		<input type=hidden value="REBOOT" name="reboot">
+		<input type="button" name="reb" OnClick="MAN_Reboot(FORM_MAN_REBOOT)">
+	</td></tr>
+	<tr><TD><HR align=center> </TD></TR>
+		</form>
+</table>
+</font></body>
+<script>
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][1] + "</b></font>";
+document.all.reb.value = lan_text[lan][3];
+</script>
+</html>

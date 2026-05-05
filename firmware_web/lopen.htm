@@ -1,0 +1,115 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="Sstandle.css" type="text/css">
+<base target="Status">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<body><font face="Arial">
+	<table width="800" align="center" id="lift_table">
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td><hr align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+		<tr><td align="center"></td></tr>
+	</table>
+</font></body>
+<script>
+var e_text = new Array("Floor","Start Floor","Pulse open Floor","Set","Open","All open");
+var chs_text = new Array("楼层","起始楼层","正常开电梯","设定","打开","全部打开");
+var cht_text = new Array("Piso","Piso de Inicio","Pulso de Apertura/Piso","Set","Abrir","Abrir Todo");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lift_enable = <!-#man.cgi$lift_enable-->;
+var lift_status = 1;
+var door_id = <!-#man.cgi$door_id-->;
+var lan = <!-#status.cgi$language-->;
+var T_table = document.getElementById("lift_table");
+var html_str,max_lift;
+
+	if(lift_status != 1){
+		location.href = "status.htm";
+	}
+	else{
+		if(lift_enable == 0){
+			html_str = lan_text[lan][1] + " :&nbsp;&nbsp;";
+			html_str += "<select name=floor>";
+			for(i=127;i>-128;i--){
+				if(i<0){
+					html_str +="<option value=" + i + ">B" + (0-i) + "</option>";
+				}
+				else if(i>0){
+					html_str += "<option value=" + i + ">" + i + "</option>";
+				}
+			}
+			html_str += "</select>";
+			T_table.rows[2].cells[0].innerHTML = html_str;
+			document.all.floor.value=1;
+			T_table.rows[3].cells[0].innerHTML = "<input type=button name=set value="+lan_text[lan][3]+" onclick=set_start()>";
+		}
+		else{
+			if(lift_enable<0)
+				max_lift = 128+lift_enable;
+			else
+				max_lift = 127+lift_enable;
+			html_str = lan_text[lan][0]+" :&nbsp;&nbsp;";
+			html_str += "<select name=floor>";
+			for(i=lift_enable,x=1;i<=max_lift;i++,x++){
+				if(i<0)
+					html_str += "<option value=" + x + ">B" + (0-i) + "</option>";
+				else if(i>0)
+					html_str += "<option value=" + x + ">" + i + "</option>";
+				else
+					x--;
+			}
+			html_str += "</select>";
+			T_table.rows[2].cells[0].innerHTML = html_str;
+			T_table.rows[3].cells[0].innerHTML = "<input type=button name=set value='"+lan_text[lan][4]+"' onclick=pulse_floor(0)>";
+			T_table.rows[4].cells[0].innerHTML = "<input type=button name=set value='"+lan_text[lan][5]+"' onclick=pulse_floor(1)>";
+		}
+	}
+	
+	document.title=lan_text[lan][2];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][2] + "(<!-#man.cgi$door_name-->)</b></font>";
+	
+	function set_start(par)
+	{
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=lopen.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=set_start_lift&";
+		str_ip+="start=";
+		if(document.all.floor.value<0)
+			str_ip+=(256+(document.all.floor.value-0));
+		else
+			str_ip+=document.all.floor.value;
+		location.href=str_ip;
+	}
+	
+	function pulse_floor(par)
+	{
+		var str_ip,str_num;
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+		str_ip+="redirect=lopen.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=floor_on";
+		str_ip+="&floor="+door_id;
+		str_ip+="&id=";
+		if(par)
+			str_ip+="0";
+		else
+		str_ip+=document.all.floor.value;
+		location.href=str_ip;
+	}
+</script>
+</html>

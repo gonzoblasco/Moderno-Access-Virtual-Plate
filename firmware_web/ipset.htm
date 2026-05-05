@@ -1,0 +1,409 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+	<base target="tager1">
+</HEAD>
+<body><font face="Arial">
+	<FORM action=man.cgi method=get name="ipcamer">
+	<input type="hidden" name="redirect" value="ipset.htm">
+	<input type="hidden" name="failure" value="fail.htm">
+	<input type="hidden" name="type" value="ipcamer_set">
+		<table id="ip_c">
+			<tr>
+				<td width="15"></td>
+				<td></td>
+				<td></td>
+				<td align="center"></td>
+				<td align="center"></td>
+				<td align="center"></td>
+		<td align="center" <!-#status.cgi$ip_type_select-->></td>
+		<td align="center" <!-#status.cgi$ip_type_select-->></td>
+				<td align="center" <!-#status.cgi$ip_own_define_type_selsct-->></td>
+			</tr>
+        	<tr>
+				<td>1.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(1)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>
+				<td <!-#status.cgi$ip_own_define_type_selsct_0-->>
+				   <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_0--> name="ip_owndefine_0"><B> HTTP/1.1</B>
+				</td>
+			</tr>
+            <tr>
+				<td>2.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(2)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>				
+				<td <!-#status.cgi$ip_own_define_type_selsct_1-->>
+				        <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_1--> name="ip_owndefine_1"><B> HTTP/1.1</B>
+				</td>				
+			</tr>
+            <tr>
+				<td>3.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(3)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>						
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>
+				<td <!-#status.cgi$ip_own_define_type_selsct_2-->>
+				        <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_2--> name="ip_owndefine_2"><B> HTTP/1.1</B>
+				</td>
+			</tr>
+            <tr>
+				<td>4.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(4)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>
+				<td <!-#status.cgi$ip_own_define_type_selsct_3-->>
+				        <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_3--> name="ip_owndefine_3"><B> HTTP/1.1</B>
+				</td>
+			</tr>
+            <tr>
+				<td>5.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(5)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>
+				<td <!-#status.cgi$ip_own_define_type_selsct_4-->>
+				        <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_4--> name="ip_owndefine_4"><B> HTTP/1.1</B>
+				</td>
+			</tr>
+            <tr>
+				<td>6.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(6)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>
+				<td <!-#status.cgi$ip_own_define_type_selsct_5-->>
+				        <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_5--> name="ip_owndefine_5"><B> HTTP/1.1</B>
+				</td>	
+			</tr>
+            <tr>
+				<td>7.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(7)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>
+				<td <!-#status.cgi$ip_own_define_type_selsct_6-->>
+				        <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_6--> name="ip_owndefine_6"><B> HTTP/1.1</B>
+				</td>
+			</tr>
+            <tr>
+				<td>8.</td>
+				<td><input type="text" maxlength="15" size="17" name="IPC"></td>
+				<td><input type="text" maxlength="5" size="7" name="IPP"></td>
+				<td nowrap>&nbsp;&nbsp;
+					<select name="ip_type" onchange="change(8)">
+						<option value=0>VIVOTEK IP7131</option>
+						<option value=1>VIVOTEK IP7133/7330</option>
+						<option value=2>ACTi TCM/ACM series</option>
+						<option value=3>SoftWell WE1612H</option>
+						<option value=4>D-LINK DCS-2102/2121</option>
+						<option value=5>HIKVISION series</option>
+						<option value=6>Customize</option>
+					</select>
+				</td>
+				<td><input type="text" maxlength="30" size="15" name="ipname"></td>
+				<td><input type="text" maxlength="30" size="15" name="ippw"></td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDIN">
+				</td>
+				<td>
+					<input type="text" maxlength="2" size="15"name="CIDOUT">
+				</td>
+				<td <!-#status.cgi$ip_own_define_type_selsct_7-->>
+				        <B>GET</B> <input type="text" style="color:red"maxlength="100" size="100" value=<!-#status.cgi$ip_own_define_7--> name="ip_owndefine_7"><B> HTTP/1.1</B>
+				</td>
+			</tr>
+            <tr><td align="center" colspan="6">
+            	<input type="submit" name="set">&nbsp;&nbsp;
+                <input type="button" name="ref" onClick="Refresh()">
+            </td></tr>
+        </table>
+    </FORM>
+</font></body>
+<script>
+var e_text = new Array("IP Camera SET","IP Camera(IP)","PORT","TYPE","Refresh","Set","username","password","(30 Char. Max)","IN Camera ID","OUT Camera ID","(1~16)","CGI Command");
+var chs_text = new Array("IP Camera设定","IP Camera(IP)","PORT","类型","刷新","设定","帐号","密码","(最大30个字)","IN Camera ID","OUT Camera ID","(1~16)","CGI 命令");
+var cht_text = new Array("Configuración de Cámara IP","Cámara IP(IP)","Puerto","TIPO","Refresh","Set","Nombre de Usuario","Contraseña","(30 Carac. Max)","ID Camara Ent.","ID Cámara Sal.","(1~16)","CGI Command");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var num = <!-#man.cgi$BF50_Staus-->;
+	var door_tnum = <!-#man.cgi$Door_num_Staus-->;
+	var ip = new Array(<!-#status.cgi$cctv_ip-->);
+	var ipc_port = new Array(<!-#status.cgi$cctv_port-->);
+	var ipc_type_value = new Array(<!-#status.cgi$ip_type-->);
+	var ipc_name = new Array(<!-#status.cgi$ip_name-->);
+	var ipc_pw = new Array(<!-#status.cgi$ip_pw-->);
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var lift_ms=<!-#status.cgi$lift_ms-->;
+	var ipc_id_in = new Array(<!-#status.cgi$camara_id_in-->);
+	var ipc_id_out = new Array(<!-#status.cgi$camara_id_out-->);
+	var textlist = document.getElementsByName("IPC");
+	var port_list = document.getElementsByName("IPP");
+	var iplist = document.getElementById("ip_c");
+	var ipc_t = document.getElementsByName("ip_type");
+	var ipc_username = document.getElementsByName("ipname");
+	var ipc_password = document.getElementsByName("ippw");
+	var CID_IN = document.getElementsByName("CIDIN");
+	var CID_OUT = document.getElementsByName("CIDOUT");
+	var lan = <!-#status.cgi$language-->;
+	var mod_name = <!-#status.cgi$modelname-->;
+	
+	document.title=lan_text[lan][0];
+	for(i=0;i<5;i++){
+		if(i>2)
+			iplist.rows[0].cells[1+i].innerHTML = "<font class='font-3'>" + lan_text[lan][3+i] + "<br>" + lan_text[lan][8] + "</font>";
+		else
+		iplist.rows[0].cells[1+i].innerHTML = "<font class='font-3'>" + lan_text[lan][1+i] + "</font>";
+	}
+	iplist.rows[0].cells[6].innerHTML = "<font class='font-3'>" + lan_text[lan][9] + "<br>" + lan_text[lan][11] + "</font>";
+	iplist.rows[0].cells[7].innerHTML = "<font class='font-3'>" + lan_text[lan][10] + "<br>" + lan_text[lan][11] + "</font>";
+	iplist.rows[0].cells[8].innerHTML = "<font class='font-3'>" + lan_text[lan][12] + "</font>";	
+	document.all.set.value = lan_text[lan][5];
+	document.all.ref.value = lan_text[lan][4];
+	
+	if(num == 1){
+		if((lift_enable)&&(lift_ms)){
+			for(i=2;i<8;i++)
+				iplist.rows[i+1].style.display="none";
+			num=2;
+		}
+		else{
+			if(door_tnum == 0)
+				num=8;
+			else{
+				for(i=4;i<8;i++)
+					iplist.rows[i+1].style.display="none";
+				num=4;
+			}
+		}
+	}
+	else{
+		if(mod_name==3)
+		{
+			for(i=4;i<8;i++)
+				iplist.rows[i+1].style.display="none";
+			num=4;
+		}
+		else if(mod_name==2)
+		{
+			for(i=2;i<8;i++)
+				iplist.rows[i+1].style.display="none";
+			num=2;
+		}
+		else
+		{
+			for(i=1;i<8;i++)
+				iplist.rows[i+1].style.display="none";
+			num=1;
+		}
+	}
+	
+	for(i=0;i<num;i++){
+		textlist[i].value=ip[i];
+		port_list[i].value=ipc_port[i];
+		ipc_t[i].value=ipc_type_value[i];
+		ipc_username[i].value=ipc_name[i];
+		ipc_password[i].value=ipc_pw[i];
+		CID_IN[i].value=ipc_id_in[i];
+		CID_OUT[i].value=ipc_id_out[i];
+	}
+	for(i=1;i<num+1;i++)
+	{
+		if(document.getElementsByName("ip_type")[i-1].value==3)
+		{
+			iplist.rows[i].cells[6].style.display="";
+			iplist.rows[i].cells[7].style.display="";
+		}
+		else
+		{
+			iplist.rows[i].cells[6].style.display="none";
+			iplist.rows[i].cells[7].style.display="none";
+		}
+	}
+	
+	function Refresh()
+	{
+		parent.tager2.location.href="ipc1.htm";
+	}
+	
+	function change(i)
+	{
+		if(document.getElementsByName("ip_type")[i-1].value==3)
+		{
+			iplist.rows[i].cells[6].style.display="";
+			iplist.rows[i].cells[7].style.display="";
+			iplist.rows[i].cells[8].style.display="none";	
+			iplist.rows[0].cells[6].style.display="";
+			iplist.rows[0].cells[7].style.display="";
+			iplist.rows[0].cells[8].style.display="none";
+		}
+		else if(document.getElementsByName("ip_type")[i-1].value==6)
+		{
+			iplist.rows[i].cells[6].style.display="none";
+			iplist.rows[i].cells[7].style.display="none";
+			iplist.rows[i].cells[8].style.display="";	
+			iplist.rows[0].cells[6].style.display="none";
+			iplist.rows[0].cells[7].style.display="none";
+			iplist.rows[0].cells[8].style.display="";
+		}
+		else
+		{
+			iplist.rows[i].cells[6].style.display="none";
+			iplist.rows[i].cells[7].style.display="none";
+			iplist.rows[i].cells[8].style.display="none";	
+			iplist.rows[0].cells[6].style.display="none";
+			iplist.rows[0].cells[7].style.display="none";
+			iplist.rows[0].cells[8].style.display="none";
+		}
+	}
+	function check_title()
+	{
+		iplist.rows[0].cells[6].style.display="none";
+		iplist.rows[0].cells[7].style.display="none";		
+		iplist.rows[0].cells[8].style.display="none";	
+		for ( i = 0 ; i < 8 ; i++ )
+		{
+			if ( document.getElementsByName("ip_type")[i] == 3 )
+			{
+				iplist.rows[0].cells[6].style.display="";
+				iplist.rows[0].cells[7].style.display="";
+			}
+			else if ( document.getElementsByName("ip_type")[i] == 6 )
+			{
+				iplist.rows[0].cells[8].style.display="";				
+			}	
+		}
+	}
+	Refresh();
+</script>
+</HTML>

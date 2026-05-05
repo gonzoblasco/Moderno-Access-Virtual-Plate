@@ -1,0 +1,174 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+<link rel="stylesheet" href="cmdbar.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<script> var pro_name = new Array( <!-#status.cgi$proname--> ) ; </script>
+<BODY onLoad="show()"><font face="Arial">
+<table width="100%" align="right" cellpadding="5">
+	<tr><td><div align="right">
+		<table align="right" id="cmdbar">
+			<tr><td class="font-m" width="230"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td></td></tr>
+			<tr><td class="font-m"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td></td></tr>
+			<tr><td class="font-m"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td></td></tr>
+			<tr><td class="font-m"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>
+			<tr><td class="font-m1"></td></tr>	
+			<tr><td></td></tr>
+		</table></div></td>
+	</tr>
+	<tr><td class="style12"><hr align=center noshade></td></tr>
+	<tr><td align="right">
+		<input type="button" name=set onClick="Refresh()">
+		<input type="button" name=clean onClick="ToLogout()">
+	</td></tr>
+	<TR style=display:none><td align="right"><input type="button" name=home_mode onClick="home_mode()"></td></tr>
+	<tr><td class="style12"><hr align=center noshade></td></tr>
+	<tr><td class="font-4" align="right" id="product_name"></td></tr>
+	<tr><td><hr align=center noshade></td></tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</font></BODY>
+<script>
+var e_text = new Array("User Administration","Terminal","Access Control","Tools","Access Log","Auto Refresh Log","View User List","Add User","Terminal Status","Terminal Setup","Password Setup","System Log","Clock Setup","Time Set","Time Zone Setup","Group List","Holiday Setup","Door Setup","Remote Control","Event Handle","Multi Badge Group","IP Camera","Backup","Restore","Reboot","Upgrade Firmware","Reset","Lift Setup","Refresh","Home mode","Logout");
+var chs_text = new Array("使用者管理","终端机","门禁管制","工具","进出纪录","自动刷新纪录","用户名册","新增用户","终端机资讯","终端机设定","密码设定","系统纪录","系统时间校正","时段设定","时区设定","群组设定","假日设定","出入口设定","远端控制","事件处理","多重验证组合","IP Camera","备份","还原","设备重新启动","韧体更新","删除资料","电梯设定","刷新","Home mode","登出");
+var cht_text = new Array("Administración de Usuario","Terminal","Control de Acceso","Herramientas","Diario de Acceso","Auto Actualizar Registro","Ver Lista de Usuarios","Agregar Usuario","Estado de Terminal","Configuración de Terminal","Configuración de Clave","Diario de Sistema","Configuración de Reloj","Configurar Hora","Configurar Zona Horaria","Lista de Grupo","Configuración de Feriado","Configuración de Puerta","Control Remoto","Manejo de Eventos","Grupo Multi Tarjeta","Cámara IP","Backup","Recuperar","Reiniciar","Actualizar Firmware","Resetear","Configurar Ascensor","Actualizar","Modo Hogar","Salir");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+var w_link = new Array(
+"if.cgi?redirect=AccLog.htm&failure=fail.htm&type=go_log_page&page=0",
+"autolog.htm",
+"if.cgi?redirect=database.htm&failure=fail.htm&type=go_user_page&page=0&sort=1",
+"if.cgi?redirect=EmpRcd.htm&failure=fail.htm&type=want_emp&id=0",
+"status.htm",
+"config.htm",
+"syscfg.htm",
+"SysLog.htm",
+"Clock.htm",
+"Times.htm",
+"TZones.htm",
+"groups.htm",
+"holiday.htm",
+"Door.htm",
+"Scrt.htm",
+"event.htm",
+"ugroup.htm",
+"ipcamera.htm",
+"Backup.htm",
+"Restore.htm",
+"Reboot.htm",
+"FWUpgr.htm",
+"DelLog.htm",
+"man.cgi?redirect=DSet.htm&failure=fail.htm&type=want_door&id=0"
+);
+
+	var table = document.getElementById("cmdbar");
+	var lan = <!-#status.cgi$language-->;
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var lift_ms = 1;
+	var str,num,link_num;
+	document.all.set.value = lan_text[lan][28];
+	document.all.home_mode.value = lan_text[lan][29];
+	document.all.clean.value = lan_text[lan][30];
+	for(i=0,j=4,x=0;i<31;i++){
+		switch (i){
+			case 0:
+			case 6:
+			case 13:
+			case 23:
+				str = lan_text[lan][x] + "&nbsp;";
+				x++;
+				break;
+			case 5:
+			case 12:
+			case 22:
+			case 30:
+				str = "&nbsp;";
+				break;
+			case 24:
+				str = "<A onMouseOver=\"self.status='" + lan_text[lan][j] + "'; return true\" onMouseOut=\"self.status=''; return true;\" href=\"" + w_link[j-4] + "\" target='_blank'>" + lan_text[lan][j] + "&nbsp;</A>"
+				j++;
+				break;
+			case 18:
+				if(lift_enable == 1){
+					num = 27;
+					//if(lift_ms)
+					//	link_num=23;
+					//else
+						link_num=j-4;
+				}
+				else{
+					num = j;
+					link_num=j-4;
+				}
+				str = "<A onMouseOver=\"self.status='" + lan_text[lan][num] + "'; return true\" onMouseOut=\"self.status=''; return true;\" href=\"" + w_link[link_num] + "\" target='Status'>" + lan_text[lan][num] + "&nbsp;</A>";
+				j++;
+				break;
+			default:
+				str = "<A onMouseOver=\"self.status='" + lan_text[lan][j] + "'; return true\" onMouseOut=\"self.status=''; return true;\" href=\"" + w_link[j-4] + "\" target='Status'>" + lan_text[lan][j] + "&nbsp;</A>";
+				j++;
+		}
+		table.rows[i].cells[0].innerHTML = str;
+	}
+	document.getElementById("product_name").innerHTML = "<div align='right'>" + pro_name[0] + " Web Ver1.9&nbsp;<br>Build Date 03/28/2017&nbsp;</div>";
+	function Refresh(){
+		location.href="cmdbar.htm";
+	}
+	
+	function show(){
+		var str = document.cookie;
+		var cookieIndex=str.indexOf("fresh=START");
+		if(cookieIndex!=-1)
+		{
+			document.cookie="fresh=";
+			parent.topFrame.location.href="clog.htm";
+		}
+	}
+	function home_mode(){
+			var str_ip,str_num;
+			str_ip=location.href;
+			str_num=str_ip.lastIndexOf("/");
+			str_ip=str_ip.substring(0,str_num+1)+"man.cgi?";
+			str_ip+="redirect=Index.htm";
+			str_ip+="&failure=fail.htm";
+			str_ip+="&type=home_mode";
+			location.href=str_ip;
+	}
+	function ToLogout() {
+		parent.window.location = "Logout.htm" ;
+		// parent.Status.location.href="Logout.htm"; // LOGOUT轉移到框架
+	} // end 		
+</script>
+</HTML>

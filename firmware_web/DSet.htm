@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<BODY><font face="Arial">
+<script>
+	function send(){
+		document.location="door.htm"
+	}
+</script>
+<table width="800">
+	<tr><td><br></td></tr>
+	<tr><td class="title" id="tit"></td></tr>
+	<tr><td align="center">
+		<TABLE width="90%" border=0 align="center" id="doorset">
+			<FORM name=door_set action=man.cgi method=get>
+			<input type="hidden" name="redirect" value="Door.htm">
+			<input type="hidden" name="failure" value="fail.htm">
+			<input type="hidden" name="type" value="door_set_<!-#man.cgi$door_id-->">
+			<tr style="display:none"><td></td><td></td><td align="center"></td><td align="center"></td></tr>
+			<!-#man.cgi$doors-->
+			<tr><td colspan=4><HR align=center></td></tr>
+			<tr><td colspan=4 align=center>
+				<INPUT type="submit" name=Save OnClick=send()>
+				<font color="#000000" size="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<!-#man.cgi$door_rest_link--></b></font>
+			</td></tr>
+		</TABLE>
+	</td></tr>
+</table>
+</font></BODY>
+<script>
+var e_text = new Array("Door Setting","Setting","IN","OUT","Set");
+var chs_text = new Array("出入口","设定","进","出","设定");
+var cht_text = new Array("Configuración de Puerta","Configuración","ENTRADA","SALIDA","Set");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var table = document.getElementById("doorset");
+	var lan = <!-#status.cgi$language-->;
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;<!-#man.cgi$door_name--> " + lan_text[lan][1] + "</b></font>";
+	document.all.Save.value = lan_text[lan][4];
+	for(i=0;i<2;i++)
+		table.rows[0].cells[i+2].innerHTML="<font size=3><b>"+lan_text[lan][2+i]+"</b></font>";
+
+	if(lift_enable){
+		table.rows[0].style.display="none";
+	}
+</script>
+</HTML>			

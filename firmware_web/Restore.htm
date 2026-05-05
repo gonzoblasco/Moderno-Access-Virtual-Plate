@@ -1,0 +1,172 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+	<base target="Status">
+	<style>
+	<!--
+		#bar, #barbackground{
+			position:absolute;
+			left:0;
+			top:0;
+			background-color:blue;
+			}
+		#barbackground{
+		background-color:tan;
+		}
+	-->
+	</style>
+<script>
+<!--
+var e_text = new Array("Uploading...Waiting for a moment...","Http Server Upload Result","RESTORE / IMPORT","Please select a file to restore !","Incorrect file. The filename should be .cfg!","Incorrect file. The filename should be .txt!","Select a File to Restore / Import","Database(database.cfg/userdata.cfg)","User List(userlist.txt)","(It may take few minutes to restore the database.)","Restore");
+var chs_text = new Array("升级中...请稍候...","备份还原","还原备份","请选择欲还原/汇入的档案!","错误的档案格式. 档案名称必须是 *.cfg!","错误的档案格式. 档案名称必须是 *.txt!","选择要还原/汇入的档案","系统设定(database.cfg/userdata.cfg)","用户资料(userlist.txt)","(还原资料库必需要花费几分钟的时间)","还原");
+var cht_text = new Array("Subiendo... Aguarde un Momento...","Http Server Upload Result","RESTAURAR/IMPORTAR","Por favor seleccione un archivo para restaurar!","Archivo incorrecto. La extensión debe ser .Cfg!","Archivo Incorrecto. La extensión debe ser .txt!","Seleccione un archivo para Restaurar/Importar","Base de Datos (database.cfg/userdata.cfg)","Lista de Usuarios (userlist.txt)","(Podría tomar varios minutos restaurar la base de datos.)","Restaurar");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var lan = <!-#status.cgi$language-->;
+	function restore(F)
+	{
+		var len=F.RestoreFile.value.length;
+		var ext = new Array('.','c','f','g');
+		var ext1 = new Array('.','t','x','t');
+		if (F.RestoreFile.value == '')
+		{
+			alert(lan_text[lan][3]);
+			return false;
+		}
+		if (F.sel_type[0].checked)
+		{
+			for (i=0; i < 4; i++)
+			{
+				if (ext[i] != F.RestoreFile.value.charAt(len-4+i))
+				{
+					alert(lan_text[lan][4]);
+					return false;
+				}
+			}
+		}
+		else
+		{
+			for (i=0; i < 4; i++)
+			{
+				if (ext1[i] != F.RestoreFile.value.charAt(len-4+i))
+				{
+					alert(lan_text[lan][5]);
+					return false;
+				}
+			}
+		}
+		initializebar();
+		F.submit();
+	}
+		function Refresh()
+	{ 
+		location="status.htm";
+	}
+
+	var duration=50
+	var bName=navigator.appName// check是否為ie
+	var clipright=0
+	var widthIE=0
+	var widthNS=0
+
+	function postaction()
+	{
+		clipright=0
+		widthIE=0
+		widthNS=0
+		initializebar();
+	}
+
+	function initializebar()
+	{
+		if (document.getElementById)
+		{
+			document.getElementById('baranchor').style.visibility="visible"
+			if(bName=="Microsoft Internet Explorer"){
+				widthIE=document.getElementById('bar').style.pixelWidth}
+			else{
+				widthIE=parseInt(document.getElementById('bar').style.width,10)
+			}
+			startIE=setInterval("increaseIE()",50)
+		}
+	}
+
+	function increaseIE()
+	{
+		document.getElementById('bar').style.clip="rect(0 "+clipright+" auto 0)"
+		window.status=lan_text[lan][0];
+
+		if (clipright<widthIE)
+		{
+			clipright=clipright+(widthIE/(duration*10))
+		}
+		else
+		{
+			window.status=''
+			clearInterval(startIE)
+			postaction()
+		}
+	}
+//-->
+</script>
+</HEAD>
+<BODY Onunload="Refresh()"><font face="Arial">
+<form name="FORM_MAN_RESTORE" method="post" enctype="multipart/form-data">
+	<table width="800" id="table_1">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><TD><HR align=center></TD></TR>
+		<TR><TD align="center"></TD></TR>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td align="center"><INPUT type=file size=30 name=RestoreFile></td></tr>
+		<tr><td align="center">
+			<table id="table_2">
+				<tr>
+					<td><input type="radio" value="1" CHECKED name="sel_type"></td>
+					<td></td>
+					<td><input type="radio" value="2" name="sel_type"></td>
+					<td></td>
+				</tr>
+			</table>
+		</td></tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td align="center">
+			<script>
+				if (document.getElementById)
+				{
+					document.write("<div id='baranchor' style='position:relative;width:400px;height:20px'>")
+					document.write("<div id='barbackground' style='width:400px;height:20px;z-index:10'></div>")
+					document.write("<div id='bar' style='width:400px;height:20px;z-index:10'></div>")
+					document.write("</div>")
+				}
+			</script>
+			<layer name="baranchorNS" left="-5" top="2" width=400 height=10></layer>
+			<layer name="barbackgroundNS" bgcolor=black width=400 height=10 z-index=10 left=-3 top=2></layer>
+			<layer name="barNS" bgcolor=blue width=400 height=10 z-index=11 left=-2 top=1></layer>
+		</td></tr>
+		<tr><TD><HR align=center></TD></TR>
+		<tr><td align="center"></td></tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td align="center"><input type="button" name="Restore" onClick="restore(this.form)"></TD></TR>
+	</table>
+</FORM>
+</font></BODY>
+<script>
+var table1 = document.getElementById("table_1");
+var table2 = document.getElementById("table_2");
+document.title=lan_text[lan][1];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][2] + "</b></font>";
+table1.rows[3].cells[0].innerHTML = "<B><font size=2>" + lan_text[lan][6] + "&nbsp;:</font></B>";
+for(i=0;i<2;i++)
+	table2.rows[0].cells[1+i*2].innerHTML = "<font size=2><b>" + lan_text[lan][7+i] + "</b></font>";
+table1.rows[10].cells[0].innerHTML = "<font size=2><b>" + lan_text[lan][9] + "</b></font>";
+document.all.Restore.value = lan_text[lan][10]
+</script>
+</HTML>

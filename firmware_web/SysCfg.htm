@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<BODY><font face="Arial">
+	<FORM name=FORM_MAN_AUTH action=man.cgi method=get>
+	<input type="hidden" name="redirect" value="setting.htm">
+	<input type="hidden" name="failure" value="fail.htm">
+	<input type="hidden" name="type" value="auth_apply">
+	<table width="800">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td>
+			<TABLE width="95%" align="center"  cellspacing="5" id="table_1">
+				<tr><td colspan=3><HR align=center></td></tr>
+				<TR>
+					<TD width=30% align="right" nowrap></TD>
+					<TD><INPUT name="Input" value="<!-#status.cgi$admin_name-->" size=50 maxLength=47>&nbsp;</TD>
+					<td></TD>
+				</TR>
+				<TR>
+					<TD align="right" nowrap></TD>
+					<TD><INPUT name="password" type=password value="<!-#status.cgi$admin_pwd-->" size=50 maxLength=35>&nbsp;</TD>
+					<td></b></TD>
+				</TR>
+				<TR><TD>&nbsp;</TD><TD></TD></TR>
+				<TR>
+					<TD align="right" nowrap></TD>
+					<TD><INPUT maxLength=47 size=50 name=TF_username value="<!-#status.cgi$user_name-->">&nbsp;</TD>
+					<td></b></TD>
+				</TR>
+				<TR>
+					<TD align="right" nowrap></TD>
+					<TD><INPUT type=password maxLength=35 name=TF_password size=50 value="<!-#status.cgi$user_pwd-->">&nbsp;</TD>
+					<td></TD>
+				</TR>
+				<TR><TD>&nbsp;</TD><TD></TD></TR>
+				<TR>
+					<TD align="right" nowrap></TD>
+					<TD><INPUT maxLength=47 size=50 name=TF_username value="<!-#status.cgi$user_0_name-->">&nbsp;</TD>
+					<td></td>
+				</TR>
+				<TR>
+					<TD align="right" nowrap></TD>
+					<TD><INPUT type=password maxLength=35 name=TF_password size=50 value="<!-#status.cgi$user_0_pwd-->">&nbsp;</TD>
+					<td></TD>
+				</TR>
+				<TR><TD colSpan=3 align="center"><input type="submit" name='Save'></TD></TR>
+			</TABLE>
+		</td></tr>
+	</table>
+	</FORM>
+	<FORM name='FORM_MAN_AUTH1' action=man.cgi method=get>
+	<input type="hidden" name="redirect" value="setting.htm">
+	<input type="hidden" name="failure" value="fail.htm">
+	<input type="hidden" name="type" value="terminal_apply">
+	<table width="800" id="admin_pw">
+		<tr><td colspan=3 class="title" id="tit2"></td></tr>
+		<tr><td colspan=3><HR align=center></td></tr>
+		<TR>
+			<TD width=50% align="right" nowrap></TD>
+			<TD width="100"><INPUT name="Input" type="text" value="<!-#man.cgi$admin_key_pwd-->" size=10 maxLength=8>&nbsp;</TD>
+			<td></TD>
+		</TR>
+		<TR>
+			<TD align="right" nowrap></TD>
+			<TD><INPUT name="id1" type="text" value="<!-#man.cgi$common_key_pwd-->" size=10 maxLength=8>&nbsp;</TD>
+			<td></TD>
+		</TR>
+		<TR style=display:none>
+			<TD width=30%><P align=right NOWRAP><font size="2"><b>Fast Reg Password : </FONT></P></b></TD>
+			<TD width="100"><INPUT name="id2" type="text" value="<!-#man.cgi$reg_key_pwd-->" size=10 maxLength=4></TD>
+			<td></TD>
+		</TR>
+		<TR><TD colSpan=3 align="center"><input type="submit" name='Save2'></TD></TR>
+	</table>
+	</FORM>
+</font></BODY>
+<script>
+var e_text = new Array("Administrator Configuration","WEB Logon Setting","Entrance Password","Administrator WEB Logon User Name","Administrator WEB Logon Password","Operator WEB Logon User Name","Operator WEB Logon Password","USER WEB Logon User Name","USER WEB Logon Password","Administrator Password","Common Password","Save","(4 ~ 8 digits.)","(47 Char. Max)","(35 Char. Max)","(4 digits.)");
+var chs_text = new Array("密码设定","网页登入设定","通行密码","管理者帐号","管理者密码","使用者帐号","使用者密码","第三层使用者帐号","第三层使用者密码","管理者密码","共用密码","储存","(4 ~ 8 个数字)","(最大47个字)","(最大35个字)","(4 个数字)");
+var cht_text = new Array("Configuración de Administrador","Ajuste de Ingreso WEB","Contraseña de Entrada","Nombre de Administrador WEB","Contraseña de Administración WEB","Nombre del Operador WEB","Contraseña de Operador WEB","Nombre del Usuario WEB","Contraseña de Usuario WEB","Contraseña de Administrador","Clave Común","Guardar","(4 ~ 8 digitos.)","(47 Carac. Max)","(35 Carac. Max)","(4 dígitos.)");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var table = document.getElementById("admin_pw");
+	var table1 = document.getElementById("table_1");
+	var lift_enable = <!-#man.cgi$lift_status-->;
+	var lan = <!-#status.cgi$language-->;
+	document.title=lan_text[lan][0];
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][1] + "</b></font>";
+	document.getElementById("tit2").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][2] + "</b></font>";
+	document.all.Save.value = lan_text[lan][11];
+	document.all.Save2.value = lan_text[lan][11];
+	for(i=1,j=0;i<9;i++,j++){
+		if((i==3)||(i==6))
+			j--;
+		else
+			table1.rows[i].cells[0].innerHTML = "<font size='2'><b>" + lan_text[lan][3+j] + " :</b></FONT>";
+		if((i==1)||(i==4)||(i==7))
+			table1.rows[i].cells[2].innerHTML = "<font size='2'><b>" + lan_text[lan][13] + "</b></FONT>";
+		if((i==2)||(i==5)||(i==8))
+			table1.rows[i].cells[2].innerHTML = "<font size='2'><b>" + lan_text[lan][14] + "</b></FONT>";
+	}
+	for(i=2,j=0;i<4;i++,j++){
+		table.rows[i].cells[0].innerHTML = "<font size='2'><b>" + lan_text[lan][9+j] + " :</b></FONT>";
+		table.rows[i].cells[2].innerHTML = "<font size='2'><b>" + lan_text[lan][12] + "</b></font>";
+	}
+	table.rows[4].cells[2].innerHTML = "<font size='2'><b>" + lan_text[lan][15] + "</b></font>";
+	if(lift_enable)
+	{
+		table.rows[4].style.display="none";
+	}
+</script>
+</HTML>

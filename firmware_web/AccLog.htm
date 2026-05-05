@@ -1,0 +1,307 @@
+<HTML>
+<HEAD>
+    <link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<base target="Status">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<script>
+var e_text = new Array("Access Log/Query and Export","User ID","Card No.","From/To (mm/dd/yyyy)","No.","User ID","User Name","Date","Time","IN/OUT","Door","Note.","Single","Query and Export","None","Type","Selection","Start Date","End Date","user","event","Event(up to 5)","All","Event Type","Export Type","Txt","Xls","None","Search","Export");
+var chs_text = new Array("进出纪录/搜寻和汇出","用户编号","用户卡号","自/至(月/日/年)","No.","用户编号","姓名","日期","时间","进/出","门","备注","单一","搜寻和汇出","无","类型","数目","起始日期","结束日期","用户","事件","事件(最多5件)","全部","事件类型","汇出类型","Txt","Xls","无","搜寻","汇出");
+var cht_text = new Array("Diario de Acceso/Consulta y exportación","ID de Usuario","Nro. de tarjeta.","Desde/Hasta (mm/dd/aaa)","Nro.","ID de Usuario","Nombre de usuario","Fecha","Hora","Entrada/Salida","Puerta","Nota.","Simple","Consulta y Exportación","Ninguno","Tipo","Selección","Fecha de Inicio","Fecha de Finalización","Usuario","Evento","Evento(Hasta 5)","Todos","Tipo de Evento","Tipo de Exportación","Txt","Xls","Ninguno","Buscar","Exportar");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+var hex_dec = <!-#status.cgi$HEX_DEC-->;
+var fc_id = <!-#if.cgi$fc_card_snc-->;
+	function padLeft(str,lenght)
+    {
+    	if(str.length >= lenght)
+    		return str;
+    	else
+    		return padLeft("0" +str,lenght);
+    }
+
+	function Query_me(fun_type){
+		var num = document.Search.TID.value;
+		var str,str1="";
+		var i;
+		var id_list = new Array(0,0,0,0,0,0,0,0);
+		var str_ip,str_num;
+		
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"if.cgi?";
+		str_ip+="redirect=UserLog.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=search_user_log&";
+		if(document.Search.qtype[0].checked){
+			str_ip+="type=0";
+		}
+		else{
+			str_ip+="type=1";
+		}
+		if(document.Search.num[0].checked){
+			str_ip+="&sel=0";
+		}
+		else{
+			str_ip+="&sel=1";
+		}
+
+		str_ip+="&u_id=" + document.Search.UID.value;
+		for(i=0;i<5;i++){
+			str_ip+="&even="+document.Search.even[i].value;
+		}
+		str_ip+="&year="+(document.Search.s_data.value.substring(0,4)-2000);
+		str_ip+="&mon="+document.Search.s_data.value.substring(5,7);
+		str_ip+="&day="+document.Search.s_data.value.substring(8,10);
+		str_ip+="&year="+(document.Search.e_data.value.substring(0,4)-2000);
+		str_ip+="&mon="+document.Search.e_data.value.substring(5,7);
+		str_ip+="&day="+document.Search.e_data.value.substring(8,10);
+
+		if(hex_dec){
+			str=num;
+			for(i=0;i<8;i++){
+				if(str.length == 1){
+					id_list[7-i] = str.substring(str.length-1,str.length);
+					str="";
+					break;
+				}
+				else if(str.length>1){
+					id_list[7-i] = str.substring(str.length-2,str.length);
+					str=str.substr(0,str.length-2);
+				}
+				else
+					break;
+			}
+		}
+		else{
+			if(num){
+				if(fc_id)
+				{
+					str = parseInt(num/100000).toString(16);			
+					str1 = parseInt(num%100000).toString(16);
+					str1 = padLeft( str1, 4 );
+					str = str + str1 ;
+				}
+				else
+				str=parseInt(num).toString(16);
+				for(i=0;i<8;i++){
+					if(str.length == 1){
+						id_list[7-i] = str.substring(str.length-1,str.length);
+						str="";
+						break;
+					}
+					else if(str.length>1){
+						id_list[7-i] = str.substring(str.length-2,str.length);
+						str=str.substr(0,str.length-2);
+					}
+					else
+						break;
+				}
+			}
+		}
+		
+		for(i=0;i<8;i++){
+			str_ip += "&card=" + parseInt(id_list[i],16);
+		}
+		if(fun_type)
+			str_ip += "&fun_t=1";
+		else
+			str_ip += "&fun_t=0";
+		if(document.Search.e_type[0].checked)
+			str_ip += "&e_t=0";
+		else
+			str_ip += "&e_t=1";
+		location.href=str_ip;
+	}
+</script>
+<BODY onLoad="show()">
+<script src="calendar.js"></script>
+<font face="Arial">
+	<table width="1000">
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td><hr align=center noshade></td></tr> 
+		<tr>
+			<td width="800">
+				<TABLE width="95%" align="center" cellSpacing=2 id="table_2">
+					<TR> 
+						<TD width="5%" align="center"></TD>
+						<TD width="8%" align="center"></TD>
+                        <TD width="30%" align="center"></TD>
+						<TD width="8%" align="center"></TD>
+						<TD width="8%" align="center"></TD>
+						<TD width="8%" align="center"></TD>
+						<TD width="4%" align="center"></TD>
+						<TD width="20%" align="center"></TD>
+					</TR>
+					<TR><TD colSpan=10><HR align=center></TD></TR>
+						<!-#if.cgi$logid-->
+				</TABLE>
+			</td>
+		</tr>
+		<tr><td><br></td></tr>
+		<tr><td class="title" id="tit1"></td></tr>
+		<tr><td><hr align=center noshade></td></tr> 
+		<tr><td><form name="Search">
+			<table width="90%" id="table_1" cellspacing="5">
+				<tr>
+					<td width="150"></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td width="600"></td>
+				</tr>
+				<tr>
+					<td  nowrap>
+						<input type="radio" name="qtype" value=0 checked onClick="change()"><label></label>&nbsp;
+						<input type="radio" name="qtype" value=1 onClick="change()"><label></label>
+					</td>
+					<td nowrap>
+						<input type="radio" name="num" value=0 onClick="change_num()" checked><label></label>&nbsp;
+						<input type="radio" name="num" value=1 onClick="change_num()"><label></label>&nbsp;&nbsp;&nbsp;
+					</td>
+					<td nowrap><input type="text" name="s_data" size="10" maxlength="0" onClick="showcalendar(event, this, false)">&nbsp;&nbsp;&nbsp;</td>
+					<td><input type="text" name="e_data" size="10" maxlength="0" onClick="showcalendar(event, this, false)"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><input name=UID size=20 maxLength=10></td>
+					<td><input name=TID size=20 maxLength=16></td>
+				</tr>
+				<tr><td></td></tr>
+				<tr><td colspan="5" nowrap>
+					1.<select name="even"></select>
+					2.<select name="even"></select>
+					3.<select name="even"></select>
+					4.<select name="even"></select>
+					5.<select name="even"></select>
+				</td></tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" name="e_type" value=0 checked><label></label>&nbsp;
+						<input type="radio" name="e_type" value=1><label></label>
+					</td>
+					<td><input type="button" name="query" onClick="Query_me(0)"></td>
+					<td><input type="button" name="Export" onClick="Query_me(1)"></td>
+				</tr>
+			</table></form>
+		</td></tr>
+		<tr><td>&nbsp;</td></tr>
+	</table>
+</font></BODY>
+<script>
+var user_num = <!-#if.cgi$maxusernum-->;
+var lan = <!-#status.cgi$language-->;
+var event_list_0 = new Array("None",<!-#if.cgi$Event_List-->);
+var table1 = document.getElementById("table_1");
+var label = document.getElementsByTagName("label");
+var nowTime = new Date();
+var str_switch;
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+document.getElementById("tit1").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][13] + "</b></font>";
+for(i=0;i<4;i++){
+	table1.rows[0].cells[i].innerHTML =  "<font size='2'><b>" + lan_text[lan][i+15] + "</b></font>";
+	label[i].innerHTML = "<font size=2 color='#464646'>" + lan_text[lan][i+19] + "</font>";
+}
+for(i=0;i<2;i++){
+	label[4+i].innerHTML = "<font size=2 color='#464646'>" + lan_text[lan][i+25] + "</font>";
+}
+table1.rows[2].cells[0].innerHTML = "<font size='2'><b>" + lan_text[lan][1] + "</b></font>";
+if(hex_dec)
+	str_switch = "(HEX)";
+else
+	str_switch = "(DEC)";
+table1.rows[2].cells[1].innerHTML = "<font size='2'><b>" + lan_text[lan][2] + str_switch + "</b></font>";
+table1.rows[4].cells[0].innerHTML = "<font size='2'><b>" + lan_text[lan][23] + "</b></font>";
+table1.rows[6].cells[0].innerHTML = "<font size='2'><b>" + lan_text[lan][24] + "</b></font>";
+document.Search.query.value = lan_text[lan][28];
+document.Search.Export.value = lan_text[lan][29];
+for(i=0;i<8;i++)
+	document.getElementById("table_2").rows[0].cells[i].innerHTML = "<font color='#0000FF' size='2'><b>" + lan_text[lan][i+4] + "&nbsp;</b></font>";
+
+event_list_0[0] = lan_text[lan][27];
+for(i=0;i<event_list_0.length;i++)
+	for(j=0;j<5;j++)
+			document.Search.even[j].options[i] = new Option(event_list_0[i],i);
+
+function sortlist(){
+	var selectArray=new Array();
+	for(i=1;i<Search.even[0].length;i++){
+		selectArray[i-1]=new Array();
+		selectArray[i-1][0]=Search.even[0].options[i].text;
+		selectArray[i-1][1]=Search.even[0].options[i].value;
+	}
+	selectArray.sort();
+	for(j=0;j<5;j++){
+		for(i=1;i<Search.even[j].length;i++){
+			Search.even[j].options[i].text=selectArray[i-1][0];
+			Search.even[j].options[i].value=selectArray[i-1][1];
+		}
+	}
+}
+document.all.s_data.value = nowTime.getFullYear() + "/" + (String(nowTime.getMonth()+1).length>1?String(nowTime.getMonth()+1):"0"+String(nowTime.getMonth()+1)) + "/" + (nowTime.getDate().toString().length>1?nowTime.getDate():"0"+nowTime.getDate());
+document.all.e_data.value = nowTime.getFullYear() + "/" + (String(nowTime.getMonth()+1).length>1?String(nowTime.getMonth()+1):"0"+String(nowTime.getMonth()+1)) + "/" + (nowTime.getDate().toString().length>1?nowTime.getDate():"0"+nowTime.getDate());
+
+if(user_num>=100000)
+	document.getElementById("table_2").rows[0].cells[2].style.display="none";
+
+function change(){
+	if(document.Search.qtype[0].checked){
+		table1.rows[2].style.display="";
+		table1.rows[3].style.display="";
+		table1.rows[4].style.display="none";
+		table1.rows[5].style.display="none";
+		label[2].innerHTML = "<font size=2 color='#464646'>" + lan_text[lan][12] + "</font>";
+	}
+	else{
+		table1.rows[2].style.display="none";
+		table1.rows[3].style.display="none";
+		table1.rows[4].style.display="";
+		table1.rows[5].style.display="";
+		label[2].innerHTML = "<font size=2 color='#464646'>" + lan_text[lan][21] + "</font>";
+	}
+	change_num();
+}
+
+function change_num(){
+	var status;
+	if(document.Search.num[0].checked)
+		status="";
+	else
+		status="none";
+	if(document.Search.qtype[0].checked){
+		table1.rows[2].style.display=status;
+		table1.rows[3].style.display=status;
+	}
+	else{
+		table1.rows[4].style.display=status;
+		table1.rows[5].style.display=status;
+	}
+}
+change();
+sortlist();
+
+function show(){
+	var log_p = "<!-#status.cgi$log_pw_on-->";
+	var str = document.cookie;
+	var cookieIndex=str.indexOf("fresh=START");
+	if(log_p != "checked"){
+		if(cookieIndex!=-1)
+			parent.Command.location.href="CmdBar.htm";
+	}
+}
+</script>
+</HTML>

@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<META http-equiv=Content-Type content="text/html; charset=utf-8">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</HEAD>
+<body><font face="Arial">
+<table width=800>
+	<tr><td><br></td></tr>
+	<tr><td class="title" id="tit"></td></tr>
+	<tr><td><hr align="center"></td></tr>
+	<FORM action=status.cgi method=get name="bf50_card">
+	<input type="hidden" name="redirect" value="bf50card.htm">
+	<input type="hidden" name="failure" value="fail.htm">
+	<input type="hidden" name="type" value="bf50_card_set">
+	<tr><td align="center">
+		<table border="1" id="card_no">
+			<tr>
+				<td width="20"></td><td width="180"></td>
+				<td width="20"></td><td width="180"></td>
+				<td width="20"></td><td width="180"></td>
+				<td width="20"></td><td width="180"></td>
+				<td width="20"></td><td width="180"></td>
+			</tr>
+			<script>
+				var hex_dec = <!-#status.cgi$HEX_DEC-->;
+				var max_num;
+				if(hex_dec)
+					max_num=8;
+				else
+					max_num=10;
+				for(var i=1;i<51;i++){
+					if(i%5==1)
+						document.write("<tr>");
+					document.write("<td><b>" + i + "</b></td><td><input type=text maxlength=" + max_num + " size=12 name='id'></td>");
+					if(i%5==0)
+						document.write("</tr>");
+				}
+			</script>
+		</table>
+	</td></tr>
+	<tr><td colspan="2"><hr align="center"></td></tr>
+	<tr><td colspan="2" align="center"><input type="button" name="set" onClick="send_form()"></td></tr>
+	</FORM>
+</table>
+</font></body>
+<script>
+var e_text = new Array("Card No.","No."," CARD","Set");
+var chs_text = new Array("用户卡号","No.","卡片","设定");
+var cht_text = new Array("Nro. Tarjeta.","Nro."," TARJETA","Seteo");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+    var pro_name = new Array(<!-#status.cgi$proname-->);
+	var card_list = new Array(<!-#status.cgi$bf50_card_list-->);
+	var card_no = document.all.id;
+	var lan = <!-#status.cgi$language-->;
+	var fc_id = <!-#if.cgi$fc_card_snc-->;
+	var dec_hex,card_num;
+	document.title=lan_text[lan][2];
+	if(hex_dec)
+		dec_hex="(HEX)";
+	else
+		dec_hex="(DEC)";
+	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + pro_name[2] + lan_text[lan][2] + dec_hex + "</b></font>";
+	for(i=0;i<10;i++){
+		if(i%2)
+			document.getElementById("card_no").rows[0].cells[i].innerHTML = "<b>" + lan_text[lan][0] + "</b>";
+		else
+			document.getElementById("card_no").rows[0].cells[i].innerHTML = "<b>" + lan_text[lan][1] + "</b>";
+	}
+	bf50_card.set.value=lan_text[lan][3]
+	for(var i=0;i<50;i++){
+		if(fc_id)
+		{
+			card_num = (parseInt(card_list[i].substring(8,12),16))*100000;
+			card_num += parseInt(card_list[i].substring(12,16),16);
+		}
+		else
+		card_num = parseInt(card_list[i],16);
+		if(hex_dec){
+			if(card_num)
+				card_no[i].value = card_list[i].substring(8,16);
+			else
+				card_no[i].value = 0;
+		}
+		else
+			card_no[i].value = card_num;
+	}
+	
+	function send_form(){
+		var str_ip,str_num,num,str;
+		var id_list = new Array(0,0,0,0,0,0,0,0);
+		str_ip=location.href;
+		str_num=str_ip.lastIndexOf("/");
+		str_ip=str_ip.substring(0,str_num+1)+"status.cgi?";
+		str_ip+="redirect=bf50card.htm";
+		str_ip+="&failure=fail.htm";
+		str_ip+="&type=bf50_card_set";
+		for(j=0;j<50;j++){
+			num=card_no[j].value;
+			for(i=0;i<8;i++){
+				id_list[i]="00";
+			}
+			if(hex_dec){
+				str=num;
+				for(i=0;i<8;i++){
+					if(str.length == 1){
+						id_list[7-i] = "0" + str.substring(str.length-1,str.length);
+						str="";
+						break;
+					}
+					else if(str.length>1){
+						id_list[7-i] = str.substring(str.length-2,str.length);
+						str=str.substr(0,str.length-2);
+					}
+					else
+						break;
+				}
+			}
+			else{
+				if(num){
+					str=num-0;
+					if(fc_id)
+					{
+						str = parseInt(num/100000).toString(16);
+						str += parseInt(num%100000).toString(16);
+					}
+					else
+					str=str.toString(16);
+					for(i=0;i<8;i++){
+						if(str.length == 1){
+							id_list[7-i] = "0" + str.substring(str.length-1,str.length);
+							str="";
+							break;
+						}
+						else if(str.length>1){
+							id_list[7-i] = str.substring(str.length-2,str.length);
+							str=str.substr(0,str.length-2);
+						}
+						else
+							break;
+					}
+				}
+			}
+			str_ip += "&" + j + "=";
+			for(i=0;i<8;i++){
+				str_ip += id_list[i].toUpperCase();
+			}
+		}
+		location.href=str_ip;
+	}
+</script>
+</HTML>

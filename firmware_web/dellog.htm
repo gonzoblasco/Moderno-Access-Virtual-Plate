@@ -1,0 +1,129 @@
+<html>
+<head>
+	<link rel="stylesheet" href="Sstandle.css" type="text/css">
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<base target="Status">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+</head>
+<script>
+var e_text = new Array("Reset","Warning! The current Data will be lost.","Are you sure?","Warning! The current configuration will lost.","User Data","Access Logs","Group","Time Zone","Time Set","Holiday","Floor","System Logs","Reset System to Factory Default","Delete","SELECT ALL","Factory Default","Don't reset Network setting and Software setting","Don't reset web port");
+var chs_text = new Array("删除资料","警告! 资料将会删除.","是否继续?","警告!目前的设定纪录将会流失.","用户资料","进出纪录","群组","时区","时段","假日","楼层","系统纪录","还原系统至出厂预设值","删除","全选","出厂预设","不还原网路设定(包含软体IP，port，终端机编号)","不還原網路通訊埠");
+var cht_text = new Array("Reseteo","Atención! Los Datos Actuales se Perderán.","Esta Seguro?","Atención! La Configuración Actual se Perderá.","Datos de Usuario","Diarios de Acceso","Grupo","Zona Horaria","Conf. Horaria","Feriado","Piso","Diario de Sistema","Resetear el Sistema a sus Parámetros de Fabrica","Borrar","SELECCIONAR TODO","Predeterminado de Fabrica","No Resetee la Configuración de Red y Software","No Resetee el Puerto Web");
+var lan_text = new Array();
+lan_text[0]=e_text;
+lan_text[1]=chs_text;
+lan_text[2]=cht_text;
+
+	var lan = <!-#status.cgi$language-->;
+	function Check(form)
+	{
+		if (confirm(lan_text[lan][1] + "\n" + lan_text[lan][2]))
+		{
+			form.submit();
+		}
+	} 
+
+	function MAN_ConfigReload(form) 
+	{
+		if (confirm(lan_text[lan][3] + "\n" + lan_text[lan][2]))
+		{
+			form.submit();
+		}
+	}
+
+	function select_all()
+	{
+		document.FORM_DEL_ALL_USER.delete_all_user.checked=true;
+		document.FORM_DEL_ALL_USER.delete_all_log.checked=true;
+		document.FORM_DEL_ALL_USER.delete_all_sys_log.checked=true;
+		document.FORM_DEL_ALL_USER.delete_all_grp.checked=true;
+		document.FORM_DEL_ALL_USER.delete_all_time_zone.checked=true;
+		document.FORM_DEL_ALL_USER.delete_all_time_set.checked=true;
+		document.FORM_DEL_ALL_USER.delete_all_holiday.checked=true;
+		document.FORM_DEL_ALL_USER.delete_all_lift.checked=true;
+	}
+</script>
+<body>
+<font face="Arial">
+	<table width="800">
+		<tr><td><br></td></tr>  
+		<tr><td class="title" id="tit"></td></tr>
+		<tr><td>
+			<table id="table_1">
+				<tr><td colspan="16"><HR align=center></td></tr>
+					<form name="FORM_DEL_ALL_USER" action="man.cgi">
+					<input type="hidden" name="redirect" value="dellog.htm">
+					<input type="hidden" name="failure" value="fail.htm">
+					<input type="hidden" name="type" value="delete_all_user">
+				<tr>
+					<td><input type=checkbox name=delete_all_user value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=delete_all_log value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=delete_all_grp value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=delete_all_time_zone value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=delete_all_time_set value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=delete_all_holiday value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=delete_all_lift value=1></td>
+					<td nowrap></td>
+					<td><input type=checkbox name=delete_all_sys_log value=1></td>
+					<td nowrap></td>
+				</tr>
+				<tr><td colspan="16">
+					<input type=hidden>
+					<input type="button" onClick="select_all()" name="sel_all">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="button" OnClick="Check(FORM_DEL_ALL_USER)" name="del">
+				</td></tr>
+					</form>
+				<tr><td colspan="16"><HR align=center></td></tr>
+				<tr><td><br><br><br></td></tr>
+				<tr><td colspan="16" class="title" id="tit2"></td></tr>
+				<tr><td colspan="16"><HR align=center></td></tr>
+					<form name="FORM_MAN_DEFAULT" action="man.cgi">
+					<input type="hidden" name="redirect" value="deftsets.htm">
+					<input type="hidden" name="failure" value="fail.htm">
+					<input type="hidden" name="type" value="default_setting">
+				<table id="reset_select">
+				 	<tr colspan="16" align="center" >
+						<td><input type="checkbox" name=no_reset_ip id="reset_ip" value=1 ></td>
+						<td>no_reset_ip</td>
+						<td><input type="checkbox" name=no_reset_web_port id="reset_web_port" value=1 ></td>
+						<td>no_reset_web_port</td>
+					</tr>
+					<td colspan="16" align="center">
+						<input type="button" OnClick="MAN_ConfigReload(FORM_MAN_DEFAULT)" name="fac">						
+					</td>
+				</table>
+				<tr><td colspan="16"><HR align=center></td></tr>
+			</table>							
+		</td></tr>
+	</table>
+</font></body>
+<script>
+var lift_enable = <!-#man.cgi$lift_status-->;
+var table = document.getElementById("table_1");
+var leng = lan_text[lan].length;
+document.title=lan_text[lan][0];
+document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][0] + "</b></font>";
+document.getElementById("tit2").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][12] + "</b></font>";
+document.all.sel_all.value = lan_text[lan][14];
+document.all.del.value = lan_text[lan][13];
+document.all.fac.value = lan_text[lan][15];
+document.getElementById("reset_select").rows[0].cells[1].innerHTML ="<font size=2><b>" + lan_text[lan][leng-2] + "</b></font>";
+document.getElementById("reset_select").rows[0].cells[3].innerHTML ="<font size=2><b>" + lan_text[lan][leng-1] + "</b></font>";
+for(i=0;i<8;i++)
+	table.rows[1].cells[1+i*2].innerHTML = "<font size=2><b>" + lan_text[lan][4+i] + "</b></font>";
+
+if(lift_enable == 0){
+	table.rows[1].cells[12].style.display="none";
+	table.rows[1].cells[13].style.display="none";
+}
+
+</script>
+</html>
