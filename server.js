@@ -40,6 +40,8 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
+let activeUserEditId = null;
+
 // SSI Processor
 function processSSI(html, config) {
     const fullSsiMap = {
@@ -328,7 +330,6 @@ function processSSI(html, config) {
         'status.cgi$weblog_set': '0',
 };
 
-
     let logRows = '';
     config.logs.forEach((log, index) => {
         const d = new Date(log.timestamp);
@@ -342,13 +343,29 @@ function processSSI(html, config) {
         doorRows += `<TR align="center"><TD>${door.id}</TD><TD>${door.name}</TD><TD>${door.status}</TD><TD><a href="man.cgi?type=door_on&securitystate=1" target="Status"><button type="button">Open Door</button></a></TD><TD>Normal</TD></TR>`;
     });
 
+    let userRows = '';
+    config.users.forEach((user, index) => {
+        userRows += `<TR><td nowrap><font size=1 face=Arial><INPUT TYPE='CHECKBOX' NAME='SELECT' VALUE='${user.id}'>${index+1}.</font></td><td ALIGN=CENTER nowrap><A target='Status' HREF='if.cgi?redirect=HmEmpRcd.htm&failure=fail.htm&type=want_emp&id=${user.id}'>${user.id}</A></td><td ALIGN=CENTER nowrap>${user.name}</td><td ALIGN=CENTER>Normal</td><td><font size=1 face=Arial color=#000000><IMG SRC='v.gif'></font></td><td>V</td><td>V</td><td><P ALIGN=CENTER><font size=1 face=Arial color=#000000>0</font></P></td></TR>`;
+    });
+
+    const activeUser = config.users.find(u => u.id === activeUserEditId) || { id: '', name: '', card: '', pin: '' };
+
     const ssiMap = Object.assign({}, fullSsiMap, {
         'status.cgi$proname': `"${config.board.name}"`,
         'if.cgi$Reg': config.users.length,
         'if.cgi$ava_user': 20000 - config.users.length,
+        'if.cgi$maxuser': '20000',
         'if.cgi$LogCount': `${config.logs.length}/0`,
         'man.cgi$door_table': doorRows || '<tr><td colspan="5" align="center">No doors configured</td></tr>',
-        'if.cgi$Userlogdata': logRows || '<tr><td colspan="8" align="center">No logs available</td></tr>'
+        'if.cgi$Userlogdata': logRows || '<tr><td colspan="8" align="center">No logs available</td></tr>',
+        'if.cgi$syslog': logRows || '<tr><td colspan="8" align="center">No logs available</td></tr>',
+        'if.cgi$userid': userRows || '<tr><td colspan="8" align="center">No Users</td></tr>',
+        'if.cgi$id': activeUser.id,
+        'if.cgi$user_name': activeUser.name,
+        'if.cgi$Password': activeUser.pin,
+        'if.cgi$card_snc': activeUser.card,
+        'status.cgi$end_log': `"${config.logs.length}"`,
+        'man.cgi$log_tail': `${config.logs.length}`
     });
 
 
@@ -444,7 +461,42 @@ app.post('/man.cgi', authMiddleware, upload.single('filename'), (req, res) => {
 });
 
 app.get('/if.cgi', authMiddleware, (req, res) => {
-    const { redirect } = req.query;
+    const { redirect, type, id, EmployeeID, username, Password, CardID } = req.query;
+    let config = getConfig();
+
+    if (type === 'want_emp') {
+        activeUserEditId = parseInt(id, 10);
+    } else if (type === 'user_data') {
+        const empId = parseInt(EmployeeID, 10);
+        let user = config.users.find(u => u.id === empId);
+        if (!user) {
+            user = { id: empId || (config.users.length ? Math.max(...config.users.map(u => u.id)) + 1 : 1) };
+            config.users.push(user);
+        }
+        user.name = username || user.name || 'New User';
+        user.card = CardID || user.card || '';
+        user.pin = Password || user.pin || '';
+        saveConfig(config);
+        config.logs.push({
+            timestamp: new Date().toISOString(),
+            user: 'Admin',
+            action: 'Added/Edited User ' + user.name,
+            door: 'System'
+        });
+        saveConfig(config);
+    } else if (type === 'user_delete') {
+        const empId = parseInt(EmployeeID, 10);
+        config.users = config.users.filter(u => u.id !== empId);
+        saveConfig(config);
+        config.logs.push({
+            timestamp: new Date().toISOString(),
+            user: 'Admin',
+            action: 'Deleted User ' + empId,
+            door: 'System'
+        });
+        saveConfig(config);
+    }
+
     if (redirect) return res.redirect(redirect);
     res.send('OK');
 });
