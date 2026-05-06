@@ -4,10 +4,12 @@ const path = require('path');
 const morgan = require('morgan');
 const auth = require('basic-auth');
 const dotenv = require('dotenv');
+const multer = require('multer');
 
 dotenv.config();
 
 const app = express();
+const upload = multer({ dest: path.join(__dirname, 'scratch/uploads/') });
 const PORT = process.env.PORT || 8080;
 const CONFIG_PATH = path.join(__dirname, 'config.json');
 const WEB_DIR = path.join(__dirname, 'public');
@@ -389,6 +391,29 @@ app.get('/man.cgi', authMiddleware, (req, res) => {
             door: 'All (Security State Change)'
         });
         saveConfig(config);
+    }
+
+    if (redirect) {
+        return res.redirect(redirect);
+    }
+    res.send('OK');
+});
+
+app.post('/man.cgi', authMiddleware, upload.single('filename'), (req, res) => {
+    const { type, redirect, failure } = req.body;
+
+    if (type === 'file_upload' && req.file) {
+        console.log(`Received firmware upload: ${req.file.originalname}`);
+        if (req.file.originalname.endsWith('.web')) {
+            try {
+                // Extract the .web file contents into public/ and firmware_web/
+                require('child_process').execSync(`node scratch/final_extraction.js "${req.file.path}"`);
+                console.log('Firmware Web assets successfully extracted and applied!');
+            } catch (e) {
+                console.error('Failed to extract firmware:', e.message);
+                if (failure) return res.redirect(failure);
+            }
+        }
     }
 
     if (redirect) {

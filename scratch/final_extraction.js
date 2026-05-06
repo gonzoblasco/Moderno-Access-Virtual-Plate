@@ -2,7 +2,8 @@ const fs = require('fs');
 const zlib = require('zlib');
 const path = require('path');
 
-const buffer = fs.readFileSync('TNG PRO C2P-Ver1.9-0328-2017.web');
+const inputFile = process.argv[2] || 'TNG PRO C2P-Ver1.9-0328-2017.web';
+const buffer = fs.readFileSync(inputFile);
 const dirs = ['public', 'firmware_web'];
 
 dirs.forEach(dir => {
