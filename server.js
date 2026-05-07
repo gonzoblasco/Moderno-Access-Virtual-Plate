@@ -344,11 +344,40 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
 
 app.all('/man.cgi', authMiddleware, (req, res) => {
     const params = Object.assign({}, req.query, req.body);
-    const { type, id, securitystate } = params;
-    const config = getConfig();
+    const { type, securitystate } = params;
+
+    console.log(`[man.cgi] Query received:`, params);
 
     if (type === 'door_on') {
-        openDoorLocally('Door 1', 'Remote Admin');
+        console.log(`[man.cgi] Type: ${type}, securitystate: ${securitystate}`);
+
+        if (!securitystate || securitystate.length !== 8 || !/^[01]+$/.test(securitystate)) {
+            console.error(`[man.cgi] Error: Invalid securitystate '${securitystate}'`);
+            return res.status(400).json({ error: "Invalid securitystate format. Must be 8 characters of 0 and 1." });
+        }
+
+        const activeIndex = securitystate.indexOf('1');
+        if (activeIndex === -1) {
+            console.error(`[man.cgi] Error: No active relay found in securitystate`);
+            return res.status(400).json({ error: "Invalid securitystate. No relay active." });
+        }
+
+        const relay = activeIndex + 1;
+        console.log(`[man.cgi] Relay detected: ${relay}`);
+
+        openDoorLocally(`Door ${relay}`, 'Remote Admin');
+
+        if (params.redirect === 'scrt.htm') {
+            return res.send(`<html><body><h2>Door opened successfully</h2></body></html>`);
+        }
+
+        return res.status(200).json({
+            success: true,
+            type: "door_on",
+            relay: relay,
+            securitystate: securitystate,
+            message: `Relay ${relay} opened`
+        });
     }
 
     if (params.redirect) {
