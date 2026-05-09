@@ -346,7 +346,7 @@ app.get(['/', '/index.htm'], authMiddleware, (req, res) => {
     }
 });
 
-app.get(/\.htm$/, authMiddleware, (req, res) => {
+app.get(/\.htm$/i, authMiddleware, (req, res) => {
     const filename = path.basename(req.path);
     const filePath = path.join(WEB_DIR, filename);
 
@@ -355,6 +355,7 @@ app.get(/\.htm$/, authMiddleware, (req, res) => {
         html = processSSI(html, getConfig());
         res.send(html);
     } else {
+        console.error(`[404] File not found in firmware assets: ${filename} (Path: ${filePath})`);
         res.status(404).send('File not found in firmware assets');
     }
 });
