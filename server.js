@@ -42,8 +42,23 @@ const SERIAL_NUMBER = process.env.SERIAL_NUMBER || initialConfig.board?.serial |
 let MODERNO_API_URL = process.env.MODERNO_API_URL || initialConfig.board?.modernoApiUrl || 'https://access.moderno.com.ar';
 let WEBHOOK_URL = process.env.WEBHOOK_URL || `${MODERNO_API_URL}/api/webhooks/hardware-event`;
 
-function updateCloudUrls(newUrl) {
-    if (!process.env.MODERNO_API_URL) MODERNO_API_URL = newUrl;
+function updateCloudUrls(newUrl, newPort) {
+    if (!newUrl) return;
+    let url = newUrl;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = `https://${url}`;
+    }
+    
+    // Append port if specified and not default for the protocol
+    if (newPort && newPort !== '80' && newPort !== '443') {
+        // Remove trailing slash if any to append port correctly
+        url = url.replace(/\/$/, '');
+        if (!url.includes(':', url.indexOf('//') + 2)) {
+            url = `${url}:${newPort}`;
+        }
+    }
+
+    if (!process.env.MODERNO_API_URL) MODERNO_API_URL = url;
     if (!process.env.WEBHOOK_URL) WEBHOOK_URL = `${MODERNO_API_URL}/api/webhooks/hardware-event`;
     console.log(`[Cloud] API URL updated to: ${MODERNO_API_URL}`);
 }
@@ -217,10 +232,10 @@ function processSSI(html, config) {
         'status.cgi$web_mode': '0',
         'status.cgi$log_pw_on': 'checked',
         'status.cgi$end_log': config.logs.length.toString(),
-        'status.cgi$ver': '2.09.00,Mar 28 2017(HW1.2)',
+        'status.cgi$ver': config.board.version || '2.09.00,Mar 28 2017(HW1.2)',
         'status.cgi$hwver': '1.2',
         'status.cgi$uptime': '0 days, 04:22:11',
-        'status.cgi$mac': '00:0e:e3:08:47:64',
+        'status.cgi$mac': config.board.mac || '00:0e:e3:08:47:64',
         'status.cgi$ip': config.network?.ip || '192.168.0.66',
         'status.cgi$mask': config.network?.mask || '255.255.255.0',
         'status.cgi$gateway': config.network?.gateway || '192.168.0.1',
@@ -257,7 +272,8 @@ function processSSI(html, config) {
         'status.cgi$del_list': '0,0,0',
         'status.cgi$mini52_type': 'S201-V',
         'status.cgi$mini52_fwver': '1.0.0',
-        'status.cgi$moderno_api': config.board.modernoApiUrl || 'https://access.moderno.com.ar',
+        'status.cgi$ap_tcpc1': config.board.modernoApiUrl || 'access.moderno.com.ar',
+        'status.cgi$ap_tcps_port': config.board.modernoApiPort || '443',
     };
 
     let logRows = '';
@@ -310,12 +326,12 @@ function processSSI(html, config) {
         'if.cgi$LogCount': `${config.logs.length}/0`,
         'if.cgi$prev_emp': '',
         'if.cgi$next_emp': '',
-        'if.cgi$TID': '00:0e:e3:08:47:64',
-        'if.cgi$wan_ip': '192.168.0.66',
-        'if.cgi$wan_netmask': '255.255.255.0',
-        'if.cgi$wan_gateway': '192.168.0.1',
-        'man.cgi$serial_no': '084764(112334)',
-        'man.cgi$wan_mac_addr': '00:0e:e3:08:47:64',
+        'if.cgi$TID': config.board.serial || SERIAL_NUMBER,
+        'if.cgi$wan_ip': config.network?.ip || '192.168.0.66',
+        'if.cgi$wan_netmask': config.network?.mask || '255.255.255.0',
+        'if.cgi$wan_gateway': config.network?.gateway || '192.168.0.1',
+        'man.cgi$serial_no': SERIAL_NUMBER,
+        'man.cgi$wan_mac_addr': config.board.mac || '00:0e:e3:08:47:64',
         'status.cgi$outdate': '2017/03/28',
         'status.cgi$md5_signal': '',
         'status.cgi$fmver': '2.09.00',
@@ -449,9 +465,13 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
         config.board.lifts = params.lifts;
         config.board.relayControl = params.relay_control_data;
         config.board.blacklist = params.BLACKLIST;
-        config.board.modernoApiUrl = params.moderno_api;
+        
+        // Use original firmware field names
+        config.board.modernoApiUrl = params.TF_peer_ip;
+        config.board.modernoApiPort = params.TF_port;
+        
         saveConfig(config);
-        updateCloudUrls(params.moderno_api);
+        updateCloudUrls(params.TF_peer_ip, params.TF_port);
     }
 
     if (params.redirect) {
