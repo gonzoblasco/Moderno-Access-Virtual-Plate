@@ -274,6 +274,8 @@ function processSSI(html, config) {
         'status.cgi$mini52_fwver': '1.0.0',
         'status.cgi$ap_tcpc1': config.board.modernoApiUrl || 'access.moderno.com.ar',
         'status.cgi$ap_tcps_port': config.board.modernoApiPort || '443',
+        'dhcpc.cgi$hostname': config.board.hostname || 'TNG-Board',
+        'man.cgi$lift_status': config.board.lifts === '1' ? '1' : '0',
     };
 
     let logRows = '';
