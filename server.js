@@ -386,6 +386,10 @@ app.get(/\.htm$/, authMiddleware, (req, res) => {
     const filePath = getCorrectFilePath(filename);
 
     if (filePath) {
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        
         let html = fs.readFileSync(filePath, 'utf8');
         html = processSSI(html, getConfig());
         res.send(html);
@@ -426,14 +430,24 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
 
     if (params.type === 'config') {
         console.log(`[Config] Updating terminal configuration...`);
-        console.log(`[Config] Received TF_peer_ip: ${params.TF_peer_ip}, TF_port: ${params.TF_port}`);
+        console.log(`[Config] Raw Params:`, JSON.stringify(params));
+        
         if (!config.board) config.board = {};
-        config.board.modernoApiUrl = params.TF_peer_ip;
-        config.board.modernoApiPort = params.TF_port;
-        config.board.httpPort = params.http_block_value;
+        
+        // Update all fields from the form
+        if (params.TF_peer_ip) config.board.modernoApiUrl = params.TF_peer_ip;
+        if (params.TF_port) config.board.modernoApiPort = params.TF_port;
+        if (params.http_block_value) config.board.httpPort = params.http_block_value;
+        if (params.id) config.board.id = params.id;
+        if (params.dhcp_name) config.board.hostname = params.dhcp_name;
+        
+        // Network fields
+        if (!config.network) config.network = {};
+        if (params.TF_ip) config.network.ip = Array.isArray(params.TF_ip) ? params.TF_ip[0] : params.TF_ip;
+        
         saveConfig(config);
-        updateCloudUrls(params.TF_peer_ip, params.TF_port);
-        console.log(`[Config] Configuration saved and URLs updated.`);
+        updateCloudUrls(config.board.modernoApiUrl, config.board.modernoApiPort);
+        console.log(`[Config] Saved board config:`, JSON.stringify(config.board));
     }
 
     if (params.redirect) {
