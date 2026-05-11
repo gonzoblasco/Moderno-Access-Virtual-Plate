@@ -4,19 +4,7 @@
     "version": "2.09.00,Mar 28 2017(HW1.2)",
     "securityState": "10000000",
     "serial": "084764(112334)",
-    "mac": "00:0e:e3:08:47:64",
-    "language": "2",
-    "bypassMode": "0",
-    "syncAllData": "1",
-    "weiganOut": "0",
-    "clockInterval": "0",
-    "antiForced": "0",
-    "antiFdPwd": "9",
-    "fastRegC": "0",
-    "lifts": "0",
-    "relayControl": "0",
-    "blacklist": "0",
-    "modernoApiUrl": "https://access.moderno.com.ar"
+    "mac": "00:0e:e3:08:47:64"
   },
   "doors": [
     {

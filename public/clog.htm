@@ -25,13 +25,13 @@ body {
 </font>
 </BODY>
 <script>
-    var log_set = <!-#status.cgi$weblog_set-->;
-	var log_set_show = <!-#status.cgi$logo_set-->;
+    var log_set = 0;
+	var log_set_show = 0;
 		
 	if(log_set == 1)
 	{
 		if(log_set_show == 1)
-			document.getElementById("weblog").innerHTML="<img src='<!-#status.cgi$logo_show-->'>";
+			document.getElementById("weblog").innerHTML="<img src='right.png'>";
 		else
 			document.getElementById("weblog").innerHTML="<img  src='logo.png'>";
 	}

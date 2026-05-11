@@ -17,51 +17,14 @@ const PORT = process.env.PORT || 8080;
 const CONFIG_PATH = path.join(__dirname, 'config.json');
 const WEB_DIR = path.join(__dirname, 'public');
 
-// Helper for case-insensitive file lookup
-function getCorrectFilePath(filename) {
-    const filePath = path.join(WEB_DIR, filename);
-    if (fs.existsSync(filePath)) return filePath;
-
-    // Try case-insensitive match
-    try {
-        const files = fs.readdirSync(WEB_DIR);
-        const lowerFilename = filename.toLowerCase();
-        const matched = files.find(f => f.toLowerCase() === lowerFilename);
-        if (matched) return path.join(WEB_DIR, matched);
-    } catch (e) {}
-    
-    return null;
-}
-
 app.use(morgan('dev'));
 app.use(express.json());
 
 // Cloud / Local Web Integration Configuration
-const initialConfig = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
-const SERIAL_NUMBER = process.env.SERIAL_NUMBER || initialConfig.board?.serial || '084764(112334)';
-let MODERNO_API_URL = process.env.MODERNO_API_URL || initialConfig.board?.modernoApiUrl || 'https://access.moderno.com.ar';
-let WEBHOOK_URL = process.env.WEBHOOK_URL || `${MODERNO_API_URL}/api/webhooks/hardware-event`;
-
-function updateCloudUrls(newUrl, newPort) {
-    if (!newUrl) return;
-    let url = newUrl;
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = `https://${url}`;
-    }
-    
-    // Append port if specified and not default for the protocol
-    if (newPort && newPort !== '80' && newPort !== '443') {
-        // Remove trailing slash if any to append port correctly
-        url = url.replace(/\/$/, '');
-        if (!url.includes(':', url.indexOf('//') + 2)) {
-            url = `${url}:${newPort}`;
-        }
-    }
-
-    if (!process.env.MODERNO_API_URL) MODERNO_API_URL = url;
-    if (!process.env.WEBHOOK_URL) WEBHOOK_URL = `${MODERNO_API_URL}/api/webhooks/hardware-event`;
-    console.log(`[Cloud] API URL updated to: ${MODERNO_API_URL}`);
-}
+// Cloud / Local Web Integration Configuration
+const SERIAL_NUMBER = process.env.SERIAL_NUMBER || '084764(112334)';
+const MODERNO_API_URL = process.env.MODERNO_API_URL || 'http://localhost:10000'; // Default port for Moderno Access backend
+const WEBHOOK_URL = process.env.WEBHOOK_URL || `${MODERNO_API_URL}/api/webhooks/hardware-event`;
 
 // Simulation State
 function getConfig() {
@@ -232,10 +195,10 @@ function processSSI(html, config) {
         'status.cgi$web_mode': '0',
         'status.cgi$log_pw_on': 'checked',
         'status.cgi$end_log': config.logs.length.toString(),
-        'status.cgi$ver': config.board.version || '2.09.00,Mar 28 2017(HW1.2)',
+        'status.cgi$ver': '2.09.00,Mar 28 2017(HW1.2)',
         'status.cgi$hwver': '1.2',
         'status.cgi$uptime': '0 days, 04:22:11',
-        'status.cgi$mac': config.board.mac || '00:0e:e3:08:47:64',
+        'status.cgi$mac': '00:0e:e3:08:47:64',
         'status.cgi$ip': config.network?.ip || '192.168.0.66',
         'status.cgi$mask': config.network?.mask || '255.255.255.0',
         'status.cgi$gateway': config.network?.gateway || '192.168.0.1',
@@ -244,38 +207,6 @@ function processSSI(html, config) {
         'status.cgi$ntp_server': 'time.stdtime.gov.tw',
         'status.cgi$timezone': '0',
         'status.cgi$dst_enable': '0',
-        
-        // Expanded mapping for 100% parity
-        'status.cgi$web_language': config.board.language || '2',
-        'status.cgi$BYPASS_MODE': config.board.bypassMode || '0',
-        'status.cgi$two_door': config.board.syncAllData === '0' ? 'checked' : '',
-        'status.cgi$one_door': config.board.syncAllData === '1' ? 'checked' : '',
-        'status.cgi$en_anti_pass_back': config.board.weiganOut === '1' ? 'checked' : '',
-        'status.cgi$en_anti_follow': config.board.weiganOut === '2' ? 'checked' : '',
-        'status.cgi$dis_anti_pass_back': config.board.weiganOut === '0' ? 'checked' : '',
-        'status.cgi$anti_pb_period': config.board.clockInterval || '0',
-        'status.cgi$en_anti_forced': config.board.antiForced === '1' ? 'checked' : '',
-        'status.cgi$dis_anti_forced': config.board.antiForced === '0' ? 'checked' : '',
-        'status.cgi$anti_fd_pwd': config.board.antiFdPwd || '9',
-        'status.cgi$semac_ip1': '0', 'status.cgi$semac_ip2': '0', 'status.cgi$semac_ip3': '0', 'status.cgi$semac_ip4': '0',
-        'status.cgi$en_fast_reg_card': config.board.fastRegC === '1' ? 'checked' : '',
-        'status.cgi$dis_fast_reg_card': config.board.fastRegC === '0' ? 'checked' : '',
-        'status.cgi$lift_m': config.board.lifts === '0' ? 'checked' : '',
-        'status.cgi$lift_s': config.board.lifts === '1' ? 'checked' : '',
-        'status.cgi$in_relay_control': config.board.relayControl === '2' ? 'checked' : '',
-        'status.cgi$out_relay_control': config.board.relayControl === '1' ? 'checked' : '',
-        'status.cgi$both_relay_control': config.board.relayControl === '0' ? 'checked' : '',
-        'status.cgi$blacklist_sw_off': config.board.blacklist === '0' ? 'checked' : '',
-        'status.cgi$blacklist_sw_on': config.board.blacklist === '1' ? 'checked' : '',
-        'status.cgi$language_set': '1,1,1',
-        'status.cgi$add_list': '0,0,0',
-        'status.cgi$del_list': '0,0,0',
-        'status.cgi$mini52_type': 'S201-V',
-        'status.cgi$mini52_fwver': '1.0.0',
-        'status.cgi$ap_tcpc1': config.board.modernoApiUrl || 'access.moderno.com.ar',
-        'status.cgi$ap_tcps_port': config.board.modernoApiPort || '443',
-        'dhcpc.cgi$hostname': config.board.hostname || 'TNG-Board',
-        'man.cgi$lift_status': config.board.lifts === '1' ? '1' : '0',
     };
 
     let logRows = '';
@@ -328,12 +259,12 @@ function processSSI(html, config) {
         'if.cgi$LogCount': `${config.logs.length}/0`,
         'if.cgi$prev_emp': '',
         'if.cgi$next_emp': '',
-        'if.cgi$TID': config.board.serial || SERIAL_NUMBER,
-        'if.cgi$wan_ip': config.network?.ip || '192.168.0.66',
-        'if.cgi$wan_netmask': config.network?.mask || '255.255.255.0',
-        'if.cgi$wan_gateway': config.network?.gateway || '192.168.0.1',
-        'man.cgi$serial_no': SERIAL_NUMBER,
-        'man.cgi$wan_mac_addr': config.board.mac || '00:0e:e3:08:47:64',
+        'if.cgi$TID': '00:0e:e3:08:47:64',
+        'if.cgi$wan_ip': '192.168.0.66',
+        'if.cgi$wan_netmask': '255.255.255.0',
+        'if.cgi$wan_gateway': '192.168.0.1',
+        'man.cgi$serial_no': '084764(112334)',
+        'man.cgi$wan_mac_addr': '00:0e:e3:08:47:64',
         'status.cgi$outdate': '2017/03/28',
         'status.cgi$md5_signal': '',
         'status.cgi$fmver': '2.09.00',
@@ -405,8 +336,8 @@ function processSSI(html, config) {
 
 // Routes
 app.get(['/', '/index.htm'], authMiddleware, (req, res) => {
-    const filePath = getCorrectFilePath('index.htm');
-    if (filePath) {
+    const filePath = path.join(WEB_DIR, 'index.htm');
+    if (fs.existsSync(filePath)) {
         let html = fs.readFileSync(filePath, 'utf8');
         html = processSSI(html, getConfig());
         res.send(html);
@@ -415,16 +346,15 @@ app.get(['/', '/index.htm'], authMiddleware, (req, res) => {
     }
 });
 
-app.get(/\.htm$/i, authMiddleware, (req, res) => {
+app.get(/\.htm$/, authMiddleware, (req, res) => {
     const filename = path.basename(req.path);
-    const filePath = getCorrectFilePath(filename);
+    const filePath = path.join(WEB_DIR, filename);
 
-    if (filePath) {
+    if (fs.existsSync(filePath)) {
         let html = fs.readFileSync(filePath, 'utf8');
         html = processSSI(html, getConfig());
         res.send(html);
     } else {
-        console.error(`[404] File not found in firmware assets: ${filename}`);
         res.status(404).send('File not found in firmware assets');
     }
 });
@@ -435,13 +365,17 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
     const config = getConfig();
 
     if (a === 'new_log') {
+        const config = getConfig();
         const clientLogCount = parseInt(b);
         const serverLogCount = config.logs.length;
         
+        // If there are no new logs, return a small value so the client keeps polling
         if (serverLogCount <= clientLogCount) {
             return res.send('0');
         }
         
+        // Get the most recent log that the client hasn't seen yet
+        // Since we use unshift(), the newest log is at index 0
         const latestLog = config.logs[0];
         const user = config.users.find(u => u.name === latestLog.user) || { id: '0', name: latestLog.user };
         
@@ -449,31 +383,10 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
         const dateStr = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
         const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
         
+        // CSV Format for autolog.htm: UserID, UserName, Date, Time, IN/OUT, Door, Note, NextTail
         const response = `${user.id || '0'},${user.name},${dateStr},${timeStr},IN,${latestLog.door},${latestLog.action},${serverLogCount}`;
+        
         return res.send(response);
-    }
-
-    if (params.type === 'config') {
-        console.log(`[Config] Updating terminal configuration...`);
-        if (!config.board) config.board = {};
-        config.board.language = params.language;
-        config.board.bypassMode = params.BYPASS_MODE;
-        config.board.syncAllData = params.sync_all_data;
-        config.board.weiganOut = params.Weigan_out;
-        config.board.clockInterval = params.clock_interval;
-        config.board.antiForced = params.Anti_Forced;
-        config.board.antiFdPwd = params.password;
-        config.board.fastRegC = params.fast_reg_c;
-        config.board.lifts = params.lifts;
-        config.board.relayControl = params.relay_control_data;
-        config.board.blacklist = params.BLACKLIST;
-        
-        // Use original firmware field names
-        config.board.modernoApiUrl = params.TF_peer_ip;
-        config.board.modernoApiPort = params.TF_port;
-        
-        saveConfig(config);
-        updateCloudUrls(params.TF_peer_ip, params.TF_port);
     }
 
     if (params.redirect) {

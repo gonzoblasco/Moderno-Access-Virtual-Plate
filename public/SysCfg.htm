@@ -20,34 +20,34 @@
 				<tr><td colspan=3><HR align=center></td></tr>
 				<TR>
 					<TD width=30% align="right" nowrap></TD>
-					<TD><INPUT name="Input" value="<!-#status.cgi$admin_name-->" size=50 maxLength=47>&nbsp;</TD>
+					<TD><INPUT name="Input" value="admin" size=50 maxLength=47>&nbsp;</TD>
 					<td></TD>
 				</TR>
 				<TR>
 					<TD align="right" nowrap></TD>
-					<TD><INPUT name="password" type=password value="<!-#status.cgi$admin_pwd-->" size=50 maxLength=35>&nbsp;</TD>
+					<TD><INPUT name="password" type=password value="admin" size=50 maxLength=35>&nbsp;</TD>
 					<td></b></TD>
 				</TR>
 				<TR><TD>&nbsp;</TD><TD></TD></TR>
 				<TR>
 					<TD align="right" nowrap></TD>
-					<TD><INPUT maxLength=47 size=50 name=TF_username value="<!-#status.cgi$user_name-->">&nbsp;</TD>
+					<TD><INPUT maxLength=47 size=50 name=TF_username value="user">&nbsp;</TD>
 					<td></b></TD>
 				</TR>
 				<TR>
 					<TD align="right" nowrap></TD>
-					<TD><INPUT type=password maxLength=35 name=TF_password size=50 value="<!-#status.cgi$user_pwd-->">&nbsp;</TD>
+					<TD><INPUT type=password maxLength=35 name=TF_password size=50 value="user">&nbsp;</TD>
 					<td></TD>
 				</TR>
 				<TR><TD>&nbsp;</TD><TD></TD></TR>
 				<TR>
 					<TD align="right" nowrap></TD>
-					<TD><INPUT maxLength=47 size=50 name=TF_username value="<!-#status.cgi$user_0_name-->">&nbsp;</TD>
+					<TD><INPUT maxLength=47 size=50 name=TF_username value="user0">&nbsp;</TD>
 					<td></td>
 				</TR>
 				<TR>
 					<TD align="right" nowrap></TD>
-					<TD><INPUT type=password maxLength=35 name=TF_password size=50 value="<!-#status.cgi$user_0_pwd-->">&nbsp;</TD>
+					<TD><INPUT type=password maxLength=35 name=TF_password size=50 value="user0">&nbsp;</TD>
 					<td></TD>
 				</TR>
 				<TR><TD colSpan=3 align="center"><input type="submit" name='Save'></TD></TR>
@@ -64,17 +64,17 @@
 		<tr><td colspan=3><HR align=center></td></tr>
 		<TR>
 			<TD width=50% align="right" nowrap></TD>
-			<TD width="100"><INPUT name="Input" type="text" value="<!-#man.cgi$admin_key_pwd-->" size=10 maxLength=8>&nbsp;</TD>
+			<TD width="100"><INPUT name="Input" type="text" value="" size=10 maxLength=8>&nbsp;</TD>
 			<td></TD>
 		</TR>
 		<TR>
 			<TD align="right" nowrap></TD>
-			<TD><INPUT name="id1" type="text" value="<!-#man.cgi$common_key_pwd-->" size=10 maxLength=8>&nbsp;</TD>
+			<TD><INPUT name="id1" type="text" value="1234" size=10 maxLength=8>&nbsp;</TD>
 			<td></TD>
 		</TR>
 		<TR style=display:none>
 			<TD width=30%><P align=right NOWRAP><font size="2"><b>Fast Reg Password : </FONT></P></b></TD>
-			<TD width="100"><INPUT name="id2" type="text" value="<!-#man.cgi$reg_key_pwd-->" size=10 maxLength=4></TD>
+			<TD width="100"><INPUT name="id2" type="text" value="1111" size=10 maxLength=4></TD>
 			<td></TD>
 		</TR>
 		<TR><TD colSpan=3 align="center"><input type="submit" name='Save2'></TD></TR>
@@ -92,8 +92,8 @@ lan_text[2]=cht_text;
 
 	var table = document.getElementById("admin_pw");
 	var table1 = document.getElementById("table_1");
-	var lift_enable = <!-#man.cgi$lift_status-->;
-	var lan = <!-#status.cgi$language-->;
+	var lift_enable = 0;
+	var lan = 2;
 	document.title=lan_text[lan][0];
 	document.getElementById("tit").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][1] + "</b></font>";
 	document.getElementById("tit2").innerHTML = "<font class='titlefont'><b>&nbsp;&nbsp;" + lan_text[lan][2] + "</b></font>";

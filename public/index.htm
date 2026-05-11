@@ -21,11 +21,11 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="0">
 </head>
-<script> var pro_name = new Array( <!-#status.cgi$proname--> ) ; </script>
+<script> var pro_name = new Array( "S201","Webpass","BF50","BF333" ) ; </script>
 <script>
-var log_p = "<!-#status.cgi$log_pw_on-->";
-var web_s = <!-#status.cgi$web_mode-->;
-var lan = <!-#status.cgi$language-->;
+var log_p = "checked";
+var web_s = 0;
+var lan = 2;
 document.title = pro_name[0];
 document.cookie = "fresh=START";
 
@@ -36,19 +36,19 @@ if(log_p == "checked")
 		if(lan == 2)
 		{
 			document.write("<frameset rows='125,*' cols='*' frameborder='0' border='0' framespacing='0'>");
-		document.write("<frame src='clog.htm' name='topFrame' scrolling='NO' noresize>");
-		document.write("<frameset rows='*' cols='250,*' framespacing='0' frameborder='0' border='0'>");
-		document.write("<frame src='CmdBar.htm' name='Command' scrolling='auto' noresize>");
-	    document.write("<frame src='status.htm' name='Status' scrolling='auto' noresize>");
+			document.write("<frame name='topFrame' scrolling='NO' noresize>");
+			document.write("<frameset rows='*' cols='250,*' framespacing='0' frameborder='0' border='0'>");
+			document.write("<frame name='Command' scrolling='auto' noresize>");
+	    document.write("<frame src='status.htm' name=Status scrolling=auto noresize>");
 	    document.write("</frameset></frameset><noframes></noframes>");
 		}
 		else
 		{
 			document.write("<frameset rows='125,*' cols='*' frameborder='0' border='0' framespacing='0'>");
-			document.write("<frame src='clog.htm' name='topFrame' scrolling='NO' noresize>");
+			document.write("<frame name='topFrame' scrolling='NO' noresize>");
 			document.write("<frameset rows='*' cols='210,*' framespacing='0' frameborder='0' border='0'>");
-			document.write("<frame src='CmdBar.htm' name='Command' scrolling='auto' noresize>");
-	    document.write("<frame src='status.htm' name='Status' scrolling='auto' noresize>");
+			document.write("<frame name='Command' scrolling='auto' noresize>");
+	    document.write("<frame src='status.htm' name=Status scrolling=auto noresize>");
 	    document.write("</frameset></frameset><noframes></noframes>");
 	  }
 	}
@@ -57,8 +57,8 @@ if(log_p == "checked")
 		document.write("<frameset rows='125,*' cols='*' frameborder='0' border='0' framespacing='0'>");
 		document.write("<frame src='clog.htm' name='topFrame' scrolling='NO' noresize>");
 		document.write("<frameset rows='*' cols='0,*' framespacing='0' frameborder='0' border='0'>");
-		document.write("<frame src='CmdBar.htm' name='Command' scrolling='auto' noresize>");
-    	document.write("<frame src='Hmpage.htm' name='Hmmain' scrolling='auto' noresize>");
+		document.write("<frame name='Command' scrolling='auto' noresize>");
+    	document.write("<frame src='Hmpage.htm' name=Hmmain scrolling=auto noresize>");
     	document.write("</frameset></frameset><noframes></noframes>");
   	}
 }
@@ -67,10 +67,10 @@ else
 	if(web_s == 0)
 	{
 	document.write("<frameset rows='125,*' cols='*' frameborder='0' border='0' framespacing='0'>");
-	document.write("<frame src='clog.htm' name='topFrame' scrolling='NO' noresize>");
+	document.write("<frame name='topFrame' scrolling='NO' noresize>");
 	document.write("<frameset rows='*' cols='210,*' framespacing='0' frameborder='0' border='0'>");
-	document.write("<frame src='CmdBar.htm' name='Command' scrolling='auto' noresize>");
-    document.write("<frame src='AccLog.htm' name='Status' scrolling='auto' noresize>");
+	document.write("<frame name='Command' scrolling='auto' noresize>");
+    document.write("<frame src='AccLog.htm' name=Status scrolling=auto noresize>");
 	document.write("</frameset></frameset><noframes></noframes>");
 }
 	else
@@ -78,11 +78,14 @@ else
 		document.write("<frameset rows='125,*' cols='*' frameborder='0' border='0' framespacing='0'>");
 		document.write("<frame src='clog.htm' name='topFrame' scrolling='NO' noresize>");
 		document.write("<frameset rows='*' cols='0,*' framespacing='0' frameborder='0' border='0'>");
-		document.write("<frame src='CmdBar.htm' name='Command' scrolling='auto' noresize>");
-    	document.write("<frame src='HmAccLog.htm' name='Hmmain' scrolling='auto' noresize>");
+		document.write("<frame name='Command' scrolling='auto' noresize>");
+    	document.write("<frame src='HmAccLog.htm' name=Hmmain scrolling=auto noresize>");
     	document.write("</frameset></frameset><noframes></noframes>");
   	}
 }
 </script>
 <body></body>
+<script>
+    top.location.reload();
+</script>
 </html>
