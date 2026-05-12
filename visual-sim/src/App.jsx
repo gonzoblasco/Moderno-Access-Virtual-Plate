@@ -17,7 +17,7 @@ import {
 import axios from 'axios';
 import './index.css';
 
-const socket = io('http://localhost:8081');
+const socket = io();
 
 // --- Components ---
 
@@ -190,7 +190,7 @@ const App = () => {
   const handleRead = async (cardNumber) => {
     setReaderStatus('scanning');
     try {
-      await axios.post('http://localhost:8081/simulate-read', { cardNumber });
+      await axios.post('/api/simulate-wiegand', { cardNumber });
     } catch (err) {
       console.error(err);
       setReaderStatus('idle');
