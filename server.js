@@ -404,27 +404,26 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
     const config = getConfig();
 
     if (a === 'new_log') {
-        const config = getConfig();
-        const clientLogCount = parseInt(b);
+        const clientLogIndex = parseInt(b);
         const serverLogCount = config.logs.length;
         
-        // If there are no new logs, return a small value so the client keeps polling
-        if (serverLogCount <= clientLogCount) {
+        if (serverLogCount <= clientLogIndex) {
             return res.send('0');
         }
         
-        // Get the most recent log that the client hasn't seen yet
-        // Since we use unshift(), the newest log is at index 0
-        const latestLog = config.logs[0];
-        const user = config.users.find(u => u.name === latestLog.user) || { id: '0', name: latestLog.user };
-        
-        const now = new Date(latestLog.timestamp);
+        // Return the log at the requested index (from the end)
+        // config.logs is [newest, ..., oldest]
+        // If clientLogIndex is 0, they want the first log.
+        // But the protocol usually works by asking for the next one.
+        const logToReturn = config.logs[serverLogCount - 1 - clientLogIndex];
+        if (!logToReturn) return res.send('0');
+
+        const user = config.users.find(u => u.name === logToReturn.user) || { id: '0', name: logToReturn.user };
+        const now = new Date(logToReturn.timestamp);
         const dateStr = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
         const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
         
-        // CSV Format for autolog.htm: UserID, UserName, Date, Time, IN/OUT, Door, Note, NextTail
-        const response = `${user.id || '0'},${user.name},${dateStr},${timeStr},IN,${latestLog.door},${latestLog.action},${serverLogCount}`;
-        
+        const response = `${user.id || '0'},${user.name},${dateStr},${timeStr},IN,${logToReturn.door},${logToReturn.action},${clientLogIndex + 1}`;
         return res.send(response);
     }
 
@@ -470,12 +469,10 @@ app.all('/man.cgi', authMiddleware, (req, res) => {
     if (type === 'door_on') {
         console.log(`[man.cgi] Type: ${type}, securitystate: ${securitystate}`);
 
-        if (!securitystate || securitystate.length !== 8 || !/^[01]+$/.test(securitystate)) {
-            console.error(`[man.cgi] Error: Invalid securitystate '${securitystate}'`);
-            return res.status(400).json({ error: "Invalid securitystate format. Must be 8 characters of 0 and 1." });
-        }
-
-        const activeIndex = securitystate.indexOf('1');
+        let state = securitystate;
+        if (!state) state = '10000000';
+        if (state.length < 8) state = state.padEnd(8, '0');
+        const activeIndex = state.indexOf('1');
         if (activeIndex === -1) {
             console.error(`[man.cgi] Error: No active relay found in securitystate`);
             return res.status(400).json({ error: "Invalid securitystate. No relay active." });
@@ -588,6 +585,67 @@ app.get(['/database.cfg', '/userdata.cfg', '/userlist.txt'], (req, res) => {
     } else {
         res.status(404).send('Config file not found');
     }
+});
+
+// --- SIMULATOR ---
+app.get('/simulator', (req, res) => {
+    const config = getConfig();
+    const users = config.users.slice(0, 10);
+    let userButtons = users.map(u => `
+        <div class="keyfob" onclick="swipeCard('${u.card}', '${u.name}')">
+            <div class="chip"></div>
+            <span class="user-name">${u.name}</span>
+            <span class="card-id">${u.card}</span>
+        </div>
+    `).join('');
+    res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>TNG Simulator</title>
+        <style>
+            body { background: #0a0a0a; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+            .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
+            .keyfob { background: #1a1a1a; border: 2px solid #333; padding: 20px; border-radius: 15px; cursor: pointer; text-align: center; }
+            .keyfob:hover { border-color: #007bff; }
+            .chip { width: 40px; height: 30px; background: gold; border-radius: 5px; margin: 0 auto 10px; }
+            .user-name { font-weight: bold; display: block; color: #007bff; }
+            .log { margin-top: 40px; width: 100%; max-width: 1000px; background: #000; padding: 20px; height: 200px; overflow-y: auto; font-family: monospace; border: 1px solid #222; }
+        </style>
+    </head>
+    <body>
+        <h1>WIEGAND SIMULATOR</h1>
+        <div class="grid">${userButtons}</div>
+        <div id="log" class="log"></div>
+        <script>
+            async function swipeCard(cardNumber, name) {
+                const log = document.getElementById('log');
+                log.innerHTML = '[' + new Date().toLocaleTimeString() + '] Swiping ' + name + '...<br>' + log.innerHTML;
+                const res = await fetch('/api/simulate-wiegand', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cardNumber, name })
+                });
+                const data = await res.json();
+                if (data.success) log.innerHTML = '<span style="color:green">SUCCESS</span><br>' + log.innerHTML;
+            }
+        </script>
+    </body>
+    </html>`);
+});
+
+app.post('/api/simulate-wiegand', express.json(), (req, res) => {
+    const { cardNumber, name } = req.body;
+    const config = getConfig();
+    config.logs.unshift({
+        id: Date.now().toString(),
+        timestamp: new Date().toISOString(),
+        user: name,
+        action: 'Access Granted',
+        door: 'Reader 1'
+    });
+    saveConfig(config);
+    res.json({ success: true });
 });
 
 app.listen(PORT, () => {
