@@ -1,5 +1,22 @@
 const request = require('supertest');
 const app = require('../server');
+const fs = require('fs');
+const path = require('path');
+
+const CONFIG_PATH = path.join(__dirname, '..', 'config.json');
+let originalConfig = null;
+
+// Save config before all tests to restore after
+beforeAll(() => {
+    originalConfig = fs.readFileSync(CONFIG_PATH, 'utf8');
+});
+
+// Restore config after all tests to avoid dirtying the repo
+afterAll(() => {
+    if (originalConfig) {
+        fs.writeFileSync(CONFIG_PATH, originalConfig, 'utf8');
+    }
+});
 
 describe('CGI Endpoints', () => {
     describe('GET /status.htm', () => {
@@ -68,17 +85,14 @@ describe('CGI Endpoints', () => {
         });
 
         it('returns HTML table with logs', async () => {
-            // First create a log entry by opening a door
-            await request(app)
-                .get('/man.cgi?type=door_on&securitystate=10000000')
-                .auth('admin', 'admin');
-            
+            // Config.json already has logs from previous runs, so we can test pagination
             const res = await request(app)
                 .get('/if.cgi?type=go_log_page&page=0')
                 .auth('admin', 'admin');
             expect(res.status).toBe(200);
             expect(res.type).toContain('html');
             expect(res.text).toContain('<table');
+            expect(res.text).toContain('Access Logs');
         });
     });
 

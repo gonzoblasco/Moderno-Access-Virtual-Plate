@@ -319,6 +319,27 @@
   ],
   "logs": [
     {
+      "id": "1784662216740",
+      "timestamp": "2026-07-21T19:30:16.740Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784662216735",
+      "timestamp": "2026-07-21T19:30:16.735Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784662216726",
+      "timestamp": "2026-07-21T19:30:16.726Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
       "id": "1784661253008",
       "timestamp": "2026-07-21T19:14:13.008Z",
       "user": "Remote Admin",

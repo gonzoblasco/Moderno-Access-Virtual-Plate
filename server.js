@@ -466,6 +466,11 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
         
         saveConfig(config);
         updateCloudUrls(config.board.modernoApiUrl, config.board.modernoApiPort);
+        
+        // Preserve redirect behavior for firmware UI flows
+        if (params.redirect) {
+            return res.redirect(params.redirect);
+        }
         return res.send('OK');
     }
 
@@ -561,11 +566,17 @@ app.all('/if.cgi', authMiddleware, (req, res) => {
     const config = getConfig();
     const PAGE_SIZE = 20;
 
-    // Handle log page view
+    // Handle log page view (honor redirect for legacy UI flows)
     if (type === 'go_log_page') {
         const start = parseInt(page) * PAGE_SIZE;
         const logs = config.logs.slice(start, start + PAGE_SIZE);
         
+        // If redirect is specified, use SSI-rendered template flow
+        if (params.redirect) {
+            return res.redirect(params.redirect);
+        }
+        
+        // Standalone HTML table for direct API calls
         let html = `<html><head><title>Access Logs</title></head><body>
 <h2>Access Logs (Page ${page})</h2>
 <table border="1" cellpadding="5">
@@ -584,11 +595,17 @@ app.all('/if.cgi', authMiddleware, (req, res) => {
         return res.type('text/html').send(html);
     }
     
-    // Handle user page view
+    // Handle user page view (honor redirect for legacy UI flows)
     if (type === 'go_user_page') {
         const start = parseInt(page) * PAGE_SIZE;
         const users = config.users.slice(start, start + PAGE_SIZE);
         
+        // If redirect is specified, use SSI-rendered template flow
+        if (params.redirect) {
+            return res.redirect(params.redirect);
+        }
+        
+        // Standalone HTML table for direct API calls
         let html = `<html><head><title>User List</title></head><body>
 <h2>Registered Users (Page ${page})</h2>
 <table border="1" cellpadding="5">
