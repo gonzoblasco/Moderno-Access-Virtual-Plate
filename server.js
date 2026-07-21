@@ -7,10 +7,21 @@ const dotenv = require('dotenv');
 const multer = require('multer');
 const axios = require('axios');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const { z } = require('zod');
 
 dotenv.config();
 
 const app = express();
+
+// Rate Limiting: 100 requests per minute per IP
+const limiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 100,
+    message: { error: 'Too many requests, please try again later' }
+});
+app.use(limiter);
+
 app.use(cors()); // Enable CORS for local web integration
 const upload = multer({ dest: path.join(__dirname, 'scratch/uploads/') });
 const PORT = process.env.PORT || 8080;
@@ -61,9 +72,19 @@ function updateCloudUrls(newUrl, newPort) {
     console.log(`[Cloud] API URL updated to: ${MODERNO_API_URL}`);
 }
 
+const { validateConfig } = require('./config.schema');
+
 // Simulation State
 function getConfig() {
-    return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+    const rawConfig = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+    const validation = validateConfig(rawConfig);
+    
+    if (!validation.valid) {
+        console.error('[Config] Validation failed:', validation.errors);
+        // Return raw config anyway for backward compatibility, but log warnings
+    }
+    
+    return validation.valid ? validation.data : rawConfig;
 }
 
 function saveConfig(config) {
@@ -74,16 +95,21 @@ function saveConfig(config) {
     }
 }
 
-// Authentication Middleware
+// Authentication Middleware - ENABLED BY DEFAULT
 const authMiddleware = (req, res, next) => {
-    if (process.env.MODE === 'unauthorized') {
-        const credentials = auth(req);
-        if (!credentials || credentials.name !== process.env.BOARD_USER || credentials.pass !== process.env.BOARD_PASS) {
-            res.statusCode = 401;
-            res.setHeader('WWW-Authenticate', 'Basic realm="TNG PRO WebServer"');
-            res.end('Access denied');
-            return;
-        }
+    const mode = process.env.MODE || 'authorized';
+    
+    // Skip auth only in explicit 'unauthorized' mode (local dev only)
+    if (mode === 'unauthorized') {
+        return next();
+    }
+    
+    const credentials = auth(req);
+    if (!credentials || credentials.name !== process.env.BOARD_USER || credentials.pass !== process.env.BOARD_PASS) {
+        res.statusCode = 401;
+        res.setHeader('WWW-Authenticate', 'Basic realm="TNG PRO WebServer"');
+        res.end('Access denied');
+        return;
     }
     next();
 };
@@ -403,6 +429,7 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
     const { a, b, c } = params;
     const config = getConfig();
 
+    // Handle new_log requests (original functionality)
     if (a === 'new_log') {
         const clientLogIndex = parseInt(b);
         const serverLogCount = config.logs.length;
@@ -411,10 +438,6 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
             return res.send('0');
         }
         
-        // Return the log at the requested index (from the end)
-        // config.logs is [newest, ..., oldest]
-        // If clientLogIndex is 0, they want the first log.
-        // But the protocol usually works by asking for the next one.
         const logToReturn = config.logs[serverLogCount - 1 - clientLogIndex];
         if (!logToReturn) return res.send('0');
 
@@ -427,6 +450,7 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
         return res.send(response);
     }
 
+    // Handle config updates (original functionality)
     if (params.type === 'config') {
         const logMsg = `[${new Date().toISOString()}] Config update: ${JSON.stringify(params)}\n`;
         fs.appendFileSync(path.join(__dirname, 'scratch/cgi_log.txt'), logMsg);
@@ -442,12 +466,25 @@ app.all('/status.cgi', authMiddleware, (req, res) => {
         
         saveConfig(config);
         updateCloudUrls(config.board.modernoApiUrl, config.board.modernoApiPort);
+        return res.send('OK');
     }
 
     if (params.redirect) {
         return res.redirect(params.redirect);
     }
-    res.send('OK');
+    
+    // Default: return CGI variables for status (new functionality)
+    res.type('text/plain').send(`
+var ver="${config.board.version}"
+var mac="${config.board.mac}"
+var ip="${config.network?.ip || '192.168.0.66'}"
+var mask="${config.network?.mask || '255.255.255.0'}"
+var gateway="${config.network?.gateway || '192.168.0.1'}"
+var users=${config.users.length}
+var logs=${config.logs.length}
+var uptime="${Math.floor(process.uptime())} seconds"
+var serial="${config.board.serial}"
+    `.trim());
 });
 
 app.all('/man.cgi', authMiddleware, (req, res) => {
@@ -520,9 +557,54 @@ app.all('/man.cgi', authMiddleware, (req, res) => {
 
 app.all('/if.cgi', authMiddleware, (req, res) => {
     const params = Object.assign({}, req.query, req.body);
-    const { type, id, MarkID, username, CardID, Password } = params;
+    const { type, id, MarkID, username, CardID, Password, page = 0 } = params;
     const config = getConfig();
+    const PAGE_SIZE = 20;
 
+    // Handle log page view
+    if (type === 'go_log_page') {
+        const start = parseInt(page) * PAGE_SIZE;
+        const logs = config.logs.slice(start, start + PAGE_SIZE);
+        
+        let html = `<html><head><title>Access Logs</title></head><body>
+<h2>Access Logs (Page ${page})</h2>
+<table border="1" cellpadding="5">
+<tr><th>Date</th><th>Time</th><th>Card</th><th>User</th><th>Action</th><th>Door</th></tr>`;
+        
+        logs.forEach(log => {
+            const d = new Date(log.timestamp);
+            const dateStr = `${d.getFullYear()}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getDate().toString().padStart(2,'0')}`;
+            const timeStr = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')}`;
+            html += `<tr><td>${dateStr}</td><td>${timeStr}</td><td>${log.card || '00000000'}</td><td>${log.user}</td><td>${log.action}</td><td>${log.door}</td></tr>`;
+        });
+        
+        html += `</table>
+<p>Total: ${config.logs.length} logs | Page ${page} of ${Math.ceil(config.logs.length / PAGE_SIZE) || 1}</p>
+</body></html>`;
+        return res.type('text/html').send(html);
+    }
+    
+    // Handle user page view
+    if (type === 'go_user_page') {
+        const start = parseInt(page) * PAGE_SIZE;
+        const users = config.users.slice(start, start + PAGE_SIZE);
+        
+        let html = `<html><head><title>User List</title></head><body>
+<h2>Registered Users (Page ${page})</h2>
+<table border="1" cellpadding="5">
+<tr><th>ID</th><th>Name</th><th>Card</th><th>PIN</th><th>Type</th><th>Status</th></tr>`;
+        
+        users.forEach(user => {
+            html += `<tr><td>${user.id}</td><td>${user.name}</td><td>${user.card || '-'}</td><td>${user.pin || '-'}</td><td>${user.type || 'Normal'}</td><td>${user.active !== false ? 'Active' : 'Inactive'}</td></tr>`;
+        });
+        
+        html += `</table>
+<p>Total: ${config.users.length} users | Page ${page} of ${Math.ceil(config.users.length / PAGE_SIZE) || 1}</p>
+</body></html>`;
+        return res.type('text/html').send(html);
+    }
+
+    // Existing handlers
     if (type === 'user_edit' || type === 'want_emp') {
         activeUserEditId = parseInt(id || MarkID);
     } else if (type === 'user_delete') {
@@ -573,6 +655,8 @@ app.all('/if.cgi', authMiddleware, (req, res) => {
     }
     res.send('OK');
 });
+
+// --- CGI ENDPOINTS (before static middleware) ---
 
 app.use(express.static(WEB_DIR));
 

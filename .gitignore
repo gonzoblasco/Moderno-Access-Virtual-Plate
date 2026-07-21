@@ -1,5 +1,10 @@
 node_modules
 .env
+.env.local
 config.json
+config.local.json
 package-lock.json
 .DS_Store
+scratch/uploads/*
+*.log
+logs/

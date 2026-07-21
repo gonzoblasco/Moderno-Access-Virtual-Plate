@@ -319,6 +319,300 @@
   ],
   "logs": [
     {
+      "id": "1784661253008",
+      "timestamp": "2026-07-21T19:14:13.008Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661253003",
+      "timestamp": "2026-07-21T19:14:13.003Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661252997",
+      "timestamp": "2026-07-21T19:14:12.997Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661234601",
+      "timestamp": "2026-07-21T19:13:54.601Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661234595",
+      "timestamp": "2026-07-21T19:13:54.595Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661234588",
+      "timestamp": "2026-07-21T19:13:54.588Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661220757",
+      "timestamp": "2026-07-21T19:13:40.757Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661220752",
+      "timestamp": "2026-07-21T19:13:40.752Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661220745",
+      "timestamp": "2026-07-21T19:13:40.745Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661208051",
+      "timestamp": "2026-07-21T19:13:28.051Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661208046",
+      "timestamp": "2026-07-21T19:13:28.046Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661208038",
+      "timestamp": "2026-07-21T19:13:28.038Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661114414",
+      "timestamp": "2026-07-21T19:11:54.414Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661114408",
+      "timestamp": "2026-07-21T19:11:54.408Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661114402",
+      "timestamp": "2026-07-21T19:11:54.402Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661084742",
+      "timestamp": "2026-07-21T19:11:24.742Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661084736",
+      "timestamp": "2026-07-21T19:11:24.736Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661084730",
+      "timestamp": "2026-07-21T19:11:24.730Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661071130",
+      "timestamp": "2026-07-21T19:11:11.130Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661071125",
+      "timestamp": "2026-07-21T19:11:11.125Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661071118",
+      "timestamp": "2026-07-21T19:11:11.118Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661058073",
+      "timestamp": "2026-07-21T19:10:58.073Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661058067",
+      "timestamp": "2026-07-21T19:10:58.067Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661058060",
+      "timestamp": "2026-07-21T19:10:58.060Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661014910",
+      "timestamp": "2026-07-21T19:10:14.910Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661014904",
+      "timestamp": "2026-07-21T19:10:14.904Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784661014897",
+      "timestamp": "2026-07-21T19:10:14.897Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660918301",
+      "timestamp": "2026-07-21T19:08:38.301Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660918296",
+      "timestamp": "2026-07-21T19:08:38.296Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660918287",
+      "timestamp": "2026-07-21T19:08:38.287Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660813567",
+      "timestamp": "2026-07-21T19:06:53.567Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660813562",
+      "timestamp": "2026-07-21T19:06:53.562Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660813555",
+      "timestamp": "2026-07-21T19:06:53.555Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660801033",
+      "timestamp": "2026-07-21T19:06:41.033Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660801028",
+      "timestamp": "2026-07-21T19:06:41.028Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660801021",
+      "timestamp": "2026-07-21T19:06:41.021Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660795679",
+      "timestamp": "2026-07-21T19:06:35.679Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660795673",
+      "timestamp": "2026-07-21T19:06:35.673Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660795661",
+      "timestamp": "2026-07-21T19:06:35.661Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660457783",
+      "timestamp": "2026-07-21T19:00:57.783Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784660457731",
+      "timestamp": "2026-07-21T19:00:57.731Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
+      "id": "1784659401892",
+      "timestamp": "2026-07-21T18:43:21.892Z",
+      "user": "Remote Admin",
+      "action": "Open Door",
+      "door": "Door 1"
+    },
+    {
       "id": "1778058675740",
       "timestamp": "2026-05-06T09:11:15.740Z",
       "user": "Remote Admin",
