@@ -28,9 +28,20 @@ const PORT = process.env.PORT || 8080;
 const CONFIG_PATH = path.join(__dirname, 'config.json');
 const WEB_DIR = path.join(__dirname, 'public');
 
-// Helper for case-insensitive file lookup
+// Helper for case-insensitive file lookup (safe: constrained to WEB_DIR)
 function getCorrectFilePath(filename) {
+    // Prevent path traversal: reject any path with '..' or absolute paths
+    if (filename.includes('..') || path.isAbsolute(filename)) {
+        return null;
+    }
+    
     const filePath = path.join(WEB_DIR, filename);
+    
+    // Verify the resolved path is still under WEB_DIR
+    if (!filePath.startsWith(WEB_DIR)) {
+        return null;
+    }
+    
     if (fs.existsSync(filePath)) return filePath;
 
     // Try case-insensitive match
@@ -573,13 +584,17 @@ app.all('/if.cgi', authMiddleware, (req, res) => {
         
         // If redirect is specified, render the template with current data via SSI
         if (params.redirect) {
+            // Only allow .htm/.html redirects to prevent path traversal
+            if (!params.redirect.match(/\.html?$/i)) {
+                return res.status(400).send('Invalid redirect target');
+            }
             const filePath = getCorrectFilePath(params.redirect);
             if (filePath) {
                 let html = fs.readFileSync(filePath, 'utf8');
                 html = processSSI(html, getConfig());
                 return res.type('text/html').send(html);
             }
-            return res.redirect(params.redirect);
+            return res.status(404).send('Redirect target not found');
         }
         
         // Standalone HTML table for direct API calls
@@ -608,13 +623,17 @@ app.all('/if.cgi', authMiddleware, (req, res) => {
         
         // If redirect is specified, render the template with current data via SSI
         if (params.redirect) {
+            // Only allow .htm/.html redirects to prevent path traversal
+            if (!params.redirect.match(/\.html?$/i)) {
+                return res.status(400).send('Invalid redirect target');
+            }
             const filePath = getCorrectFilePath(params.redirect);
             if (filePath) {
                 let html = fs.readFileSync(filePath, 'utf8');
                 html = processSSI(html, getConfig());
                 return res.type('text/html').send(html);
             }
-            return res.redirect(params.redirect);
+            return res.status(404).send('Redirect target not found');
         }
         
         // Standalone HTML table for direct API calls
