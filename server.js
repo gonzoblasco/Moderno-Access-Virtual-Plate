@@ -571,8 +571,14 @@ app.all('/if.cgi', authMiddleware, (req, res) => {
         const start = parseInt(page) * PAGE_SIZE;
         const logs = config.logs.slice(start, start + PAGE_SIZE);
         
-        // If redirect is specified, use SSI-rendered template flow
+        // If redirect is specified, render the template with current data via SSI
         if (params.redirect) {
+            const filePath = getCorrectFilePath(params.redirect);
+            if (filePath) {
+                let html = fs.readFileSync(filePath, 'utf8');
+                html = processSSI(html, getConfig());
+                return res.type('text/html').send(html);
+            }
             return res.redirect(params.redirect);
         }
         
@@ -600,8 +606,14 @@ app.all('/if.cgi', authMiddleware, (req, res) => {
         const start = parseInt(page) * PAGE_SIZE;
         const users = config.users.slice(start, start + PAGE_SIZE);
         
-        // If redirect is specified, use SSI-rendered template flow
+        // If redirect is specified, render the template with current data via SSI
         if (params.redirect) {
+            const filePath = getCorrectFilePath(params.redirect);
+            if (filePath) {
+                let html = fs.readFileSync(filePath, 'utf8');
+                html = processSSI(html, getConfig());
+                return res.type('text/html').send(html);
+            }
             return res.redirect(params.redirect);
         }
         
